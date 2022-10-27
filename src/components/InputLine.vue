@@ -1,44 +1,18 @@
 <template>
-    <div class="main-input">
-        <form @submit.prevent>
-            <h4>Впишите теги</h4>
-            <my-input v-focus v-model="tag.value" type="text" placeholder="Tags" />
-            <my-button class="search-btn" @click="searchPlaces">
-                Найти
-            </my-button>
-        </form>
-    </div>
+  <div class="main-input">
+    <Chips :list="tags" @selected="getSelected"></Chips>
+  </div>
 </template>
-
 <script>
-
+import Chips from '../components/Chips.vue'
 export default {
-    data() {
-        return {
-            tag: {
-                value: '',
-            }
-        }
+  props: ['tags'],
+  components: { Chips },
+  methods: {
+    getSelected(lst) {
+      this.$emit('selected', lst)
     },
-    methods: {
-        searchPlaces() {
-
-        }
-    },
-    name: "input-line",
+  },
+  emits: ['selected'],
 }
-
 </script>
-
-<style>
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.search-btn{
-    justify-content: center;
-    margin-top: 10px;
-    align-self: center;
-}
-</style>
