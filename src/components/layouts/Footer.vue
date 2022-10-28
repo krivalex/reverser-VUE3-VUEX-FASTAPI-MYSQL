@@ -11,7 +11,7 @@ export default {
   name: 'footer-component',
   methods: {
     formRedirect() {
-      window.location.assign("https://stackoverflow.com/questions/64039363/export-default-imported-as-vue-was-not-found-in-vue")
+      window.location.assign("https://docs.google.com/forms/d/e/1FAIpQLSdNwis8UBLnGhBEm7HUtQ2637QBCj0YzVEjzDn1B7MoVib65Q/viewform")
     },
   },
 }

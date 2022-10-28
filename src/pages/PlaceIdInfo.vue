@@ -7,6 +7,10 @@
 <script>
 export default {
   name: 'place-id-info',
+  props: ['place'],
+  mounted() {
+    console.log(this.place)
+  },
 }
 </script>
 
