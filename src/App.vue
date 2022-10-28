@@ -1,10 +1,14 @@
 <template>
   <div class="app">
+
     <h3 class="temp">alpha version 1.1.4</h3>
     <header-component />
-    <div v-if="places && places.length > 0">
-      <main-page :places="places"></main-page>
-    </div>
+
+    <router-view>
+      <div v-if="places && places.length > 0">
+        <main-page :places="places"></main-page>
+      </div>
+    </router-view>
     <footer-component />
   </div>
 </template>
@@ -13,6 +17,7 @@
 import MainPage from '@/pages/MainPage.vue'
 import HeaderComponent from '@/components/layouts/Header.vue'
 import FooterComponent from './components/layouts/Footer.vue'
+import PlaceIdInfo from './pages/PlaceIdInfo.vue'
 import { data } from '@/data'
 export default {
   data() {
@@ -26,7 +31,9 @@ export default {
   components: {
     MainPage,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    PlaceIdInfo,
+
   },
 }
 </script>

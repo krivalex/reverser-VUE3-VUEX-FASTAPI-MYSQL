@@ -1,6 +1,7 @@
 <template>
   <div class="footer">
-    <my-button>Оставить отзыв</my-button>
+    <my-button @click="formRedirect">
+      Оставить отзыв</my-button>
     <h3>Made by team <strong>"Reversers"</strong></h3>
   </div>
 </template>
@@ -8,7 +9,12 @@
 <script>
 export default {
   name: 'footer-component',
-};
+  methods: {
+    formRedirect() {
+      window.location.assign("https://stackoverflow.com/questions/64039363/export-default-imported-as-vue-was-not-found-in-vue")
+    },
+  },
+}
 </script>
 
 <style>

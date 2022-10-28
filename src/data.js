@@ -1,5 +1,6 @@
 export const data = [
   {
+    id: 1,
     name: 'Грузинский Двор на Розыбакиева',
     city_name: 'Алматы',
     image_url: 'https://restoran.kz/neofiles/serve-image/5f6b336c7f5d1800069d3bf2',
@@ -82,6 +83,7 @@ export const data = [
     ],
   },
   {
+    id: 2,
     name: 'Мята Platinum',
     city_name: 'Алматы',
     image_url: 'https://avatars.mds.yandex.net/get-altay/4439632/2a000001792035915c7602ad7f3e7e908463/XXL',

@@ -1,6 +1,8 @@
 <template>
   <div class="header">
-    <img class="logo" src="@/assets/reverse-travelling.png" alt="logo" />
+    <router-link to="/">
+      <img class="logo" src="@/assets/reverse-travelling.png" alt="logo" />
+    </router-link>
     <h1>Reverser</h1>
     <img class="user" src="@/assets/user.png" alt="user" />
   </div>
