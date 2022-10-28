@@ -26,6 +26,11 @@
 export default {
   name: "card-item",
   props: ["place"],
+  data() {
+    return {
+      place: this.place
+    };
+  },
   mounted() { },
 };
 </script>
