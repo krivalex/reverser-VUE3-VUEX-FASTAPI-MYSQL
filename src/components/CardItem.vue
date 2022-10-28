@@ -16,7 +16,9 @@
         </p>
       </div>
     </div>
-    <router-link :to="`/place/${place.id}`"> Подробнее </router-link>
+    <div class="route-to-page">
+      <router-link :to="`/place/${place.id}`"> Подробнее </router-link>
+    </div>
   </div>
 </template>
 
@@ -24,7 +26,7 @@
 export default {
   name: "card-item",
   props: ["place"],
-  mounted() {},
+  mounted() { },
 };
 </script>
 
@@ -95,5 +97,23 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0 5px;
+}
+
+.route-to-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.route-to-page a {
+  text-decoration: none;
+  color: #526471;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #e6e6e6;
+  height: 100%;
 }
 </style>

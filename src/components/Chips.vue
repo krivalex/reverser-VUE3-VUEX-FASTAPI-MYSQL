@@ -47,12 +47,9 @@ export default {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  max-width: 600px;
   overflow: scroll;
   max-height: 500px;
   background-color: #eee;
-  font-style: "roboto";
-
 }
 
 .chip_list {
@@ -74,24 +71,34 @@ export default {
 .clist {
   margin-top: 20px;
   display: flex;
-  flex-wrap: wrap;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.clist::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
 }
 
 .citem {
   padding: 10px 20px;
-  border: 1px solid #a3bcb9;
-  border-radius: 30%;
+  border-radius: 1rem;
   cursor: pointer;
-  width: 48%;
   margin-right: 5px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-style: italic;
   display: flex;
   justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  background-color: rgb(121, 173, 173);
+  color: white
 }
 
 .citem:hover {
-  background-color: #eee;
+  background-color: #a3bca1;
 }
 
 .recomendation {
