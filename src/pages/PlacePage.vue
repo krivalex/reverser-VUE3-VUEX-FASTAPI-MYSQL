@@ -5,13 +5,15 @@
 </template>
 
 <script>
+import { useRoute } from "vue-router";
 export default {
-  name: 'place-id-info',
-  props: ['place'],
-  mounted() {
-    console.log(this.place)
+  name: "place-id-info",
+  setup() {
+    const route = useRoute();
+
+    console.log(route.params.id);
   },
-}
+};
 </script>
 
 <style>

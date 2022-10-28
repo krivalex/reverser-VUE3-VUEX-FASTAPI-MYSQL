@@ -4,26 +4,28 @@
     <h2>{{ place.name }}</h2>
     <div class="place-info">
       <div>
-        <p class="place-category">{{ place.category }}, {{ place.subcategory }}</p>
+        <p class="place-category">
+          {{ place.category }}, {{ place.subcategory }}
+        </p>
         <p class="place-address">{{ place.geometry_name }}</p>
       </div>
       <div class="place-marks">
         <p class="like"><i class="fa fa-heart" aria-hidden="true"></i></p>
-        <p class="dislike"><i class="fa fa-thumbs-down" aria-hidden="true"></i></p>
+        <p class="dislike">
+          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+        </p>
       </div>
     </div>
-    <my-button @click="$router.push(`/place/${place.id}`)"> Подробнее </my-button>
+    <router-link :to="`/place/${place.id}`"> Подробнее </router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'card-item',
-  props: ['place'],
-  mounted() {
-    console.log(this.place)
-  },
-}
+  name: "card-item",
+  props: ["place"],
+  mounted() {},
+};
 </script>
 
 <style>

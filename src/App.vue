@@ -1,61 +1,43 @@
 <template>
-  <div class="app">
-
-    <h3 class="temp">alpha version 1.1.4</h3>
-    <header-component />
-
-    <router-view>
-      <div v-if="places && places.length > 0">
-        <main-page :places="places"></main-page>
-      </div>
-    </router-view>
-    <footer-component />
+  <div class="wrapper">
+    <header class="header">
+      <header-component />
+    </header>
+    <main class="main">
+      <router-view />
+    </main>
+    <footer class="footer">
+      <footer-component />
+    </footer>
   </div>
 </template>
 
 <script>
-import MainPage from '@/pages/MainPage.vue'
-import HeaderComponent from '@/components/layouts/Header.vue'
-import FooterComponent from './components/layouts/Footer.vue'
-import PlaceIdInfo from './pages/PlaceIdInfo.vue'
-import { data } from '@/data'
+import HeaderComponent from "@/components/layouts/Header.vue";
+import FooterComponent from "./components/layouts/Footer.vue";
+
 export default {
-  data() {
-    return {
-      places: [],
-    }
-  },
-  mounted() {
-    this.places = data
-  },
+  name: "App vue",
   components: {
-    MainPage,
     HeaderComponent,
     FooterComponent,
-    PlaceIdInfo,
-
   },
-}
+};
 </script>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+<style scoped>
+/* sticky footer */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.app {
-  padding: 20px;
-  background-color: rgb(209, 234, 221);
+.main {
+  flex: 1;
 }
 
-.temp {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 10px;
-  color: #526471;
-  font-style: italic;
+.footer {
+  flex-shrink: 0;
 }
 </style>
