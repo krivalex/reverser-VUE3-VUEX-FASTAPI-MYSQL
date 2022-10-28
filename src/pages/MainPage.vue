@@ -1,26 +1,16 @@
 <template>
   <div>
-    <h1>Страница поиска (ALPHA)</h1>
+    <h1 class="agro-label">Чего бы вы хотели?</h1>
     <input-line :tags="tags" @selected="handleSelected"></input-line>
     <card-list :places="filteredTags"></card-list>
   </div>
 </template>
 
+
+
 <script>
-import InputLine from '@/components/InputLine.vue'
-import CardList from '@/components/CardList.vue'
 export default {
-  components: {
-    InputLine,
-    CardList,
-  },
   name: 'main-page',
-  props: {
-    places: {
-      type: Array,
-      required: true,
-    },
-  },
   data() {
     return {
       filteredTags: [],
@@ -45,7 +35,7 @@ export default {
         console.log(res)
         return res
       })
-      // console.log(this.filteredTags)
+      console.log(this.filteredTags)
     },
   },
   computed: {
@@ -56,7 +46,31 @@ export default {
         .map((el) => el.name)
     },
   },
-}
+};
 </script>
 
-<style></style>
+<script setup>
+import InputLine from '@/components/InputLine.vue'
+import CardList from '@/components/CardList.vue'
+
+defineProps({
+  places: {
+    type: Array,
+    required: true,
+  },
+});
+</script>
+
+<style>
+.agro-label {
+  font-size: 30px;
+  font-weight: 600;
+  margin: 20px 0;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  background-color: #f5f5f5;
+  border-radius: 55px;
+}
+</style>

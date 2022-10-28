@@ -2,16 +2,17 @@ export const data = [
   {
     name: 'Грузинский Двор на Розыбакиева',
     city_name: 'Алматы',
-    image_url: 'https://i1.sndcdn.com/artworks-R8E37tUNv7j90lNr-hlRw6w-t500x500.jpg',
+    image_url: 'https://restoran.kz/neofiles/serve-image/5f6b336c7f5d1800069d3bf2',
+    TWOgis_url: 'https://2gis.kz/almaty/firm/70000001029700000',
     geometry_name: 'улица Розыбакиева, 287',
     office: '1 этаж',
     phone: '+77073088808',
-    category: 'cafe',
-    subcategory: 'Georgian cafe',
+    category: 'кафе',
+    subcategory: 'грузинская кухня',
     start_work_time: '11:00:00',
     end_work_time: '02:00:00',
-    'geo-pozition_lon': 82.9019065125121,
-    'geo-pozition_lat': 55.0373423234845,
+    geo_pozition_lon: 82.9019065125121,
+    geo_pozition_lat: 55.0373423234845,
     tags: [
       {
         name: 'cafe',
@@ -83,7 +84,7 @@ export const data = [
   {
     name: 'Мята Platinum',
     city_name: 'Алматы',
-    image_url: 'https://i1.sndcdn.com/artworks-R8E37tUNv7j90lNr-hlRw6w-t500x500.jpg',
+    image_url: 'https://avatars.mds.yandex.net/get-altay/4439632/2a000001792035915c7602ad7f3e7e908463/XXL',
     geometry_name: '​улица Тимирязева, 38/1',
     office: '1 этаж',
     phone: '+77023040000',

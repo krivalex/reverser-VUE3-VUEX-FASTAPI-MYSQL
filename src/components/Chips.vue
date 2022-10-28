@@ -5,6 +5,7 @@
         {{ item }}
       </div>
     </div>
+    <div class="recomendation">Рекомендации:</div>
     <div v-if="lst.length > 0" class="clist">
       <div class="citem" v-for="item in lst" :key="item" @click="doSelect(item)">
         {{ item }}
@@ -40,39 +41,64 @@ export default {
 </script>
 <style scoped>
 .chip_form {
-  margin: 10px;
+  margin: 5px 5px;
   padding: 20px;
   box-shadow: 0px 1px 6px #a3bcb9;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   max-width: 600px;
+  overflow: scroll;
+  max-height: 500px;
+  background-color: #eee;
+  font-style: "roboto";
+
 }
+
 .chip_list {
   display: flex;
   flex-wrap: wrap;
 }
+
 .chip {
   border-radius: 55px;
-  padding: 10px 30px;
+  padding: 10px 20px;
   color: #fff;
-  background-color: #67db91;
+  background-color: teal;
   box-shadow: 0px 1px 6px #86efac;
   width: fit-content;
-  margin: 5px;
+  margin: 3px 5px;
   cursor: pointer;
 }
+
 .clist {
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
 }
+
 .citem {
   padding: 10px 20px;
-  border-top: 1px solid #a3bcb9;
+  border: 1px solid #a3bcb9;
+  border-radius: 30%;
   cursor: pointer;
+  width: 48%;
+  margin-right: 5px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-style: italic;
+  display: flex;
+  justify-content: center;
 }
+
 .citem:hover {
   background-color: #eee;
+}
+
+.recomendation {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-style: italic;
 }
 </style>

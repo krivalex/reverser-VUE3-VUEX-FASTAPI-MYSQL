@@ -16,5 +16,7 @@
     background: none;
     color: teal;
     border: 1px solid teal;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
   }
   </style>
