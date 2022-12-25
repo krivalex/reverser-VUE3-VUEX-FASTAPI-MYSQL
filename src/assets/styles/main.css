@@ -4,9 +4,13 @@
   box-sizing: border-box;
 }
 
+/* colors */
+/* red = #FD6D6D */
+
 #app {
+  padding: 0px;
+  background-color: rgb(255, 255, 255);
   padding: 20px;
-  background-color: rgb(209, 234, 221);
 }
 
 .temp {

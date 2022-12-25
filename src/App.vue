@@ -6,6 +6,7 @@
     <main class="main">
       <router-view />
     </main>
+    <mobile-component />
     <footer class="footer">
       <footer-component />
     </footer>
@@ -15,12 +16,14 @@
 <script>
 import HeaderComponent from "@/components/layouts/Header.vue";
 import FooterComponent from "./components/layouts/Footer.vue";
+import MobileComponent from "./components/layouts/Navbar.vue";
 
 export default {
   name: "App vue",
   components: {
     HeaderComponent,
     FooterComponent,
+    MobileComponent,
   },
 };
 </script>

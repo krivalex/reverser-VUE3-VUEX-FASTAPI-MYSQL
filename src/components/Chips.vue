@@ -61,7 +61,7 @@ export default {
   border-radius: 55px;
   padding: 10px 20px;
   color: #fff;
-  background-color: teal;
+  background-color: #f53b3b;
   box-shadow: 0px 1px 6px #86efac;
   width: fit-content;
   margin: 3px 5px;
@@ -93,7 +93,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  background-color: rgb(121, 173, 173);
+  background-color: #FD6D6D;
   color: white
 }
 

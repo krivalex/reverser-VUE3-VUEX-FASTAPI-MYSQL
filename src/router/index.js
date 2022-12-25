@@ -1,17 +1,26 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+const Home = () => import("@/pages/Home.vue");
+const PlacePage = () => import("@/pages/PlacePage.vue");
+const NotFound = () => import("@/pages/NotFound.vue");
+// const Trend = () => import("@/pages/Trend.vue");
+// const Profile = () => import("@/pages/Profile.vue");
+// const Login = () => import("@/pages/Login.vue");
+// const Register = () => import("@/pages/Register.vue");
+// const Favorite = () => import("@/pages/Favorite.vue");
+
 const routes = [
   {
     path: "/",
-    component: () => import("@/pages/Home.vue"),
+    component: Home,
   },
   {
     path: "/place/:id",
-    component: () => import("@/pages/PlacePage.vue"),
+    component: PlacePage,
   },
   {
     path: "/:pathMatch(.*)*",
-    component: () => import("@/pages/NotFound.vue"),
+    component: NotFound,
   },
 ];
 
