@@ -6,7 +6,7 @@
     <footer v-if="$route.name !== 'place'" class="footer">
       <footer-component />
     </footer>
-    <div v-if="$route.name === 'place'">
+    <div v-if="$route.name === 'place' || $route.name === 'reviews'">
       <place-navbar />
     </div>
     <div v-else>

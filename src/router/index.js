@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-const Home = () => import("@/pages/Home.vue");
+
 const PlacePage = () => import("@/pages/PlacePage.vue");
+const PlaceReviews = () => import("@/pages/PlaceReviews.vue");
+
+const Home = () => import("@/pages/Home.vue");
 const Profile = () => import("@/pages/Profile.vue");
 
 
@@ -22,6 +25,13 @@ const routes = [
     path: "/place/:id",
     name: "place",
     component: PlacePage,
+    props: true,
+  },
+  {
+    path: "/reviews/:id",
+    name: "reviews",
+    component: PlaceReviews,
+    props: true,
   },
   {
     path: "/:pathMatch(.*)*",
