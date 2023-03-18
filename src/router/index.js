@@ -3,16 +3,17 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const PlacePage = () => import("@/pages/PlacePage.vue");
 const PlaceReviews = () => import("@/pages/PlaceReviews.vue");
+const Trend = () => import("@/pages/Trend.vue");
+
 
 const Home = () => import("@/pages/Home.vue");
 const Profile = () => import("@/pages/Profile.vue");
 
-
 const NotFound = () => import("@/pages/NotFound.vue");
-
 
 const Registration = () => import("@/pages/Registration.vue");
 const Login = () => import("@/pages/Login.vue");
+const Admin = () => import("@/pages/Admin.vue");
 
 
 const routes = [
@@ -52,6 +53,16 @@ const routes = [
     path: "/profile",
     name: 'profile',
     component: Profile,
+  },
+  {
+    path: "/trend",
+    name: 'trend',
+    component: Trend,
+  },
+  {
+    path: "/admin",
+    name: 'admin',
+    component: Admin,
   },
 ];
 
