@@ -20,17 +20,17 @@ export default {
 <style>
 .footer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  height: 100px;
+  height: 140px;
   min-width: 100%;
   background-color: #f5f5f5;
   color: white;
   font-size: 20px;
   font-weight: bold;
   box-shadow: 0px 1px 6px #a3bcb9;
-  margin-top: 90px;
+  padding-top: 10px;
 
 }
 

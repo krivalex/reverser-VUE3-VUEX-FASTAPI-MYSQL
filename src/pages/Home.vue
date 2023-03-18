@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="temp">alpha version 1.4.4</h3>
+    <h3 class="temp">alpha version 2.1.4</h3>
     <places-list v-if="places.length" :places="places" />
     <places-emty v-else title="Пока тут пусто" />
   </div>

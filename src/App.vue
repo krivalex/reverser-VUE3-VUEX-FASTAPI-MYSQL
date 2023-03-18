@@ -1,29 +1,31 @@
 <template>
   <div class="wrapper">
-    <header class="header">
-      <header-component />
-    </header>
     <main class="main">
       <router-view />
     </main>
-    <footer class="footer">
+    <footer v-if="$route.name !== 'place'" class="footer">
       <footer-component />
     </footer>
-    <mobile-component />
+    <div v-if="$route.name === 'place'">
+      <place-navbar />
+    </div>
+    <div v-else>
+      <mobile-component />
+    </div>
   </div>
 </template>
 
 <script>
-import HeaderComponent from "@/components/layouts/Header.vue";
 import FooterComponent from "./components/layouts/Footer.vue";
-import MobileComponent from "./components/layouts/Navbar.vue";
+import MobileComponent from "./components/layouts/MainNavbar.vue";
+import PlaceNavbar from "./components/layouts/PlaceNavbar.vue";
 
 export default {
   name: "App vue",
   components: {
-    HeaderComponent,
     FooterComponent,
     MobileComponent,
+    PlaceNavbar,
   },
 };
 </script>

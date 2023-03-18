@@ -2,7 +2,12 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const Home = () => import("@/pages/Home.vue");
 const PlacePage = () => import("@/pages/PlacePage.vue");
+const Profile = () => import("@/pages/Profile.vue");
+
+
 const NotFound = () => import("@/pages/NotFound.vue");
+
+
 const Registration = () => import("@/pages/Registration.vue");
 const Login = () => import("@/pages/Login.vue");
 
@@ -32,6 +37,11 @@ const routes = [
     path: "/login",
     name: 'login',
     component: Login,
+  },
+  {
+    path: "/profile",
+    name: 'profile',
+    component: Profile,
   },
 ];
 

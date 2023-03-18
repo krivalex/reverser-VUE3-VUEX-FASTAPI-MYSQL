@@ -51,9 +51,8 @@ export default {
   name: "place-id-info",
   data() {
     const route = useRoute();
-    console.log(route.params.id);
     const place = data.find((place) => place.id == route.params.id);
-    console.log(place);
+    console.log(place.id);
     return {
       place,
     };
