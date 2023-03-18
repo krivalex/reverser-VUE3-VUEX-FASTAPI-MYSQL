@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const Home = () => import("@/pages/Home.vue");
 const PlacePage = () => import("@/pages/PlacePage.vue");
 const NotFound = () => import("@/pages/NotFound.vue");
+const Registration = () => import("@/pages/Registration.vue");
 // const Trend = () => import("@/pages/Trend.vue");
 // const Profile = () => import("@/pages/Profile.vue");
 // const Login = () => import("@/pages/Login.vue");
@@ -22,6 +23,10 @@ const routes = [
     path: "/:pathMatch(.*)*",
     component: NotFound,
   },
+  {
+    path: "/register",
+    component: Registration,
+  }
 ];
 
 const router = createRouter({

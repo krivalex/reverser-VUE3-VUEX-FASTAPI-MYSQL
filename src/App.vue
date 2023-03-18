@@ -6,10 +6,10 @@
     <main class="main">
       <router-view />
     </main>
-    <mobile-component />
     <footer class="footer">
       <footer-component />
     </footer>
+    <mobile-component />
   </div>
 </template>
 

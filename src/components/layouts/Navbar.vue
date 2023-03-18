@@ -13,7 +13,7 @@ export default {
   data: () => ({
     selected: 1,
     options: [
-      { id: 1, icon: "fa fa-home", title: "Главная", path: { name: "Home" } },
+      { id: 1, icon: "fa fa-home", title: "Главная", path: { name: "Home" }, query: { page: 1 } },
       { id: 2, icon: "fa fa-fire", title: "В тренде", path: { name: "Trend" } },
       { id: 3, icon: "fa fa-heart", title: "Любимое", path: { name: "Favorite" } },
       { id: 4, icon: "fa fa-user", title: "Профиль", path: { name: "Profile" } },
