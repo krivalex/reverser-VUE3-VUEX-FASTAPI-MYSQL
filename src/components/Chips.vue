@@ -10,7 +10,7 @@
       </div>
     </div>
   </div>
-  <div class="chip_form" v-if="searchTag.length == 0">
+  <div class="chip_form" v-if="searchTag.length == ''">
     <div class="chip_list">
       <div class="chip" v-for="item in marked" :key="item" @click="doSelect(item)">
         {{ item }}
@@ -49,15 +49,14 @@ export default {
       this.searchTag = ''
     },
     addTag() {
-      let tag = this.searchTag
-      tag = tag.trim()
-      tag = tag.toLowerCase()
-      if (!this.marked.includes(tag)) {
-        this.marked.push(tag)
-        this.lst = this.lst.filter((el) => el != tag)
+      this.searchTag = this.searchTag.trim()
+      this.searchTag = this.searchTag.toLowerCase()
+      if (!this.marked.includes(this.searchTag)) {
+        this.marked.push(this.searchTag)
+        this.lst = this.lst.filter((el) => el != this.searchTag)
       } else {
-        this.marked = this.marked.filter((el) => el != tag)
-        this.lst.push(tag)
+        this.marked = this.marked.filter((el) => el != this.searchTag)
+        this.lst.push(this.searchTag)
       }
       this.searchTag = ''
       this.$emit('selected', this.marked)
