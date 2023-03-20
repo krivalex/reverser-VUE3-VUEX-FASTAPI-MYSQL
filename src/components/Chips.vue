@@ -2,16 +2,23 @@
   <div>
     <form @submit.prevent="handleSubmit">
       <my-input v-model="searchTag" @input="getTag" />
-      <my-button type="submit" @click="addTag">Add</my-button>
+      <my-button class="search_chip_add" type="submit" @click="addTag">Add</my-button>
+      <div v-if="searchTag.length > 0 && preference" @click="wantTag(prefenceTag())">
+        <div class="citem" v-for="item in prefenceTag()" :key="item" @click="doSelectPrefer(item)">
+          {{ item }}
+        </div>
+      </div>
     </form>
   </div>
-  <div class="chip_form">
+  <div class="chip_form" v-if="searchTag == ''">
     <div class="chip_list">
       <div class="chip" v-for="item in marked" :key="item" @click="doSelect(item)">
         {{ item }}
       </div>
     </div>
-    <div class="recomendation">Рекомендации:</div>
+    <div class="recomendation">
+      Рекомендации:
+    </div>
     <div v-if="lst.length > 0" class="clist">
       <div class="citem" v-for="item in lst" :key="item" @click="doSelect(item)">
         {{ item }}
@@ -26,11 +33,14 @@ export default {
     return {
       marked: [],
       lst: [],
+      pref: [],
       searchTag: '',
+      preference: true,
     }
   },
   methods: {
     doSelect(val) {
+      console.log(val)
       if (!this.marked.includes(val)) {
         this.marked.push(val)
         this.lst = this.lst.filter((el) => el != val)
@@ -41,9 +51,12 @@ export default {
       this.$emit('selected', this.marked)
     },
     getTag(event) {
-      console.log(event.target.value)
+      this.searchTag = event.target.value.trim().toLowerCase();
+      this.sortList();
     },
     addTag() {
+      this.searchTag = this.searchTag.trim()
+      this.searchTag = this.searchTag.toLowerCase()
       if (!this.marked.includes(this.searchTag)) {
         this.marked.push(this.searchTag)
         this.lst = this.lst.filter((el) => el != this.searchTag)
@@ -54,9 +67,46 @@ export default {
       this.searchTag = ''
       this.$emit('selected', this.marked)
     },
+    wantTag(val) {
+      console.log(val)
+      for (let i = 0; i < val.length; i++) {
+        if (!this.marked.includes(val[i])) {
+          // this.doSelect(val[i])
+          return
+        }
+        this.lst = this.lst.filter((el) => el !== val)
+        this.addTag()
+      }
+    },
+    sortList() {
+      this.lst.sort((a, b) => a.toLowerCase() > b.toLowerCase() ? 1 : -1);
+    },
+    prefenceTag() {
+      this.pref = []
+      for (let i = 0; i < this.lst.length; i++) {
+        if (this.lst[i].toLowerCase().includes(this.searchTag)) {
+          this.pref.push(this.lst[i])
+        }
+      }
+      return this.pref
+    },
+    doSelectPrefer(val) {
+      this.doSelect(val)
+      this.searchTag = ''
+
+    }
   },
   mounted() {
-    this.lst = this.list
+    const uniqueValues = new Set(this.list)
+    if (this.list.length > 0 && uniqueValues.size > 0) {
+      this.lst = Array.from(uniqueValues)
+    }
+    for (let i = 0; i < this.lst.length; i++) {
+      if (this.lst[i] === "" || this.lst[i] === " ") {
+        this.lst.splice(i, 1);
+        i--;
+      }
+    }
   },
   emits: ['selected'],
 }
@@ -130,5 +180,9 @@ export default {
   margin-top: 20px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-style: italic;
+}
+
+.search_chip_add {
+  visibility: hidden;
 }
 </style>

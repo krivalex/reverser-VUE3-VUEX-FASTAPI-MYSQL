@@ -1,5 +1,5 @@
 <template>
-  <div class="place">
+  <div class="place" @click="routeToPlace">
     <img :src="place.image_url" alt="place" />
     <h2>{{ place.name }}</h2>
     <div class="place-info">
@@ -32,6 +32,11 @@ export default {
     };
   },
   mounted() { },
+  methods: {
+    routeToPlace() {
+      this.$router.push(`/place/${this.place.id}`);
+    }
+  }
 };
 </script>
 
