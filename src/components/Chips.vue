@@ -1,7 +1,7 @@
 <template>
   <div>
     <form @submit.prevent="handleSubmit">
-      <my-input v-model="searchTag" />
+      <my-input v-model="searchTag" @input="getTag" />
       <my-button class="search_chip_add" type="submit" @click="addTag">Add</my-button>
     </form>
     <div v-if="searchTag.length > 0">
@@ -81,6 +81,9 @@ export default {
         }
       }
       return pref
+    },
+    getTag(event) {
+      this.searchTag = event.target.value.toLowerCase()
     },
   },
   mounted() {
