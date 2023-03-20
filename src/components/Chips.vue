@@ -1,4 +1,10 @@
 <template>
+  <div>
+    <form @submit.prevent="handleSubmit">
+      <my-input v-model="searchTag" @input="getTag" />
+      <my-button type="submit" @click="addTag">Add</my-button>
+    </form>
+  </div>
   <div class="chip_form">
     <div class="chip_list">
       <div class="chip" v-for="item in marked" :key="item" @click="doSelect(item)">
@@ -20,6 +26,7 @@ export default {
     return {
       marked: [],
       lst: [],
+      searchTag: '',
     }
   },
   methods: {
@@ -33,11 +40,27 @@ export default {
       }
       this.$emit('selected', this.marked)
     },
+    getTag(event) {
+      console.log(event.target.value)
+    },
+    addTag() {
+      if (!this.marked.includes(this.searchTag)) {
+        this.marked.push(this.searchTag)
+        this.lst = this.lst.filter((el) => el != this.searchTag)
+      } else {
+        this.marked = this.marked.filter((el) => el != this.searchTag)
+        this.lst.push(this.searchTag)
+      }
+      this.searchTag = ''
+      this.$emit('selected', this.marked)
+    },
   },
   mounted() {
     this.lst = this.list
   },
+  emits: ['selected'],
 }
+
 </script>
 <style scoped>
 .chip_form {

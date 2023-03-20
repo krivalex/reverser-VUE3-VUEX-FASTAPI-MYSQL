@@ -5,9 +5,16 @@
 </template>
 <script>
 import Chips from '../components/Chips.vue'
+import MyInput from '../components/UI/MyInput.vue'
+import MyButton from '../components/UI/MyButton.vue'
+
 export default {
   props: ['tags'],
-  components: { Chips },
+  components: {
+    Chips,
+    MyInput,
+    MyButton,
+  },
   methods: {
     getSelected(lst) {
       this.$emit('selected', lst)
