@@ -1,16 +1,16 @@
 <template>
   <div>
     <form @submit.prevent="handleSubmit">
-      <my-input v-model="searchTag" @input="getTag" />
+      <my-input v-model="searchTag" />
       <my-button class="search_chip_add" type="submit" @click="addTag">Add</my-button>
     </form>
-    <div v-if="searchTag.length > 0 && preference">
-      <div class="citem" v-for="item in prefenceTag()" :key="item" @click="doSelectPrefer(item)">
+    <div v-if="searchTag.length > 0">
+      <div class="citem" v-for="item in prefenceTag()" :key="item" @click="doSelect(item)">
         {{ item }}
       </div>
     </div>
   </div>
-  <div class="chip_form" v-if="searchTag == ''">
+  <div class="chip_form" v-if="searchTag.length == 0">
     <div class="chip_list">
       <div class="chip" v-for="item in marked" :key="item" @click="doSelect(item)">
         {{ item }}
@@ -33,9 +33,7 @@ export default {
     return {
       marked: [],
       lst: [],
-      pref: [],
-      searchTag: '',
-      preference: true,
+      searchTag: ''
     }
   },
   methods: {
@@ -48,20 +46,18 @@ export default {
         this.lst.push(val)
       }
       this.$emit('selected', this.marked)
-    },
-    getTag(event) {
-      this.searchTag = event.target.value.trim().toLowerCase();
-      this.sortList();
+      this.searchTag = ''
     },
     addTag() {
-      this.searchTag = this.searchTag.trim()
-      this.searchTag = this.searchTag.toLowerCase()
-      if (!this.marked.includes(this.searchTag)) {
-        this.marked.push(this.searchTag)
-        this.lst = this.lst.filter((el) => el != this.searchTag)
+      let tag = this.searchTag
+      tag = tag.trim()
+      tag = tag.toLowerCase()
+      if (!this.marked.includes(tag)) {
+        this.marked.push(tag)
+        this.lst = this.lst.filter((el) => el != tag)
       } else {
-        this.marked = this.marked.filter((el) => el != this.searchTag)
-        this.lst.push(this.searchTag)
+        this.marked = this.marked.filter((el) => el != tag)
+        this.lst.push(tag)
       }
       this.searchTag = ''
       this.$emit('selected', this.marked)
@@ -79,21 +75,17 @@ export default {
       this.lst.sort((a, b) => a.toLowerCase() > b.toLowerCase() ? 1 : -1);
     },
     prefenceTag() {
-      this.pref = []
+      let pref = []
       for (let i = 0; i < this.lst.length; i++) {
         if (this.lst[i].toLowerCase().includes(this.searchTag)) {
-          this.pref.push(this.lst[i])
+          pref.push(this.lst[i])
         }
       }
-      return this.pref
+      return pref
     },
-    doSelectPrefer(val) {
-      this.doSelect(val)
-      this.searchTag = ''
-
-    }
   },
   mounted() {
+    this.lst = this.list
     const uniqueValues = new Set(this.list)
     if (this.list.length > 0 && uniqueValues.size > 0) {
       this.lst = Array.from(uniqueValues)
