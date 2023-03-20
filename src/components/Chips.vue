@@ -3,12 +3,12 @@
     <form @submit.prevent="handleSubmit">
       <my-input v-model="searchTag" @input="getTag" />
       <my-button class="search_chip_add" type="submit" @click="addTag">Add</my-button>
-      <div v-if="searchTag.length > 0 && preference" @click="wantTag(prefenceTag())">
-        <div class="citem" v-for="item in prefenceTag()" :key="item" @click="doSelectPrefer(item)">
-          {{ item }}
-        </div>
-      </div>
     </form>
+    <div v-if="searchTag.length > 0 && preference">
+      <div class="citem" v-for="item in prefenceTag()" :key="item" @click="doSelectPrefer(item)">
+        {{ item }}
+      </div>
+    </div>
   </div>
   <div class="chip_form" v-if="searchTag == ''">
     <div class="chip_list">
@@ -40,7 +40,6 @@ export default {
   },
   methods: {
     doSelect(val) {
-      console.log(val)
       if (!this.marked.includes(val)) {
         this.marked.push(val)
         this.lst = this.lst.filter((el) => el != val)
@@ -68,10 +67,8 @@ export default {
       this.$emit('selected', this.marked)
     },
     wantTag(val) {
-      console.log(val)
       for (let i = 0; i < val.length; i++) {
         if (!this.marked.includes(val[i])) {
-          // this.doSelect(val[i])
           return
         }
         this.lst = this.lst.filter((el) => el !== val)
