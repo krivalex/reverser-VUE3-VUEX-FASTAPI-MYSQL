@@ -123,17 +123,12 @@ async def read_own_item(
     item_id: str,
     current_user: Annotated[User, Depends(get_current_active_user)]
 ):
-    # TODO: Retrieve the item information from the database based on item_id.
-    # This will depend on how your application is structured and how you store item data.
 
-    # For example, if you have a database table called "items" with columns "id", "name", and "description",
-    # you could retrieve the item information like this:
     item_info = await db.query("SELECT * FROM items WHERE id = ?", (item_id,))
     if not item_info:
         raise HTTPException(status_code=404, detail="Item not found")
     
-    # Build a dictionary containing the item information and owner information.
-    # You can customize this to match your data model and the information you want to return.
+
     item_data = {
         "item_id": item_info["id"],
         "name": item_info["name"],
