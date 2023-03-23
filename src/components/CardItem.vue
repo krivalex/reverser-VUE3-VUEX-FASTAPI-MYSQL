@@ -1,16 +1,18 @@
 <template>
-  <div class="place" @click="routeToPlace">
-    <img :src="place.image_url" alt="place" />
-    <h2>{{ place.name }}</h2>
+  <div class="place">
+    <img :src="place.image_url" alt="place" @click="routeToPlace" />
+    <h2 @click="routeToPlace">{{ place.name }}</h2>
     <div class="place-info">
-      <div>
+      <div @click="routeToPlace">
         <p class="place-category">
           {{ place.category }}, {{ place.subcategory }}
         </p>
         <p class="place-address">{{ place.geometry_name }}</p>
       </div>
       <div class="place-marks">
-        <p class="like"><i class="fa fa-heart" aria-hidden="true"></i></p>
+        <p class="like">
+          <i class="fa fa-heart" aria-hidden="true"></i>
+        </p>
         <p class="dislike">
           <i class="fa fa-thumbs-down" aria-hidden="true"></i>
         </p>

@@ -43,14 +43,12 @@
 <script>
 import { MyInput } from "@/components/UI/MyInput.vue";
 import { MyButton } from "@/components/UI/MyButton.vue";
-import { InputLine } from "@/components/InputLine.vue";
 
 export default {
   name: "Registration",
   components: {
     MyInput,
     MyButton,
-    InputLine,
   },
   methods: {
     loginInput(event) {

@@ -1,13 +1,14 @@
 <template>
   <div>
-    <h3 class="temp">alpha version 2.4.9</h3>
+    <h3 class="temp">alpha version 2.6.9</h3>
     <places-list v-if="places.length" :places="places" />
-    <places-emty v-else title="Пока тут пусто" />
+    <empty-page v-else title="Пока тут пусто" />
   </div>
 </template>
 <script>
 import { data } from "@/data";
 import PlacesList from "@/pages/PlacesList.vue";
+import EmptyPage from "@/pages/EmptyPage.vue";
 
 export default {
   data() {
@@ -17,6 +18,7 @@ export default {
   },
   components: {
     PlacesList,
+    EmptyPage,
   },
 };
 </script>

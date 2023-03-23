@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "EmptyPage",
+  name: "empty-page",
   props: {
     title: {
       type: String,

@@ -27,6 +27,7 @@ export default {
     MobileComponent,
     PlaceNavbar,
   },
+
 };
 </script>
 

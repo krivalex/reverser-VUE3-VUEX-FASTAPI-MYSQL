@@ -2,6 +2,7 @@
 node_modules
 /dist
 
+/server_venv
 
 # local env files
 .env.local
