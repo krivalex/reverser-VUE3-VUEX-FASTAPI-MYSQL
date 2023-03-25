@@ -1,10 +1,13 @@
 <template>
-  <div>
-    <form @submit.prevent="handleSubmit">
-      <my-input v-model="searchTag" @input="getTag" />
+  <div class="input-all">
+    <form @submit.prevent="handleSubmit" class="input-input">
+      <div class="input-icon">
+        <i v-if="searchTag.length == 0" class="fa fa-search"></i>
+        <my-input v-model="searchTag" @input="getTag" class="input-main-input" placeholder="Поиск по тегам" />
+      </div>
       <my-button class="search_chip_add" type="submit" @click="addTag">Add</my-button>
     </form>
-    <div v-if="searchTag.length > 0">
+    <div v-if="searchTag.length > 0" class="input-list">
       <div class="citem" v-for="item in prefenceTag()" :key="item" @click="doSelect(item)">
         {{ item }}
       </div>
@@ -17,16 +20,17 @@
       </div>
     </div>
     <div class="recomendation">
-      Рекомендации:
+      Популярно сейчас:
     </div>
     <div v-if="lst.length > 0" class="clist">
-      <div class="citem" v-for="item in lst" :key="item" @click="doSelect(item)">
+      <div class="citem-popular citem" v-for="item in lst.slice(0, 10)" :key="item" @click="doSelect(item)">
         {{ item }}
       </div>
     </div>
   </div>
 </template>
 <script>
+
 export default {
   props: ['list'],
   data() {
@@ -113,7 +117,7 @@ export default {
   flex-direction: column;
   overflow: scroll;
   max-height: 500px;
-  background-color: #eee;
+  background-color: white;
 }
 
 .chip_list {
@@ -132,19 +136,8 @@ export default {
   cursor: pointer;
 }
 
-.clist {
-  margin-top: 20px;
-  display: flex;
-  overflow-x: scroll;
-  -ms-overflow-style: none;
-  /* Internet Explorer 10+ */
-  scrollbar-width: none;
-  /* Firefox */
-}
-
 .clist::-webkit-scrollbar {
   display: none;
-  /* Safari and Chrome */
 }
 
 .citem {
@@ -170,10 +163,52 @@ export default {
   font-weight: bold;
   margin-top: 20px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-style: italic;
 }
 
 .search_chip_add {
   visibility: hidden;
+}
+
+.input-main-input {
+  background-color: #DC143C;
+  color: white;
+  border-radius: 20px;
+}
+
+::-webkit-input-placeholder {
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-icon {
+  color: white;
+  font-size: 20px;
+  position: relative;
+}
+
+.input-icon i {
+  position: absolute;
+  top: 40%;
+  left: 5%;
+}
+
+.citem-popular {
+  background-color: #DC143C;
+  color: white;
+  font-size: 15px;
+  padding: 5px 10px;
+}
+
+.clist {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  height: 180px;
+  overflow: hidden;
 }
 </style>

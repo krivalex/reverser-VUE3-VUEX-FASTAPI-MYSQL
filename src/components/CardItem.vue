@@ -1,25 +1,38 @@
 <template>
   <div class="place">
-    <img :src="place.image_url" alt="place" @click="routeToPlace" />
-    <h2 @click="routeToPlace">{{ place.name }}</h2>
-    <div class="place-info">
-      <div @click="routeToPlace">
-        <p class="place-category">
-          {{ place.category }}, {{ place.subcategory }}
-        </p>
-        <p class="place-address">{{ place.geometry_name }}</p>
+    <div class="place-image">
+      <span>Короткое описание</span>
+      <img :src="place.image_url" alt="place" @click="routeToPlace" />
+    </div>
+
+    <div class="place-info-marks">
+
+      <div class="place-info">
+
+        <div class="place-name">
+          <h2 @click="routeToPlace">{{ place.name }}</h2>
+        </div>
+
+        <div class="place-rating-category">
+          <div class="div-place-rating">
+            <p class="place-rating">
+              <i class="fa fa-star" aria-hidden="true"></i>
+            </p>
+            <p class="place-rating-value">9.6</p>
+          </div>
+          <p class="place-category" @click="routeToPlace">
+            {{ place.category }}, {{ place.subcategory }}
+          </p>
+        </div>
+
       </div>
+
       <div class="place-marks">
         <p class="like">
           <i class="fa fa-heart" aria-hidden="true"></i>
         </p>
-        <p class="dislike">
-          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-        </p>
       </div>
-    </div>
-    <div class="route-to-page">
-      <router-link :to="`/place/${place.id}`"> Подробнее </router-link>
+
     </div>
   </div>
 </template>
@@ -47,61 +60,24 @@ export default {
   display: flex;
   flex-direction: column;
   margin-top: 15px;
-  border: 2px solid black;
   border-radius: 10px;
   background-color: white;
+  width: 380px;
 }
 
 .place img {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  border-radius: 10px;
-  border: 1px solid gray;
-}
-
-.place h2 {
-  margin: 10px 0;
-  align-items: center;
-  display: flex;
-  justify-content: flex-start;
-  padding: 0 5px;
-}
-
-.place p {
-  align-items: center;
-  display: flex;
-  justify-content: flex-start;
-  padding: 0 5px;
-}
-
-.place-category {
-  color: #526471;
-  font-style: italic;
-}
-
-.place-marks {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-grow: 1;
-}
-
-.place-marks p {
-  display: flex;
-  flex-direction: row;
-  font-size: 30px;
+  border-radius: 20px;
+  border: 2px solid rgb(0, 0, 0);
 }
 
 .like:hover {
-  color: #ff0000;
+  color: #DC143C;
   margin-bottom: 5px;
 }
 
-.dislike:hover {
-  color: #ff0000;
-  margin-bottom: 5px;
-}
 
 .place-info {
   display: flex;
@@ -111,21 +87,78 @@ export default {
   padding: 0 5px;
 }
 
-.route-to-page {
+
+.place-info-marks {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 5px;
 }
 
-.route-to-page a {
-  text-decoration: none;
-  color: #526471;
-  font-weight: bold;
+.place-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.place-rating-category {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.div-place-rating {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  font-style: bold;
+}
+
+.div-place-rating i {
+  color: #DC143C;
   font-size: 20px;
-  padding: 10px 20px;
-  border-radius: 10px;
-  background-color: #e6e6e6;
-  height: 100%;
+}
+
+.like i {
+  margin-top: 5px;
+  font-size: 30px;
+}
+
+.place-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.place-rating-value {
+  margin-left: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.place-category {
+  font-style: italic;
+}
+
+.place-image {
+  position: relative;
+}
+
+.place-image span {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  font-size: 20px;
+  font-weight: bold;
+  color: #000000;
+  background-color: #f5f5f5;
+  border-radius: 55px;
+  padding: 5px 10px;
 }
 </style>

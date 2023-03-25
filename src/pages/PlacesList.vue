@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1 class="agro-label">Чего бы вы хотели?</h1>
     <input-line :tags="tags" @selected="filterOnSelect"></input-line>
     <card-list :places="filteredTags"></card-list>
   </div>
