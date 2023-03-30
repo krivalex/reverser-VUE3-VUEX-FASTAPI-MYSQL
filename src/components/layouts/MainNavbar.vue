@@ -19,7 +19,7 @@ export default {
     ],
     swiperColor: '#8066C7',
     backgroundColor: '#ed7979',
-    iconColor: '#ffffff7'
+    iconColor: '#ffffff7',
   }),
 };
 </script>

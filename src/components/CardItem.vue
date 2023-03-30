@@ -2,7 +2,7 @@
   <div class="place">
     <div class="place-image">
       <span>Короткое описание</span>
-      <img :src="place.image_url" alt="place" @click="routeToPlace" />
+      <img :src="place.images[0]" alt="place" @click="routeToPlace" />
     </div>
 
     <div class="place-info-marks">

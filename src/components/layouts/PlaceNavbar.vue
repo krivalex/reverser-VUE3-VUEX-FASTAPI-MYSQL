@@ -1,5 +1,5 @@
 <template>
-  <SwipeBottomNavigation :options="options" v-model="selected" swiper-color='#FFFFFF' background-color='#FD6D6D'
+  <SwipeBottomNavigation :options="options" v-model="selected" swiper-color='#FFFFFF' background-color='#DC143C'
     icon-color='#FFFFFF' />
 </template>
 
