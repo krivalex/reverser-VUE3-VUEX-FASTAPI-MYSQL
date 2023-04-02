@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="container">
     <h3 class="temp">alpha version 3.0.2</h3>
     <places-list v-if="places.length" :places="places" />
     <empty-page v-else title="Пока тут пусто" />

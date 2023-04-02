@@ -1,7 +1,7 @@
 
 
 <template>
-  <div class="place-full">
+  <div class="container place-full">
 
     <div class="place-front">
       <h2>{{ place.name }}</h2>

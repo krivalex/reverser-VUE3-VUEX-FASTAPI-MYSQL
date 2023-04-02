@@ -10,6 +10,14 @@
 #app {
   padding: 0px;
   background-color: rgb(255, 255, 255);
+  /* padding: 20px; */
+}
+
+#container {
+  padding: 20px;
+}
+
+.container {
   padding: 20px;
 }
 
@@ -20,4 +28,8 @@
   font-size: 10px;
   color: #526471;
   font-style: italic;
+}
+
+.zaglushka {
+  height: 100px;
 }
