@@ -14,8 +14,9 @@ export default {
     selected: 1,
     options: [
       { id: 1, icon: "fa fa-backward", title: "Назад", path: { name: "home" } },
-      { id: 2, icon: "fa fa-plus", title: "Регистрация", path: { name: "registration" } },
-      { id: 3, icon: "fa fa-user", title: "Логин", path: { name: "login" } },
+      { id: 2, icon: "fa fa-info", title: "О приложении", path: { name: "enter" } },
+      { id: 3, icon: "fa fa-plus", title: "Регистрация", path: { name: "registration" } },
+      { id: 4, icon: "fa fa-user", title: "Войти", path: { name: "login" } },
     ],
     swiperColor: '#8066C7',
     backgroundColor: '#ed7979',

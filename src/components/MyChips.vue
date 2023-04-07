@@ -14,13 +14,13 @@
     </div>
   </div>
   <div class="chip_form" v-if="searchTag.length == ''">
-    <div class="chip_list">
+    <div class="chip_list" v-if="marked.length !== 0">
       <div class="chip" v-for="item in marked" :key="item" @click="doSelect(item)">
         {{ item }}
       </div>
     </div>
-    <div class="recomendation">
-      Популярно сейчас:
+    <div class="chip_preview" v-else>
+      Нажмите на теги, или найдите их через поиск
     </div>
     <div v-if="lst.length > 0" class="clist">
       <div class="citem-popular citem" v-for="item in lst.slice(0, 10)" :key="item" @click="doSelect(item)">
@@ -32,14 +32,8 @@
 <script>
 
 export default {
+  name: 'my-chips',
   props: ['list'],
-  data() {
-    return {
-      marked: [],
-      lst: [],
-      searchTag: ''
-    }
-  },
   methods: {
     doSelect(val) {
       if (!this.marked.includes(val)) {
@@ -104,6 +98,13 @@ export default {
     }
   },
   emits: ['selected'],
+  data() {
+    return {
+      marked: [],
+      lst: [],
+      searchTag: ''
+    }
+  },
 }
 
 </script>
@@ -116,7 +117,7 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: scroll;
-  max-height: 500px;
+  max-height: 400px;
   background-color: white;
 }
 
@@ -151,7 +152,8 @@ export default {
   align-items: center;
   font-weight: bold;
   background-color: #FD6D6D;
-  color: white
+  color: white;
+  font-size: 18px;
 }
 
 .citem:hover {
@@ -205,10 +207,28 @@ export default {
 
 .clist {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   flex-wrap: wrap;
   margin-top: 20px;
-  height: 180px;
-  overflow: hidden;
+  height: 190px;
+  overflow: auto;
+  justify-content: space-evenly;
+
+}
+
+.input-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-height: 40vh;
+  overflow: auto;
+}
+
+.chip_preview {
+  color: gray;
+  font-size: 20px;
+  font-style: italic;
+  text-align: center;
 }
 </style>

@@ -141,7 +141,33 @@
     </div>
 
     <div id="third-stage" v-if="third_stage === true">
-      <h1>Тhird stage</h1>
+      <!-- Клиент часть -->
+      <div class="register-label" id="third_stage_label">
+        <h1>Выберите теги</h1>
+      </div>
+      <div class="register-text" id="third_stage_text">
+        <h3>Отметьте теги, которые наиболее подходят вам</h3>
+      </div>
+      <div class="register-tags">
+        <input-line :tags="tags" @selected="filterOnSelect" />
+      </div>
+      <!-- Валидационная часть -->
+      <div class="next_button_section validation" id="third_stage_button">
+        <button class="next_button" @click="thirdStage">
+          Вперед
+        </button>
+      </div>
+    </div>
+
+    <div id="fourth-stage" v-if="fourth_stage === true">
+      <div class="register-label" id="fourth_stage_label">
+        <h1>Вы успешно зарегестировались</h1>
+      </div>
+      <div class="next_button_section validation" id="fourth_stage_button">
+        <button class="next_button" @click="fourthStage">
+          Начать пользоваться
+        </button>
+      </div>
     </div>
 
 
@@ -151,10 +177,12 @@
 </template>
 
 <script>
-import { MyInput } from "@/components/UI/MyInput.vue";
-import { MyButton } from "@/components/UI/MyButton.vue";
+import MyInput from "@/components/UI/MyInput.vue";
+import MyButton from "@/components/UI/MyButton.vue";
+import InputLine from "@/components/InputLine.vue";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import { data } from "@/data";
 
 export default {
   setup() {
@@ -214,6 +242,7 @@ export default {
     MyInput,
     MyButton,
     vSelect,
+    InputLine,
   },
   methods: {
     loginInput(event) {
@@ -274,6 +303,19 @@ export default {
       console.log(this.city);
       console.log(this.phone);
     },
+    thirdStage() {
+      this.third_stage = false;
+      this.fourth_stage = true;
+    },
+    fourthStage() {
+      this.$router.push(`/`);
+    },
+    filterOnSelect(tagsList) {
+      this.filteredTags = this.places.filter((place) => {
+        const placeTags = place.tags.map((tag) => tag.name);
+        return tagsList.every((tag) => placeTags.includes(tag));
+      });
+    },
 
 
   },
@@ -291,17 +333,28 @@ export default {
       city: "",
       married: "",
 
-
       first_stage: true,
       second_stage: false,
       third_stage: false,
+      fourth_stage: false,
+
+      placeTags: [],
+      places: data,
     };
+  },
+  computed: {
+    tags() {
+      return this.places
+        .map((el) => el.tags)
+        .flat()
+        .map((el) => el.name);
+    },
   },
 };
 
 </script>
 
-<style>
+<style scoped>
 #registration {
   background-color: #DC143C;
   height: 100vh;
@@ -309,7 +362,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   text-align: center;
   color: #ffffff;
 
@@ -419,5 +472,46 @@ export default {
   border: 0px;
   background-color: gray;
   margin-top: 40px;
+}
+
+.third-stage {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#third_stage_label {
+  font-size: 25px;
+  padding-bottom: 10px;
+  padding-top: 50px;
+}
+
+#third_stage_text {
+  font-size: 15px;
+  color: lightgray;
+  max-width: 80%;
+  margin: 0 auto;
+  font-style: italic;
+}
+
+.register-tags {
+  max-width: 95vw;
+  margin: 0 auto;
+  margin-top: 75px;
+}
+
+#third_stage_button {
+  margin-top: 50px;
+}
+
+#fourth_stage_label {
+  margin-top: 100px;
+  padding-bottom: 0;
+}
+
+#fourth_stage_button {
+  margin-top: 20px;
 }
 </style>

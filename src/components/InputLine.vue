@@ -1,17 +1,17 @@
 <template>
   <div class="main-input">
-    <Chips :list="tags" @selected="getSelected"></Chips>
+    <my-chips :list="tags" @selected="getSelected"></my-chips>
   </div>
 </template>
 <script>
-import Chips from '../components/Chips.vue'
+import MyChips from './MyChips.vue'
 import MyInput from '../components/UI/MyInput.vue'
 import MyButton from '../components/UI/MyButton.vue'
 
 export default {
   props: ['tags'],
   components: {
-    Chips,
+    MyChips,
     MyInput,
     MyButton,
   },
@@ -21,5 +21,10 @@ export default {
     },
   },
   emits: ['selected'],
+  data() {
+    return {
+      selected: [],
+    }
+  },
 }
 </script>

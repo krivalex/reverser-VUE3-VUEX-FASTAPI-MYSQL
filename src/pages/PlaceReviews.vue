@@ -43,7 +43,7 @@
 <script>
 import { useRoute } from "vue-router";
 import { data } from "@/data";
-import { MyTextArea } from "@/components/UI/MyTextArea.vue";
+import MyTextArea from "@/components/UI/MyTextArea.vue";
 
 export default {
   name: "place-id-reviews",

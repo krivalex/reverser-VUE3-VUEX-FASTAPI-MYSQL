@@ -3,13 +3,14 @@
     <main class="main">
       <router-view />
     </main>
-    <footer v-if="$route.name !== 'place' && $route.name !== 'registration' && $route.name !== 'login'" class="footer">
+    <footer v-if="$route.name !== 'place' && $route.name !== 'registration'
+      && $route.name !== 'login' && $route.name !== 'enter'" class="footer">
       <footer-component />
     </footer>
     <div v-if="$route.name === 'place' || $route.name === 'reviews'">
       <place-navbar />
     </div>
-    <div v-else-if="$route.name === 'registration' || $route.name === 'login'">
+    <div v-else-if="$route.name === 'registration' || $route.name === 'login' || $route.name === 'enter'">
       <register-navbar />
     </div>
     <div v-else>
