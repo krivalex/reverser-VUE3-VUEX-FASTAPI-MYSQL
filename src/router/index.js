@@ -15,6 +15,7 @@ const NotFound = () => import("@/pages/NotFound.vue");
 const Registration = () => import("@/pages/Registration.vue");
 const Login = () => import("@/pages/Login.vue");
 const Enter = () => import("@/pages/Enter.vue");
+const ResetPassword = () => import("@/pages/ResetLogin.vue");
 
 const Admin = () => import("@/pages/Admin.vue");
 
@@ -82,7 +83,12 @@ const routes = [
     component: Enter,
     meta: { isAuth: false },
   },
-
+  {
+    path: "/reset",
+    name: 'reset',
+    component: ResetPassword,
+    meta: { isAuth: false },
+  },
 ];
 
 const router = createRouter({

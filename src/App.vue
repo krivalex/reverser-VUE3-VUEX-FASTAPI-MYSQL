@@ -3,15 +3,14 @@
     <main class="main">
       <router-view />
     </main>
-    <footer v-if="$route.name !== 'place' && $route.name !== 'registration'
-      && $route.name !== 'login' && $route.name !== 'enter'" class="footer">
-      <footer-component />
-    </footer>
     <div v-if="$route.name === 'place' || $route.name === 'reviews'">
       <place-navbar />
     </div>
     <div v-else-if="$route.name === 'registration' || $route.name === 'login' || $route.name === 'enter'">
       <register-navbar />
+    </div>
+    <div v-else-if="$route.name === 'admin'">
+      <admin-navbar />
     </div>
     <div v-else>
       <mobile-component />
@@ -20,10 +19,11 @@
 </template>
 
 <script>
-import FooterComponent from "./components/layouts/Footer.vue";
+import FooterComponent from "./trash/Footer.vue";
 import MobileComponent from "./components/layouts/MainNavbar.vue";
 import PlaceNavbar from "./components/layouts/PlaceNavbar.vue";
 import RegisterNavbar from "./components/layouts/RegisterNavbar.vue";
+import AdminNavbar from "./components/layouts/AdminNavbar.vue";
 
 export default {
   name: "App vue",
@@ -32,6 +32,7 @@ export default {
     MobileComponent,
     PlaceNavbar,
     RegisterNavbar,
+    AdminNavbar,
   },
 
 };

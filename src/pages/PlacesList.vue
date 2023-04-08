@@ -45,7 +45,7 @@ defineProps({
 });
 </script>
 
-<style>
+<style scoped>
 .agro-label {
   font-size: 30px;
   font-weight: 600;

@@ -11,13 +11,19 @@
         вам нужно зарегистрироваться или войти в свой аккаунт
       </h2>
     </div>
+    <div class="about-team">
+      <my-button @click="formRedirect" class="next_button">
+        Оставить отзыв
+      </my-button>
+      <h3>Made by team <strong>"Reversers"</strong></h3>
+    </div>
     <div class="enter-links">
     </div>
-    <div class="trips">
+    <!-- <div class="trips">
       <img id="trip1" src="@/assets/login.png">
       <img id="trip2" src="@/assets/register.png">
       <img id="trip3" src="@/assets/back.png">
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -35,6 +41,9 @@ export default {
     },
     toRegistration() {
       this.$router.push("/registration");
+    },
+    formRedirect() {
+      window.location.assign("https://docs.google.com/forms/d/e/1FAIpQLSdNwis8UBLnGhBEm7HUtQ2637QBCj0YzVEjzDn1B7MoVib65Q/viewform")
     },
 
   },
@@ -133,5 +142,30 @@ export default {
   width: 96px;
   height: 80px;
   object-fit: cover;
+}
+
+.next_button {
+  width: 100%;
+  height: 50px;
+  border-radius: 50px;
+  background-color: #D9C5C9;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  border: 0px;
+}
+
+.about-team {
+  margin-top: 150px;
+}
+
+.about-team h3 {
+  font-size: 20px;
+  font-weight: 400;
+  max-width: 90vw;
+  margin-top: 5px;
+  color: white;
+  font-style: italic;
 }
 </style>

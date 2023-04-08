@@ -8,15 +8,13 @@
 import { SwipeBottomNavigation } from "bottom-navigation-vue";
 
 export default {
-  name: "mobile-component",
+  name: "admin-navbar",
   components: { SwipeBottomNavigation },
   data: () => ({
     selected: [1, 2, 3, 4],
     options: [
       { id: 1, icon: "fa fa-backward", title: "Назад", path: { name: "home" } },
-      { id: 2, icon: "fa fa-info", title: "О приложении", path: { name: "enter" } },
-      { id: 3, icon: "fa fa-plus", title: "Регистрация", path: { name: "registration" } },
-      { id: 4, icon: "fa fa-user", title: "Войти", path: { name: "login" } },
+      { id: 2, icon: "fa fa-gear", title: "Добавить заведение", path: { name: "admin" } },
     ],
     swiperColor: '#8066C7',
     backgroundColor: '#ed7979',
