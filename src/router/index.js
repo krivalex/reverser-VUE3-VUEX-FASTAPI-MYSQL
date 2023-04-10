@@ -93,20 +93,20 @@ const router = createRouter({
 })
 
 // router.beforeEach((to, from, next) => {
-//   const isAuth = localStorage.getItem('token');
-//   const isAdmin = localStorage.getItem('admin');
+//   const isAuth = localStorage.getItem('token')
+//   const isAdmin = localStorage.getItem('admin')
 
 //   // Redirect to admin page if user has admin privileges
 //   if (to.meta.admin && isAdmin) {
-//     next();
+//     next()
 //   } else {
 //     // Redirect to login page if route requires authentication and user is not authenticated
 //     if (to.meta.isAuth && !isAuth) {
-//       next({ name: 'enter' });
+//       next({ name: 'enter' })
 //     } else {
-//       next();
+//       next()
 //     }
 //   }
-// });
+// })
 
 export default router

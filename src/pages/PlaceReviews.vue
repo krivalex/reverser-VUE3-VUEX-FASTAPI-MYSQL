@@ -1,49 +1,149 @@
 <template>
-  <h1>Тут отзывы для заведения с айди {{ place.id }}</h1>
-  <br />
-  <h1>Были здесь? Оставить отзыв</h1>
-  <br />
-  <div class="reviews">
-    <div class="reviews_text">
-      <label class="label label-description" for="text_reviews">Отзыв </label>
-      <my-text-area v-model="reviews_text" name="text_reviews" placeholder="Текст" @input="textInput"></my-text-area>
+  <div class="place-full container">
+
+    <div class="place-front">
+      <h2>{{ place.name }}</h2>
+      <p>, Almaty</p>
+      <i class="fa fa-home" aria-hidden="true"></i>
     </div>
-    <div class="reviews_marks">
-      <h1 class="label label-description">Оценка </h1>
-      <div class="all_reviews_marks_item">
-        <div class="reviews_marks_item" v-for="mark in marks" :key="mark" :id="mark">
-          <div v-if="mark <= Number(selected) && selected !== 0">
-            <input type="radio" class="star" name="rating" :value=mark @click="ratioClick" checked />
-            <i class="fa fa-star highlight"></i>
+
+    <div class="place-rating">
+
+      <div class="place-mark">
+        <i class="fa fa-star" aria-hidden="true"></i>
+        <p>9.6</p>
+      </div>
+
+      <div class="place-mark">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+        <p>999</p>
+      </div>
+
+
+
+    </div>
+
+    <div class="place-image-slider">
+
+      <swiper :options="swiperOptions">
+        <swiper-slide v-for="(slide, index) in place.images" :key="index">
+          <img class="place-image" :src="slide" alt="place" />
+          <span class="place-number-of-photo">{{ index + 1 }} / {{ place.images.length }}</span>
+        </swiper-slide>
+      </swiper>
+
+    </div>
+
+    <div class="place-short-description">
+      <p class="short-decription" v-if="place.short_description">{{ place.short_description }}</p>
+      <p class="short-decription" v-else>Короткое описание</p>
+    </div>
+
+    <div class="place-nav-like">
+      <div class="button-nav">
+        <button id="info" class="place-info">Инфо</button>
+        <button id="review" class="place-rewiew">Отзывы</button>
+      </div>
+      <div class="like">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <div class="place-button-rewiew">
+      <button @click="showModel">Оставить отзыв</button>
+    </div>
+
+    <my-modal v-model:show="model">
+      <div class="add_reviews">
+        <img class="close-button" src="@/assets/close.png" @click="showModel" alt="close" />
+
+        <div class="reviews">
+
+          <div class="reviews_text">
+            <h1 class="review-desc">Текст отзыва</h1>
+            <my-text-area class="text-area" v-model="reviews_text" name="text_reviews" placeholder="Текст"
+              @input="textInput"></my-text-area>
           </div>
-          <div v-else>
-            <input type="radio" class="star" name="rating" :value=mark @click="ratioClick" />
-            <i class="non-highlight fa fa-star "></i>
+
+          <div class="reviews_marks">
+            <h1 class="review-desc" id="mark">Оценка</h1>
+            <div class="all-reviews-marks-item">
+              <div class="reviews_marks_item" v-for="mark in marks" :key="mark" :id="mark">
+                <div v-if="mark <= Number(selected) && selected !== 0">
+                  <input type="radio" class="star" name="rating" :value=mark @click="ratioClick" checked />
+                  <i class="fa fa-star highlight"></i>
+                </div>
+                <div v-else>
+                  <input type="radio" class="star" name="rating" :value=mark @click="ratioClick" />
+                  <i class="non-highlight fa fa-star "></i>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <div class="add_photo">
+            <input accept=".jpg, .png" type="file" id="file" name="file" />
+          </div>
+
+          <div class="add_action">
+            <button class="skip_button">Добавить отзыв</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </my-modal>
+
+
+    <div class="all-reviews">
+      <div class="reviews-list">
+        <div v-for="review in reviews" :key="review.id" class="reviews-item">
+
+          <div class="reviews-item-header">
+            <div class="reviews-image-h1">
+              <img :src="review.avatar" alt="avatar">
+              <h1>{{ review.login }}</h1>
+            </div>
+            <div class="reviews-item-header-mark">
+              <div class="marks" v-for="mark in review.mark">
+                <i class="gold fa fa-star" aria-hidden="true"></i>
+              </div>
+              <div class="marks" v-for="mark in 10 - review.mark">
+                <i class="fa fa-star" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="reviews-item-image">
+            <img :src="review.image" alt="image">
+          </div>
+
+          <div class="reviews-item-text">
+            <p>{{ review.text }}</p>
+          </div>
+
+          <div class="reviews-item-date">
+            <p>{{ review.date }}</p>
+          </div>
+
         </div>
       </div>
     </div>
 
+
+
   </div>
-  <br />
-  <br />
-  <br />
-  <h1>Отзывы о заведении</h1>
-  <div ref="reviews" class="reviews__list">
-    <div v-for="review in place.reviews" :key="review.id" class="reviews__item">
-      <div class="reviews__item__header">
-        <div class="reviews__item__header__name">{{ review.name }}</div>
-        <div class="reviews__item__header__date">{{ review.date }}</div>
-      </div>
-      <div class="reviews__item__text">{{ review.text }}</div>
-    </div>
-  </div>
+  <div class="zaglushka"></div>
 </template>
 
 <script>
 import { useRoute } from "vue-router";
 import { data } from "@/data";
 import MyTextArea from "@/components/UI/MyTextArea.vue";
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
+import "swiper/css/bundle";
+import MyModal from "@/components/UI/MyModal.vue";
 
 export default {
   name: "place-id-reviews",
@@ -57,11 +157,37 @@ export default {
     const marks = [1, 2, 3, 4, 5, 7, 8, 9, 10];
 
     return {
+      reviews: [
+        {
+          id: 1,
+          login: 'login',
+          avatar: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
+          mark: 5,
+          text: 'texttexttexttexttexttexttexttexttexttexttexttex fwafwafwafwa wafwafwafwafaw f waf wafwafwafawfwafwaf',
+          image: 'https://incrussia.ru/wp-content/uploads/2018/10/iStock-694189032.jpg',
+          date: '05.10.2022'
+        },
+        {
+          id: 1,
+          login: 'login',
+          avatar: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
+          mark: 7,
+          text: 'text',
+          image: 'https://incrussia.ru/wp-content/uploads/2018/10/iStock-694189032.jpg',
+          date: '05.10.2022'
+        },
+      ],
+
       place,
-      reviews_text: '',
-      reviews_mark: 0,
-      marks,
       selected: 0,
+      marks: [1, 2, 3, 4, 5, 7, 8, 9, 10],
+      swiperOptions: {
+        loop: true,
+        autoplay: {
+          delay: 3000,
+        },
+      },
+      model: false,
     };
   },
   methods: {
@@ -71,19 +197,29 @@ export default {
     ratioClick(event) {
       console.log(event.target.value);
       this.selected = event.target.value;
-
     },
+    addReview() {
+      console.log('add review');
+    },
+    showModel() {
+      this.model = !this.model;
+    },
+  },
+  components: {
+    Swiper,
+    SwiperSlide,
+    MyModal,
   },
 };
 </script>
 
 <style scoped>
-.all_reviews_marks_item {
+.all-reviews-marks-item {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  width: 100%;
+  margin: 0 auto;
 }
 
 .reviews_marks_item {
@@ -102,6 +238,7 @@ export default {
   color: #000000;
   z-index: 1;
   font-size: 20px;
+  margin-right: 10px;
 }
 
 .reviews_marks_item input {
@@ -111,6 +248,8 @@ export default {
   opacity: 0;
   z-index: 2;
   cursor: pointer;
+  margin-right: 10px;
+  width: 20px;
 }
 
 
@@ -118,5 +257,303 @@ export default {
   content: "\f005";
   font-family: FontAwesome;
   color: rgb(255, 247, 0);
+}
+
+.place-full {
+  min-height: 90vh;
+  background-color: white;
+}
+
+.place-front {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.place-front h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+.place-front p {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 2px;
+  color: gray;
+}
+
+.place-front i {
+  font-size: 18px;
+  margin-bottom: 2px;
+  color: gray;
+}
+
+.place-rating {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+.place-mark {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.place-mark i {
+  color: #DC143C;
+  margin-right: 3px;
+  font-size: 20px;
+}
+
+.place-mark p {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+.place-image-slider {
+  width: 100%;
+  height: 200px;
+  position: relative;
+}
+
+.place-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  position: relative;
+}
+
+.place-number-of-photo {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 7px;
+  font-size: larger;
+}
+
+.place-short-description {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.place-nav-like {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 40px;
+}
+
+#info {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+#review {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.like {
+  position: absolute;
+  right: 0;
+}
+
+.like i {
+  font-size: 35px;
+  color: black;
+}
+
+.like i:hover {
+  color: red;
+}
+
+.button-nav {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 200px;
+  height: 30px;
+}
+
+.button-nav button {
+  background-color: lightgray;
+  border: none;
+  color: black;
+  padding: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 3px solid white;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.place-button-rewiew {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.place-button-rewiew button {
+  background-color: #DC143C;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  font-size: 25px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.add_reviews {
+  background-color: #DC143C;
+  color: white;
+  position: relative;
+  max-width: 60vw;
+}
+
+.close-button {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  bottom: 105%;
+  right: -30%;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.text-area {
+  width: 100%;
+  height: 150px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 15px;
+}
+
+.review-desc {
+  font-size: 30px;
+  text-align: center;
+}
+
+.add_action {
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.add_action input {
+  margin: 0 auto;
+}
+
+input[type="file" i] {
+  margin: 0 auto;
+}
+
+.skip_button {
+  width: 100%;
+  height: 30px;
+  border-radius: 30px;
+  font-size: 20px;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  border: 0px;
+  background-color: gray;
+}
+
+.add_photo {
+  margin-top: 30px;
+}
+
+#mark {
+  margin-bottom: 10px;
+}
+
+.reviews-item-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reviews-item-header img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.gold {
+  color: gold;
+}
+
+.reviews-item-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.reviews-item-header-mark {
+  display: flex;
+  flex-direction: row;
+  width: 140px;
+}
+
+.marks i {
+  font-size: 15px;
+}
+
+.marks {
+  display: flex;
+  align-items: flex-end;
+}
+
+.reviews-image-h1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reviews-item-text {
+  margin-top: 10px;
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+.reviews-item-date {
+  font-size: 12px;
+  color: gray;
+  font-style: italic;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.reviews-item {
+  margin-top: 15px;
+}
+
+.reviews-item-text p {
+  max-width: 80%;
 }
 </style>

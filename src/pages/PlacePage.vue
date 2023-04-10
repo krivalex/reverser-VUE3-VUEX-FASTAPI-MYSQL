@@ -139,6 +139,7 @@ import "swiper/css/bundle";
 
 
 export default {
+
   setup() {
     const route = useRoute();
     const place = data.find((place) => place.id == route.params.id);

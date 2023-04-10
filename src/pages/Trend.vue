@@ -67,5 +67,6 @@ export default {
   width: 100%;
   margin: 0 auto;
   text-align: center;
+  padding: 0 10px;
 }
 </style>

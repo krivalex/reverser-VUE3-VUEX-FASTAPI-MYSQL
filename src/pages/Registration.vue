@@ -325,7 +325,6 @@ export default {
       login: "",
       email: "",
       password: "",
-      password_retry: "",
       age: "",
       gender: "",
       profession: "",
@@ -333,12 +332,15 @@ export default {
       city: "",
       married: "",
 
+      placeTags: [],
+      // preferences
+
       first_stage: true,
       second_stage: false,
       third_stage: false,
       fourth_stage: false,
 
-      placeTags: [],
+      password_retry: "",
       places: data,
     };
   },
