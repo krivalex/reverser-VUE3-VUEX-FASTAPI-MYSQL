@@ -43,7 +43,6 @@ export default {
   props: ["place"],
   data() {
     return {
-      place: this.place
     };
   },
   mounted() { },

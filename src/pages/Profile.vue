@@ -23,7 +23,7 @@
         </div>
         <div class="status-label">
           <p>3</p>
-          <i class="fa fa-check" id="check"></i>
+          <i clas s="fa fa-check" id="check"></i>
         </div>
         <div class="status-label">
           <p>2</p>
