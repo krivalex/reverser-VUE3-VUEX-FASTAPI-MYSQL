@@ -16,7 +16,7 @@
       <div class="register-item">
         <p class="required">*</p>
         <label for="city_name">Город</label>
-        <my-input v-model="city_name" name="city_name" placeholder="Город" @input="CityInput"></my-input>
+        <my-input v-model="city_name" name="city_name" placeholder="Город" @input="cityInput"></my-input>
       </div>
       <div class="register-item">
         <p class="required">*</p>
@@ -73,11 +73,11 @@
         <my-input v-model="end_work_time" name="end-work-time" placeholder="Время закрытия"
           @input="endWorkTimeInput"></my-input>
       </div>
-      <div class="register-photo">
+      <!-- <div class="register-photo">
         <label for="images">Картинки (от 1 до 10) (JPG, PNG)</label>
         <my-input v-model="images" name="images" type="file" accept=".jpg, .png" multiple="true"
-          @input="endWorkTimeInput"></my-input>
-      </div>
+          @input="imagesInput"></my-input>
+      </div> -->
       <div class="register-label">
         <h3>Укажите 10 тегов, <br /> 10 - самый главный <br /> 1 - самый неглавный</h3>
       </div>
@@ -124,17 +124,9 @@
     </div>
 
     <!-- Валидационная часть -->
-    <div class="validation" v-if="this.email_or_phone == ''">
-      <p>Укажите почту или номер телефона</p>
-    </div>
-    <div class="validation" v-else-if="this.password == ''">
-      <p>Укажите ваш пароль</p>
-    </div>
-    <div class="next_button_section validation" v-else>
-      <button class="next_button" @click="redirectLogin">
-        Добавить заведение
-      </button>
-    </div>
+
+    <button class="next_button" @click="addPlace">Добавить заведение</button>
+
 
 
     <div class="zaglushka"></div>
@@ -148,6 +140,7 @@ import MyButton from "@/components/UI/MyButton.vue";
 
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import axios from 'axios';
 
 export default {
   name: 'admin',
@@ -168,10 +161,123 @@ export default {
     MyButton,
     vSelect,
   },
+  methods: {
+    NameInput(event) {
+      this.name = event.target.value;
+    },
+    cityInput(event) {
+      this.city_name = event.target.value;
+    },
+    TWOgisInput(event) {
+      this.TWOgis_url = event.target.value;
+    },
+    addressInput(event) {
+      this.address = event.target.value;
+    },
+    phoneInput(event) {
+      this.phone = event.target.value;
+    },
+    categoryInput(event) {
+      this.category = event.target.value;
+    },
+    subcategoryInput(event) {
+      this.subcategory = event.target.value;
+    },
+    instagramInput(event) {
+      this.instagram_link = event.target.value;
+    },
+    shortDescriptionInput(event) {
+      this.short_description = event.target.value;
+    },
+    longDescriptionInput(event) {
+      this.long_description = event.target.value;
+    },
+    startWorkTimeInput(event) {
+      this.start_work_time = event.target.value;
+    },
+    endWorkTimeInput(event) {
+      this.end_work_time = event.target.value;
+    },
+    imagesInput(event) {
+      this.images = event.target.value;
+    },
+    addPlace() {
+
+      var date = new Date();
+      var components = [
+        date.getDate(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds()
+      ];
+
+      var id = components.join("");
+
+      axios.post('http://localhost:8000/places', {
+        place_id: id,
+        likes: 0,
+        marks: {},
+
+
+        name: this.name,
+        city_name: this.city_name,
+        two_gis_url: this.TWOgis_url,
+        geometry_name: this.address,
+        instagram_link: this.instagram_link,
+        phone: this.phone,
+        short_description: this.short_description,
+        long_description: this.long_description,
+        category: this.category,
+        subcategory: this.subcategory,
+        start_work_time: this.start_work_time,
+        end_work_time: this.end_work_time,
+        tags: {
+          "tag10": this.tag10,
+          "tag9": this.tag9,
+          "tag8": this.tag8,
+          "tag7": this.tag7,
+          "tag6": this.tag6,
+          "tag5": this.tag5,
+          "tag4": this.tag4,
+          "tag3": this.tag3,
+          "tag2": this.tag2,
+          "tag1": this.tag1,
+        }
+      })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  },
   data() {
     return {
-      email_or_phone: '',
-      password: '',
+      name: "",
+      city_name: "",
+      TWOgis_url: "",
+      address: "",
+      instagram_link: "",
+      phone: "",
+      category: "",
+      subcategory: "",
+      short_description: "",
+      long_description: "",
+      start_work_time: "",
+      end_work_time: "",
+      images: {
+      },
+      tag10: "",
+      tag9: "",
+      tag8: "",
+      tag7: "",
+      tag6: "",
+      tag5: "",
+      tag4: "",
+      tag3: "",
+      tag2: "",
+      tag1: "",
     }
   },
 }
@@ -339,6 +445,18 @@ export default {
 
 .input-req {
   position: relative;
+}
+
+.next_button {
+  width: 80%;
+  height: 50px;
+  border-radius: 50px;
+  background-color: #D9C5C9;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  border: 0px;
 }
 </style>
 

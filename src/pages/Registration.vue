@@ -183,6 +183,8 @@ import InputLine from "@/components/InputLine.vue";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import { data } from "@/data";
+import axios from 'axios';
+
 
 export default {
   setup() {
@@ -246,45 +248,35 @@ export default {
   },
   methods: {
     loginInput(event) {
-      console.log(event.target.value);
       this.login = event.target.value;
     },
     emailInput(event) {
-      console.log(event.target.value);
       this.email = event.target.value;
     },
     passwordInput(event) {
-      console.log(event.target.value);
       this.password = event.target.value;
     },
     passwordRetryInput(event) {
-      console.log(event.target.value);
       this.password_retry = event.target.value;
     },
     ageInput(event) {
-      console.log(event.target.value);
       this.age = event.target.value;
       console.log(Number(this.age.slice(0, 4)) > Number(2017))
     },
     genderInput(event) {
-      console.log(event.target.value);
       this.gender = event.target.value;
     },
     professionInput(event) {
       this.$emit('update:profession', event.target.value)
-      console.log(event.target.value);
       this.profession = event.target.value;
     },
     marriedInput(event) {
-      console.log(event.target.value);
       this.married = event.target.value;
     },
     cityInput(event) {
-      console.log(event.target.value);
       this.city = event.target.value;
     },
     phoneInput(event) {
-      console.log(event.target.value);
       this.phone = event.target.value;
     },
     firstStage() {
@@ -294,26 +286,62 @@ export default {
     secondStage() {
       this.second_stage = false;
       this.third_stage = true;
-      console.log(this.login);
-      console.log(this.password);
-      console.log(this.age);
-      console.log(this.gender);
-      console.log(this.profession);
-      console.log(this.married);
-      console.log(this.city);
-      console.log(this.phone);
     },
     thirdStage() {
       this.third_stage = false;
       this.fourth_stage = true;
+
+      var date = new Date();
+      var components = [
+        date.getDate(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds()
+      ];
+
+      var id = components.join("");
+
+      const data = {
+        user_id: id,
+        login: this.login,
+        password: this.password,
+        phone: this.phone,
+        email: this.email,
+        age: this.age,
+        profession: this.profession,
+        married: this.married,
+        gender: this.gender,
+        city: this.city,
+        preferences: { "10_tag": "name" },
+        info_show: false,
+        coins: 0,
+        status: "client"
+
+        // "info_show": true,
+        // "coins": 0,
+        // "avatar": "string",
+        // "status": "string",
+        // "favourites": "string",
+        // "anchors": "string",
+        // "rewards": "string",
+        // "recommendations": "string"
+      }
+
+      axios.post('http://127.0.0.1:8000/users', data)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     fourthStage() {
       this.$router.push(`/`);
     },
     filterOnSelect(tagsList) {
       this.filteredTags = this.places.filter((place) => {
-        const placeTags = place.tags.map((tag) => tag.name);
-        return tagsList.every((tag) => placeTags.includes(tag));
+        const preferences = place.tags.map((tag) => tag.name);
+        return tagsList.every((tag) => preferences.includes(tag));
       });
     },
 
@@ -323,17 +351,15 @@ export default {
   data() {
     return {
       login: "",
-      email: "",
       password: "",
-      age: "",
-      gender: "",
-      profession: "",
       phone: "",
-      city: "",
+      email: "",
+      age: "",
+      profession: "",
       married: "",
-
-      placeTags: [],
-      // preferences
+      gender: "",
+      city: "",
+      preferences: [],
 
       first_stage: true,
       second_stage: false,

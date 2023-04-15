@@ -41,8 +41,8 @@
 
     <div class="place-nav-like">
       <div class="button-nav">
-        <button id="info" class="place-info">Инфо</button>
-        <button id="review" class="place-rewiew">Отзывы</button>
+        <button @click="redirectPlace" id="info" class="place-info">Инфо</button>
+        <button @click="redirectReviews" id="review" class="place-rewiew">Отзывы</button>
       </div>
       <div class="like">
         <i class="fa fa-heart" aria-hidden="true"></i>
@@ -86,7 +86,7 @@
           </div>
 
           <div class="add_action">
-            <button class="skip_button">Добавить отзыв</button>
+            <button @click="addReview" class="skip_button">Добавить отзыв</button>
           </div>
 
         </div>
@@ -144,6 +144,7 @@ import MyTextArea from "@/components/UI/MyTextArea.vue";
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
+import axios from 'axios';
 
 export default {
   name: "place-id-reviews",
@@ -153,8 +154,6 @@ export default {
   data() {
     const route = useRoute();
     const place = data.find((place) => place.id == route.params.id);
-
-    const marks = [1, 2, 3, 4, 5, 7, 8, 9, 10];
 
     return {
       reviews: [
@@ -188,21 +187,53 @@ export default {
         },
       },
       model: false,
+      reviews_text: '',
     };
   },
   methods: {
     textInput(event) {
-      console.log(event.target.value);
+      this.reviews_text = event.target.value;
     },
     ratioClick(event) {
-      console.log(event.target.value);
       this.selected = event.target.value;
-    },
-    addReview() {
-      console.log('add review');
     },
     showModel() {
       this.model = !this.model;
+    },
+    redirectPlace() {
+      this.$router.push(`/place/${this.place.id}`)
+    },
+    redirectReviews() {
+      this.$router.push(`/reviews/${this.place.id}`)
+    },
+    addReview() {
+      var date = new Date();
+      var components = [
+        date.getDate(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds()
+      ];
+
+      var id = components.join("");
+
+      const data = {
+        review_id: id,
+        // place_id: this.place.id,
+        place_id: 155759431,
+        user_id: 15521349,
+        date: new Date(),
+        text: this.reviews_text,
+        mark: this.selected,
+      }
+
+      axios.post(`http://localhost:8000/reviews`, data)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
   },
   components: {

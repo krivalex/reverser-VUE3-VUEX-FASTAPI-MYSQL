@@ -62,6 +62,9 @@ export default {
   border-radius: 10px;
   background-color: white;
   width: 380px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
 }
 
 .place img {
@@ -81,7 +84,7 @@ export default {
 .place-info {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 0 5px;
 }
@@ -91,7 +94,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   padding: 0 5px;
 }
 
@@ -100,6 +103,7 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  padding: 0 5px;
 }
 
 .place-rating-category {

@@ -11,7 +11,7 @@ export default {
   name: "mobile-component",
   components: { SwipeBottomNavigation },
   data: () => ({
-    selected: 3,
+    selected: 1,
     options: [
       { id: 1, icon: "fa fa-home", title: "Главная", path: { name: "home" } },
       { id: 2, icon: "fa fa-fire", title: "Рекомендации", path: { name: "trend" } },

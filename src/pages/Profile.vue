@@ -5,17 +5,20 @@
       <i class="fa fa-edit"></i>
     </div>
 
+    <div class="profile-header">
+      <div class="image-status">
+        <div class="profile-image">
+          <div class="image-label">
+            <img :src="this.profile_img" alt="profile_img" />
+          </div>
+        </div>
 
-
-    <div class="profile-image">
-      <div class="image-label">
-        <img :src="this.profile_img" alt="profile_img" />
+        <div class="profile-status">
+          <h1>{{ this.username }}</h1>
+          <h2>{{ this.status }}</h2>
+        </div>
       </div>
-    </div>
 
-    <div class="profile-status">
-      <h1>{{ this.username }}</h1>
-      <h2>{{ this.status }}</h2>
       <div class="status-container">
         <div class="status-label">
           <p>6</p>
@@ -23,7 +26,7 @@
         </div>
         <div class="status-label">
           <p>3</p>
-          <i clas s="fa fa-check" id="check"></i>
+          <i class="fa fa-check" id="check"></i>
         </div>
         <div class="status-label">
           <p>2</p>
@@ -80,7 +83,6 @@ export default {
 
 <style scoped>
 #profile {
-  background-color: white;
   min-height: 100vh;
   width: 100%;
   margin: 10px;
@@ -113,11 +115,12 @@ export default {
 }
 
 .image-label img {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   margin: 0 auto;
   margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .profile-image {
@@ -143,7 +146,8 @@ export default {
 }
 
 .profile-status h1 {
-  font-size: 30px;
+  font-size: 50px;
+  text-shadow: 1px 1px 1px #ffffff;
 }
 
 .profile-status h2 {
@@ -156,23 +160,24 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
   margin: 0 auto;
-
+  padding: 10px 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
 }
 
 .status-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  gap: 10px;
-  padding-top: 15px;
-  flex-direction: row;
+  position: absolute;
+  top: 40%;
+  right: 0;
+  transform: translate(0, -50%);
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
 }
 
 .status-label p {
-  font-size: 30px;
+  font-size: 20px;
   margin: 0;
   margin-right: 5px;
 }
@@ -182,7 +187,7 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 27px;
+  font-size: 20px;
   margin: 0;
   text-shadow: 1px 1px 1px #000;
   margin-bottom: 5px;
@@ -216,5 +221,21 @@ export default {
 
 #favourite {
   margin-bottom: 20px;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  height: 400px;
+  position: relative;
+}
+
+.image-status {
+  height: 100%;
 }
 </style>

@@ -157,7 +157,7 @@ export default {
 }
 
 .citem:hover {
-  background-color: #a3bca1;
+  background-color: #DC143C;
 }
 
 .recomendation {
