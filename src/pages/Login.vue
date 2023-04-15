@@ -8,7 +8,7 @@
     <div class="inputs">
       <!-- Клиент часть -->
       <div class="register-item">
-        <my-input v-model="email_or_phone" name="login" placeholder="Логин" @input="PhoneEmailInput"></my-input>
+        <my-input v-model="email_or_phone" name="login" placeholder="Почта/Телефон" @input="PhoneEmailInput"></my-input>
         <i class="fa fa-user"></i>
       </div>
       <div class="register-item">
@@ -33,7 +33,7 @@
       <p>Укажите ваш пароль</p>
     </div>
     <div class="next_button_section validation" v-else>
-      <button class="next_button" @click="redirectLogin">
+      <button class="next_button" @click="loginToApp">
         Войти
       </button>
     </div>
@@ -50,6 +50,7 @@
 <script>
 import MyInput from "@/components/UI/MyInput.vue";
 import MyButton from "@/components/UI/MyButton.vue";
+import axios from "axios";
 
 export default {
   name: "Registration",
@@ -75,6 +76,21 @@ export default {
     redirectResetLogin() {
       this.$router.push("/reset");
     },
+    loginToApp() {
+      axios
+        .post("https://localhost:8000/login", {
+          email_or_phone: this.email_or_phone,
+          password: this.password,
+        })
+        .then((response) => {
+          console.log(response);
+          this.$router.push("/home");
+          localStorage.setItem('user_id', response.data.user_id);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
 
   },
   data() {

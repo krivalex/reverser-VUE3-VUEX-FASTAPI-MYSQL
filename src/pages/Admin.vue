@@ -21,7 +21,7 @@
       <div class="register-item">
         <p class="required">*</p>
         <label for="TWOgis_url">2ГИС (Ссылка)</label>
-        <my-input v-model="TWOgis_url" name="TWOgis_url" placeholder="2ГИС" @input="TWOgisInput"></my-input>
+        <my-input type="url" v-model="TWOgis_url" name="TWOgis_url" placeholder="2ГИС" @input="TWOgisInput"></my-input>
       </div>
       <div class="register-item">
         <p class="required">*</p>
@@ -31,7 +31,7 @@
       <div class="register-item">
         <p class="required">*</p>
         <label for="phone">Whatsapp для клиентов (Номер)</label>
-        <my-input v-model="phone" name="phone" placeholder="Телефон" @input="phoneInput"></my-input>
+        <my-input type="tel" v-model="phone" name="phone" placeholder="Телефон" @input="phoneInput"></my-input>
       </div>
       <div class="register-item">
         <p class="required">*</p>
@@ -64,13 +64,13 @@
       <div class="register-item">
         <p class="required">*</p>
         <label for="start-work-time">Начало работы (00:00:00)</label>
-        <my-input v-model="start_work_time" name="start-work-time" placeholder="Время открытия"
+        <my-input type="time" v-model="start_work_time" name="start-work-time" placeholder="Время открытия"
           @input="startWorkTimeInput"></my-input>
       </div>
       <div class="register-item">
         <p class="required">*</p>
         <label for="end-work-time">Конец работы (00:00:00)</label>
-        <my-input v-model="end_work_time" name="end-work-time" placeholder="Время закрытия"
+        <my-input type="time" v-model="end_work_time" name="end-work-time" placeholder="Время закрытия"
           @input="endWorkTimeInput"></my-input>
       </div>
       <!-- <div class="register-photo">
@@ -124,8 +124,38 @@
     </div>
 
     <!-- Валидационная часть -->
-
-    <button class="next_button" @click="addPlace">Добавить заведение</button>
+    <div class="validation">
+      <div class="validation-item" v-if="name == ''">
+        <p>{{ validation.name }}</p>
+      </div>
+      <div class="validation-item" v-if="city_name == ''">
+        <p>{{ validation.city_name }}</p>
+      </div>
+      <div class="validation-item" v-if="address == ''">
+        <p>{{ validation.address }}</p>
+      </div>
+      <div class="validation-item" v-if="phone == ''">
+        <p>{{ validation.phone }}</p>
+      </div>
+      <div class="validation-item" v-if="TWOgis_url == ''">
+        <p>{{ validation.TWOgis_url }}</p>
+      </div>
+      <div class="validation-item" v-if="start_work_time == ''">
+        <p>{{ validation.start_work_time }}</p>
+      </div>
+      <div class="validation-item" v-if="end_work_time == ''">
+        <p>{{ validation.end_work_time }}</p>
+      </div>
+      <div class="validation-item" v-if="category == ''">
+        <p>{{ validation.category }}</p>
+      </div>
+      <div class="validation-item" v-if="subcategory == ''">
+        <p>{{ validation.subcategory }}</p>
+      </div>
+      <div class="validation-item" v-else>
+        <button class="next_button" @click="addPlace">Добавить заведение</button>
+      </div>
+    </div>
 
 
 
@@ -152,7 +182,18 @@ export default {
         { label: "тег3", value: "tag3" },
       ],
       validation: {
-
+        "name": "Укажите название заведения",
+        "city_name": "Укажите город",
+        "TWOgis_url": "Укажите ссылку на 2ГИС",
+        "address": "Укажите адрес",
+        "phone": "Укажите номер телефона",
+        "category": "Укажите категорию",
+        "subcategory": "Укажите подкатегорию",
+        "short_description": "Укажите краткое описание",
+        "long_description": "Укажите полное описание",
+        "start_work_time": "Укажите время начала работы",
+        "end_work_time": "Укажите время окончания работы",
+        "big_address": "Адрес длинее 25 символов",
       }
     }
   },
