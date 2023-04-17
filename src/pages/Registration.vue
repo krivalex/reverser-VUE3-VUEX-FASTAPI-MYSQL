@@ -1,7 +1,7 @@
 <template>
   <section id="registration">
 
-    <div id="first-stage" v-if="first_stage === true" class="register">
+    <div id="first-stage" v-if="first_stage === 'true'" class="register">
 
       <div class="register-label">
         <h1>Регистрация</h1>
@@ -68,7 +68,7 @@
 
     </div>
 
-    <div id="second-stage" v-if="second_stage === true" class="register">
+    <div id="second-stage" v-if="second_stage === 'true'" class="register">
 
       <div class="register-label">
         <h1>Регистрация</h1>
@@ -140,7 +140,7 @@
 
     </div>
 
-    <div id="third-stage" v-if="third_stage === true">
+    <div id="third-stage" v-if="third_stage === 'true'">
       <!-- Клиент часть -->
       <div class="register-label" id="third_stage_label">
         <h1>Выберите теги</h1>
@@ -159,7 +159,7 @@
       </div>
     </div>
 
-    <div id="fourth-stage" v-if="fourth_stage === true">
+    <div id="fourth-stage" v-if="fourth_stage === 'true'">
       <div class="register-label" id="fourth_stage_label">
         <h1>Вы успешно зарегестировались</h1>
       </div>
@@ -183,8 +183,9 @@ import InputLine from "@/components/InputLine.vue";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import { data } from "@/data";
-import axios from 'axios';
-
+import { createID } from "@/api/cheeze";
+import { postUser, allTags } from "@/api/methods";
+import { getFromLocalStorage, addToLocalStorage } from "@/api/storage";
 
 export default {
   setup() {
@@ -249,91 +250,95 @@ export default {
   methods: {
     loginInput(event) {
       this.login = event.target.value;
+      addToLocalStorage('login', this.login)
     },
     emailInput(event) {
       this.email = event.target.value;
+      addToLocalStorage('email', this.email)
     },
     passwordInput(event) {
       this.password = event.target.value;
+      addToLocalStorage('password', this.password)
     },
     passwordRetryInput(event) {
       this.password_retry = event.target.value;
+      addToLocalStorage('password_retry', this.password_retry)
     },
     ageInput(event) {
       this.age = event.target.value;
-      console.log(Number(this.age.slice(0, 4)) > Number(2017))
+      addToLocalStorage('age', this.age)
     },
     genderInput(event) {
       this.gender = event.target.value;
+      addToLocalStorage('gender', this.gender)
     },
     professionInput(event) {
       this.$emit('update:profession', event.target.value)
       this.profession = event.target.value;
+      addToLocalStorage('profession', this.profession)
     },
     marriedInput(event) {
       this.married = event.target.value;
+      addToLocalStorage('married', this.married)
     },
     cityInput(event) {
       this.city = event.target.value;
+      addToLocalStorage('city', this.city)
     },
     phoneInput(event) {
       this.phone = event.target.value;
+      addToLocalStorage('phone', this.phone)
     },
     firstStage() {
       this.first_stage = false;
       this.second_stage = true;
+      localStorage.setItem('first_stage', this.first_stage)
+      localStorage.setItem('second_stage', this.second_stage)
+      this.first_stage = localStorage.getItem('first_stage')
+      this.second_stage = localStorage.getItem('second_stage')
+
+
     },
     secondStage() {
       this.second_stage = false;
       this.third_stage = true;
+      localStorage.setItem('second_stage', this.second_stage)
+      localStorage.setItem('third_stage', this.third_stage)
+      this.second_stage = localStorage.getItem('second_stage')
+      this.third_stage = localStorage.getItem('third_stage')
+
+      console.log(this.places)
     },
     thirdStage() {
       this.third_stage = false;
       this.fourth_stage = true;
+      localStorage.setItem('third_stage', this.third_stage)
+      localStorage.setItem('fourth_stage', this.fourth_stage)
+      this.third_stage = localStorage.getItem('third_stage')
+      this.fourth_stage = localStorage.getItem('fourth_stage')
 
-      var date = new Date();
-      var components = [
-        date.getDate(),
-        date.getMinutes(),
-        date.getSeconds(),
-        date.getMilliseconds()
-      ];
-
-      var id = components.join("");
+      const id = createID()
 
       const data = {
         user_id: id,
-        login: this.login,
-        password: this.password,
-        phone: this.phone,
-        email: this.email,
-        age: this.age,
-        profession: this.profession,
-        married: this.married,
-        gender: this.gender,
-        city: this.city,
+        login: getFromLocalStorage('login'),
+        password: getFromLocalStorage('password'),
+        phone: getFromLocalStorage('phone'),
+        email: getFromLocalStorage('email'),
+        age: getFromLocalStorage('age'),
+        profession: getFromLocalStorage('profession'),
+        married: getFromLocalStorage('married'),
+        gender: getFromLocalStorage('gender'),
+        city: getFromLocalStorage('city'),
         preferences: { "10_tag": "name" },
         info_show: false,
         coins: 0,
         status: "client"
-
-        // "info_show": true,
-        // "coins": 0,
-        // "avatar": "string",
-        // "status": "string",
-        // "favourites": "string",
-        // "anchors": "string",
-        // "rewards": "string",
-        // "recommendations": "string"
       }
 
-      axios.post('http://127.0.0.1:8000/users', data)
-        .then(response => {
-          console.log(response)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      postUser(data).then((res) => {
+        console.log(res)
+      })
     },
     fourthStage() {
       this.$router.push(`/`);
@@ -361,10 +366,10 @@ export default {
       city: "",
       preferences: [],
 
-      first_stage: true,
-      second_stage: false,
-      third_stage: false,
-      fourth_stage: false,
+      first_stage: localStorage.getItem('first_stage') ? localStorage.getItem('first_stage') : 'true',
+      second_stage: localStorage.getItem('second_stage') ? localStorage.getItem('second_stage') : 'false',
+      third_stage: localStorage.getItem('third_stage') ? localStorage.getItem('third_stage') : 'false',
+      fourth_stage: localStorage.getItem('fourth_stage') ? localStorage.getItem('fourth_stage') : 'false',
 
       password_retry: "",
       places: data,

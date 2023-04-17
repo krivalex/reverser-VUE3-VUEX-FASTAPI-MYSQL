@@ -10,19 +10,16 @@ import { data } from "@/data";
 import PlacesList from "@/pages/PlacesList.vue";
 import EmptyPage from "@/pages/EmptyPage.vue";
 import axios from "axios";
+import { allTags, getPlaces } from "@/api/methods.js";
 
 export default {
   beforeMount() {
-    const response = {}
-
-    axios
-      .get("http://localhost:8000/tags")
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    allTags().then((res) => {
+      console.log(res);
+    });
+    getPlaces().then((res) => {
+      console.log(res);
+    });
   },
   data() {
     return {
