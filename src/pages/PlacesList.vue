@@ -1,35 +1,56 @@
 <template>
   <div>
     <input-line :tags="tags" @selected="filterOnSelect"></input-line>
-    <card-list :places="filteredTags"></card-list>
+    <card-list :places="view_places.slice(0, 4)"></card-list>
   </div>
 </template>
 
 <script>
+import { getPlaces } from "@/api/methods";
 export default {
   name: "main-page",
   data() {
     return {
       filteredTags: [],
+      data: [],
+      view_places: [],
     };
+  },
+  mounted() {
+    getPlaces().then((res) => {
+      this.view_places = res.data;
+    });
   },
   methods: {
     filterOnSelect(tagsList) {
-      // Asatulla was here
-      this.filteredTags = this.places.filter((place) => {
-        const placeTags = place.tags.map((tag) => tag.name);
-        return tagsList.every((tag) => placeTags.includes(tag));
+      const places = this.data;
+      this.filteredTags = tagsList;
+
+      this.view_places = places.filter((place) => {
+        const tagsArray = Object.values(place.tags);
+        return tagsArray.every((tag) => this.filteredTags.includes(tag));
       });
     },
   },
+
   computed: {
-    tags() {
-      return this.places
-        .map((el) => el.tags)
-        .flat()
-        .map((el) => el.name);
-    },
-  },
+    async tags() {
+      const res = await this.places;
+      const uniqueTags = {};
+      for (const [key, value] of Object.entries(res)) {
+        for (const tag of value) {
+          if (tag !== '') {
+            if (!uniqueTags[tag]) {
+              uniqueTags[tag] = [];
+            }
+            uniqueTags[tag].push(value);
+          }
+        }
+      }
+      this.data = Object.values(uniqueTags).reduce((acc, val) => acc.concat(val)).flat()
+      return Object.values(uniqueTags).reduce((acc, val) => acc.concat(val)).flat();
+    }
+  }
 };
 </script>
 
@@ -39,7 +60,7 @@ import CardList from "@/components/CardList.vue";
 
 defineProps({
   places: {
-    type: Array,
+    type: Object,
     required: true,
   },
 });

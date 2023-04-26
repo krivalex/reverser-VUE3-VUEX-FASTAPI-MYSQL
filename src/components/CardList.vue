@@ -2,7 +2,6 @@
   <div v-if="places && places.length > 0" class="card-list">
     <card-item v-for="p in places" :key="p" :place="p" />
   </div>
-  <!-- <h2 class="places-if-not-tags" v-else>⬆Укажите выше теги⬆</h2> -->
 </template>
 
 <script>

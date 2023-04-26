@@ -1,6 +1,9 @@
 <template>
   <div class="main-input">
-    <my-chips :list="tags" @selected="getSelected"></my-chips>
+    <my-chips v-if="data.length !== 0" :list="data" @selected="getSelected"></my-chips>
+    <div v-else>
+      Загрузка...
+    </div>
   </div>
 </template>
 <script>
@@ -9,11 +12,15 @@ import MyInput from '../components/UI/MyInput.vue'
 import MyButton from '../components/UI/MyButton.vue'
 
 export default {
+  name: 'input-line',
   props: ['tags'],
   components: {
     MyChips,
     MyInput,
     MyButton,
+  },
+  async mounted() {
+    this.data = await this.tags
   },
   methods: {
     getSelected(lst) {
@@ -22,8 +29,10 @@ export default {
   },
   emits: ['selected'],
   data() {
+
     return {
       selected: [],
+      data: [],
     }
   },
 }

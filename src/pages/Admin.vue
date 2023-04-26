@@ -73,53 +73,65 @@
         <my-input type="time" v-model="end_work_time" name="end-work-time" placeholder="Время закрытия"
           @input="endWorkTimeInput"></my-input>
       </div>
-      <!-- <div class="register-photo">
+      <div class="register-photo">
         <label for="images">Картинки (от 1 до 10) (JPG, PNG)</label>
-        <my-input v-model="images" name="images" type="file" accept=".jpg, .png" multiple="true"
-          @input="imagesInput"></my-input>
-      </div> -->
+        <form enctype="multipart/form-data">
+          <my-input v-model="images" name="images" type="file" accept=".jpg, .png" multiple="true"
+            @input="imagesInput"></my-input>
+        </form>
+      </div>
       <div class="register-label">
         <h3>Укажите 10 тегов, <br /> 10 - самый главный <br /> 1 - самый неглавный</h3>
       </div>
       <div class="register-selected">
         <label for="tag10">ТЕГ (10 баллов)</label>
-        <v-select v-model="tag10" :reduce="(option) => option.value" :options="all_tags" placeholder="Тег (10 баллов)" />
+        <v-select v-model="tag10" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
+          taggable push-tags :options="all_tags" placeholder="Тег (10 баллов)" />
       </div>
       <div class="register-selected">
         <label for="tag9">ТЕГ (9 баллов)</label>
-        <v-select v-model="tag9" :reduce="(option) => option.value" :options="all_tags" placeholder="Тег (9 баллов)" />
+        <v-select v-model="tag9" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
+          taggable push-tags :options="all_tags" placeholder="Тег (9 баллов)" />
       </div>
       <div class="register-selected">
         <label for="tag8">ТЕГ (8 баллов)</label>
-        <v-select v-model="tag8" :reduce="(option) => option.value" :options="all_tags" placeholder="Тег (8 баллов)" />
+        <v-select v-model="tag8" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
+          taggable push-tags :options="all_tags" placeholder="Тег (8 баллов)" />
       </div>
       <div class="register-selected">
         <label for="tag7">ТЕГ (7 баллов)</label>
-        <v-select v-model="tag7" :reduce="(option) => option.value" :options="all_tags" placeholder="Тег (7 баллов)" />
+        <v-select v-model="tag7" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
+          taggable push-tags :options="all_tags" placeholder="Тег (7 баллов)" />
       </div>
       <div class="register-selected">
         <label for="tag6">ТЕГ (6 баллов)</label>
-        <v-select v-model="tag6" :reduce="(option) => option.value" :options="all_tags" placeholder="Тег (6 баллов)" />
+        <v-select v-model="tag6" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
+          taggable push-tags :options="all_tags" placeholder="Тег (6 баллов)" />
       </div>
       <div class="register-selected">
         <label for="tag5">ТЕГ (5 баллов)</label>
-        <v-select v-model="tag5" :reduce="(option) => option.value" :options="all_tags" placeholder="Тег (5 баллов)" />
+        <v-select v-model="tag5" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
+          taggable push-tags :options="all_tags" placeholder="Тег (5 баллов)" />
       </div>
       <div class="register-selected">
         <label for="tag4">ТЕГ (4 баллов)</label>
-        <v-select v-model="tag4" :reduce="(option) => option.value" :options="all_tags" placeholder="Тег (4 баллов)" />
+        <v-select v-model="tag4" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
+          taggable push-tags :options="all_tags" placeholder="Тег (4 баллов)" />
       </div>
       <div class="register-selected">
         <label for="tag3">ТЕГ (3 баллов)</label>
-        <v-select v-model="tag3" :reduce="(option) => option.value" :options="all_tags" placeholder="Тег (3 баллов)" />
+        <v-select v-model="tag3" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
+          taggable push-tags :options="all_tags" placeholder="Тег (3 баллов)" />
       </div>
       <div class="register-selected">
         <label for="tag2">ТЕГ (2 баллов)</label>
-        <v-select v-model="tag2" :reduce="(option) => option.value" :options="all_tags" placeholder="Тег (2 баллов)" />
+        <v-select v-model="tag2" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
+          taggable push-tags :options="all_tags" placeholder="Тег (2 баллов)" />
       </div>
       <div class="register-selected">
         <label for="tag1">ТЕГ (1 баллов)</label>
-        <v-select v-model="tag1" :reduce="(option) => option.value" :options="all_tags" placeholder="Тег (1 баллов)" />
+        <v-select v-model="tag1" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
+          taggable push-tags :options="all_tags" placeholder="Тег (1 баллов)" />
       </div>
     </div>
 
@@ -152,7 +164,7 @@
       <div class="validation-item" v-if="subcategory == ''">
         <p>{{ validation.subcategory }}</p>
       </div>
-      <div class="validation-item" v-else>
+      <div class="validation-item">
         <button class="next_button" @click="addPlace">Добавить заведение</button>
       </div>
     </div>
@@ -170,16 +182,26 @@ import MyButton from "@/components/UI/MyButton.vue";
 
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
-import axios from 'axios';
+
+import { createID } from "@/api/cheeze";
+import { postPlace } from "@/api/methods";
+import { uploadImage } from "@/api/methods";
 
 export default {
   name: 'admin',
   setup() {
     return {
       all_tags: [
-        { label: "тег1", value: "tag1" },
-        { label: "тег2", value: "tag2" },
-        { label: "тег3", value: "tag3" },
+        { label: "ресторан", value: "ресторан" },
+        { label: "кафе", value: "кафе" },
+        { label: "бар", value: "бар" },
+        { label: "музыка", value: "музыка" },
+        { label: "клуб", value: "клуб" },
+        { label: "недорого", value: "недорого" },
+        { label: "стейк", value: "стейк" },
+        { label: "халал", value: "халал" },
+        { label: "работаем ночью", value: "работаем ночью" },
+
       ],
       validation: {
         "name": "Укажите название заведения",
@@ -240,26 +262,23 @@ export default {
       this.end_work_time = event.target.value;
     },
     imagesInput(event) {
-      this.images = event.target.value;
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onload = () => {
+          const binary = reader.result;
+          this.image = binary;
+        };
+      }
     },
     addPlace() {
-
-      var date = new Date();
-      var components = [
-        date.getDate(),
-        date.getMinutes(),
-        date.getSeconds(),
-        date.getMilliseconds()
-      ];
-
-      var id = components.join("");
-
-      axios.post('http://localhost:8000/places', {
+      const id = createID();
+      const data = {
         place_id: id,
         likes: 0,
         marks: {},
-
-
         name: this.name,
         city_name: this.city_name,
         two_gis_url: this.TWOgis_url,
@@ -283,14 +302,19 @@ export default {
           "tag3": this.tag3,
           "tag2": this.tag2,
           "tag1": this.tag1,
-        }
-      })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        },
+
+      }
+      postPlace(data)
+
+      const image_pack = {
+        place_id: id,
+        file: this.image
+      }
+
+      uploadImage(image_pack)
+      console.log(data)
+      console.log(image_pack)
     }
   },
   data() {
@@ -307,8 +331,7 @@ export default {
       long_description: "",
       start_work_time: "",
       end_work_time: "",
-      images: {
-      },
+      images: "",
       tag10: "",
       tag9: "",
       tag8: "",

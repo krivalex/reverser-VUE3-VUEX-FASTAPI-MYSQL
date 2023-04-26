@@ -50,7 +50,7 @@ const postUser = (user) => {
   }
 }
 
-const putUser = (user) => {
+const putUserByID = (user) => {
   try {
     return axios.put(`${base_url}/users/${user.id}`, user)
   } catch (error) {
@@ -98,4 +98,17 @@ const allTags = (response) => {
   }
 }
 
-export { getPlaces, getPlaceByID, postPlace, getUsers, getUserByID, postUser, putUser, getReviewsByID, putReview, deleteReview, postReview, allTags }
+const uploadImage = async (image_pack) => {
+  try {
+    const response = await axios.post(`${base_url}/uploadfile/${image_pack.place_id}`, image_pack, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export { getPlaces, getPlaceByID, postPlace, getUsers, getUserByID, postUser, putUserByID, getReviewsByID, putReview, deleteReview, postReview, allTags, uploadImage }

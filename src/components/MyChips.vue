@@ -84,8 +84,8 @@ export default {
       this.searchTag = event.target.value.toLowerCase()
     },
   },
-  mounted() {
-    this.lst = this.list
+  async mounted() {
+    this.lst = await this.list
     const uniqueValues = new Set(this.list)
     if (this.list.length > 0 && uniqueValues.size > 0) {
       this.lst = Array.from(uniqueValues)
