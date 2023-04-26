@@ -2,9 +2,9 @@ import axios from 'axios'
 
 const base_url = 'http://localhost:8000'
 
-const getPlaces = (response) => {
+const getPlaces = async (response) => {
   try {
-    return axios.get(`${base_url}/places`, response)
+    return await axios.get(`${base_url}/places`, response)
   } catch (error) {
     console.log(error)
   }

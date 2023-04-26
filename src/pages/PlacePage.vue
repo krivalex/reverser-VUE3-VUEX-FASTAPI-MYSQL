@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="container place-full">
 
@@ -178,19 +176,20 @@
 
 <script>
 import { useRoute } from "vue-router";
-import { data } from "@/data";
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
 import "swiper/css/bundle";
 import axios from 'axios';
 import MyModal from "@/components/UI/MyModal.vue";
+import { getPlaceByID } from "@/api/methods";
 
 
 
 export default {
-  setup() {
+  beforeMount() {
     const route = useRoute();
-    const place = data.find((place) => place.id == route.params.id);
-
+    getPlaceByID(route.params.id).then((response) => {
+      this.place = response.data;
+    });
     return {
       place,
     };
@@ -208,6 +207,7 @@ export default {
       selected: 0,
       marks: [1, 2, 3, 4, 5, 7, 8, 9, 10],
       reviews_text: "",
+      place: {},
     };
   },
   methods: {
@@ -270,15 +270,14 @@ export default {
   },
   beforeMount() {
     const route = useRoute();
-    const response = {}
 
-    axios.get(`http://127.0.0.1:8000/places/id/${route.params.id}`, response)
-      .then(response => {
-        console.log(response)
+    getPlaceByID(route.params.id)
+      .then((response) => {
+        this.place = response.data;
       })
-      .catch(error => {
-        console.log(error)
-      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };  
 </script>

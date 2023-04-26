@@ -1,7 +1,7 @@
 <template>
   <div>
     <input-line :tags="tags" @selected="filterOnSelect"></input-line>
-    <card-list :places="view_places.slice(0, 4)"></card-list>
+    <card-list :places="filteredPlaces"></card-list>
   </div>
 </template>
 
@@ -12,24 +12,19 @@ export default {
   data() {
     return {
       filteredTags: [],
-      data: [],
+      all_tags: [],
       view_places: [],
+      all_places: [],
     };
   },
   mounted() {
     getPlaces().then((res) => {
-      this.view_places = res.data;
+      this.all_places = res.data;
     });
   },
   methods: {
     filterOnSelect(tagsList) {
-      const places = this.data;
       this.filteredTags = tagsList;
-
-      this.view_places = places.filter((place) => {
-        const tagsArray = Object.values(place.tags);
-        return tagsArray.every((tag) => this.filteredTags.includes(tag));
-      });
     },
   },
 
@@ -47,9 +42,19 @@ export default {
           }
         }
       }
-      this.data = Object.values(uniqueTags).reduce((acc, val) => acc.concat(val)).flat()
+      this.all_tags = Object.values(uniqueTags).reduce((acc, val) => acc.concat(val)).flat()
       return Object.values(uniqueTags).reduce((acc, val) => acc.concat(val)).flat();
-    }
+    },
+    filteredPlaces() {
+      if (!this.filteredTags.length) {
+        return this.all_places.slice(0, 10);
+      } else {
+        return this.all_places.filter((place) => {
+          const tagsArray = Object.values(place.tags);
+          return this.filteredTags.every((tag) => tagsArray.includes(tag));
+        }).slice(0, 10);
+      }
+    },
   }
 };
 </script>

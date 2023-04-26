@@ -1,6 +1,6 @@
 <template>
   <div v-if="places && places.length > 0" class="card-list">
-    <card-item v-for="p in places" :key="p" :place="p" />
+    <card-item v-for="p in places" :key="p.place_id" :place="p" />
   </div>
 </template>
 
