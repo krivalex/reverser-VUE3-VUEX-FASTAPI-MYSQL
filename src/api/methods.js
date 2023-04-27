@@ -42,6 +42,14 @@ const getUserByID = (id) => {
   }
 }
 
+const checkUser = (login_pack) => {
+  try {
+    return axios.post(`${base_url}/users/check`, login_pack)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const postUser = (user) => {
   try {
     return axios.post(`${base_url}/users`, user)
@@ -135,9 +143,20 @@ const uploadReviewImageByID = async (review_pack) => {
   }
 }
 
+const getImageReviewByID = async (review_id) => {
+  try {
+    const response = await axios.get(`${base_url}/review/getitem/${review_id}`)
+    const data = response.data
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export {
   getPlaces,
   uploadReviewImageByID,
+  getImageReviewByID,
   getImageByID,
   getPlaceByID,
   postPlace,
@@ -151,4 +170,5 @@ export {
   postReview,
   allTags,
   uploadImage,
+  checkUser,
 }

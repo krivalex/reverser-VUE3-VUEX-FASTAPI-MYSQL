@@ -62,13 +62,11 @@
         <my-input v-model="subcategory" name="subcategory" placeholder="Категория" @input="subcategoryInput"></my-input>
       </div>
       <div class="register-item">
-        <p class="required">*</p>
         <label for="start-work-time">Начало работы (00:00:00)</label>
         <my-input type="time" v-model="start_work_time" name="start-work-time" placeholder="Время открытия"
           @input="startWorkTimeInput"></my-input>
       </div>
       <div class="register-item">
-        <p class="required">*</p>
         <label for="end-work-time">Конец работы (00:00:00)</label>
         <my-input type="time" v-model="end_work_time" name="end-work-time" placeholder="Время закрытия"
           @input="endWorkTimeInput"></my-input>
@@ -81,7 +79,7 @@
         </form>
       </div>
       <div class="register-label">
-        <h3>Укажите 10 тегов, <br /> 10 - самый главный <br /> 1 - самый неглавный</h3>
+        <h3>Укажите 10 тегов, 10 - самый главный, 1 - самый неглавный</h3>
       </div>
       <div class="register-selected">
         <label for="tag10">ТЕГ (10 баллов)</label>
@@ -521,6 +519,11 @@ export default {
   border: 0px;
 }
 
+.validation-item {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
 @media screen and (min-width: 768px) {
   .register-label h1 {
     font-size: 40px;
@@ -549,6 +552,16 @@ export default {
 
   .register-item {
     margin-top: 15px;
+  }
+
+  .next_button {
+    width: 500px;
+    height: 60px;
+    font-size: 30px;
+  }
+
+  .register-label h3 {
+    width: 100%;
   }
 }
 </style>

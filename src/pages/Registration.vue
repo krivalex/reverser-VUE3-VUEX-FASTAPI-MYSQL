@@ -161,7 +161,7 @@
 
     <div id="fourth-stage" v-if="fourth_stage === 'true'">
       <div class="register-label" id="fourth_stage_label">
-        <h1>Вы успешно зарегестировались</h1>
+        <h1>Вы успешно зарегистировались</h1>
       </div>
       <div class="next_button_section validation" id="fourth_stage_button">
         <button class="next_button" @click="fourthStage">
@@ -250,44 +250,44 @@ export default {
   methods: {
     loginInput(event) {
       this.login = event.target.value;
-      addToLocalStorage('login', this.login)
+      localStorage.setItem('login', this.login)
     },
     emailInput(event) {
       this.email = event.target.value;
-      addToLocalStorage('email', this.email)
+      localStorage.setItem('email', this.email)
     },
     passwordInput(event) {
       this.password = event.target.value;
-      addToLocalStorage('password', this.password)
+      localStorage.setItem('password', this.password)
     },
     passwordRetryInput(event) {
       this.password_retry = event.target.value;
-      addToLocalStorage('password_retry', this.password_retry)
+      localStorage.setItem('password_retry', this.password_retry)
     },
     ageInput(event) {
       this.age = event.target.value;
-      addToLocalStorage('age', this.age)
+      localStorage.setItem('age', this.age)
     },
     genderInput(event) {
       this.gender = event.target.value;
-      addToLocalStorage('gender', this.gender)
+      localStorage.setItem('gender', this.gender)
     },
     professionInput(event) {
       this.$emit('update:profession', event.target.value)
       this.profession = event.target.value;
-      addToLocalStorage('profession', this.profession)
+      localStorage.setItem('profession', this.profession)
     },
     marriedInput(event) {
       this.married = event.target.value;
-      addToLocalStorage('married', this.married)
+      localStorage.setItem('married', this.married)
     },
     cityInput(event) {
       this.city = event.target.value;
-      addToLocalStorage('city', this.city)
+      localStorage.setItem('city', this.city)
     },
     phoneInput(event) {
       this.phone = event.target.value;
-      addToLocalStorage('phone', this.phone)
+      localStorage.setItem('phone', this.phone)
     },
     firstStage() {
       this.first_stage = false;
@@ -321,15 +321,15 @@ export default {
 
       const data = {
         user_id: id,
-        login: getFromLocalStorage('login'),
-        password: getFromLocalStorage('password'),
-        phone: getFromLocalStorage('phone'),
-        email: getFromLocalStorage('email'),
-        age: getFromLocalStorage('age'),
-        profession: getFromLocalStorage('profession'),
-        married: getFromLocalStorage('married'),
-        gender: getFromLocalStorage('gender'),
-        city: getFromLocalStorage('city'),
+        login: localStorage.getItem('login'),
+        password: localStorage.getItem('password'),
+        phone: localStorage.getItem('phone'),
+        email: localStorage.getItem('email'),
+        age: localStorage.getItem('age'),
+        profession: this.profession,
+        married: this.married,
+        gender: this.gender,
+        city: this.city,
         preferences: { "10_tag": "name" },
         info_show: false,
         coins: 0,

@@ -664,4 +664,22 @@ input[type="file" i] {
   font-family: FontAwesome;
   color: rgb(255, 247, 0);
 }
+
+@media screen and (min-width: 768px) {
+  .place-full {
+    padding: 30px 100px;
+  }
+
+  .no-background {
+    padding: 50px
+  }
+
+  .place-front h2 {
+    font-size: 40px;
+  }
+
+  .place-front p {
+    font-size: 30px;
+  }
+}
 </style>

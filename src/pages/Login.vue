@@ -50,7 +50,7 @@
 <script>
 import MyInput from "@/components/UI/MyInput.vue";
 import MyButton from "@/components/UI/MyButton.vue";
-import axios from "axios";
+import { checkUser } from "@/api/methods";
 
 export default {
   name: "Registration",
@@ -77,19 +77,15 @@ export default {
       this.$router.push("/reset");
     },
     loginToApp() {
-      axios
-        .post("https://localhost:8000/login", {
-          email_or_phone: this.email_or_phone,
-          password: this.password,
-        })
-        .then((response) => {
-          console.log(response);
-          this.$router.push("/home");
-          localStorage.setItem('user_id', response.data.user_id);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+
+      const login_pack = {
+        email: this.email_or_phone,
+        password: this.password,
+      }
+
+      checkUser(login_pack).then((response) => {
+        console.log(response);
+      });
     }
 
   },

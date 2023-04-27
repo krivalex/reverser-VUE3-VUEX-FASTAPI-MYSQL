@@ -120,7 +120,7 @@
           </div>
 
           <div class="reviews-item-image">
-            <img :src="review.image" alt="image">
+            <img :src="review_image" alt="image">
           </div>
 
           <div class="reviews-item-text">
@@ -147,7 +147,7 @@ import MyTextArea from "@/components/UI/MyTextArea.vue";
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
-import { getPlaceByID, getReviewsByID, postReview, uploadReviewImageByID } from "@/api/methods.js";
+import { getPlaceByID, getReviewsByID, postReview, uploadReviewImageByID, getImageReviewByID } from "@/api/methods.js";
 import { createID } from "@/api/cheeze";
 
 export default {
@@ -174,6 +174,12 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+
+    getImageReviewByID(this.reviews.review_id)
+      .then((response) => {
+        this.review_image = response.data;
+        console.log(this.review_image);
+      })
   },
   data() {
     return {
@@ -249,7 +255,12 @@ export default {
         file: this.review_image
       }
 
-      uploadReviewImageByID(review_pack)
+      uploadReviewImageByID(review_pack).then((response) => {
+        console.log(response);
+      })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   components: {
