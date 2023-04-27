@@ -26,12 +26,16 @@
 
       <div class="place-image-slider">
 
-        <swiper :options="swiperOptions">
+        <swiper :options="swiperOptions" v-if="place.images !== null && place.images !== 'null'">
           <swiper-slide v-for="(slide, index) in place.images" :key="index">
             <img class="place-image" :src="slide" alt="place" />
             <span class="place-number-of-photo">{{ index + 1 }} / {{ place.images.length }}</span>
           </swiper-slide>
         </swiper>
+
+        <div class="place-image" v-else>
+          <img class="place-image" src="@/assets/no-image.jpg" alt="place" />
+        </div>
 
       </div>
 
@@ -77,7 +81,7 @@
             </p>
           </div>
 
-          <div class="place-option">
+          <div class="place-option" v-if="place.start_work_time && place.end_work_time">
             <i class="fa fa-fire" aria-hidden="true"></i>
             <p class="place-category">
               {{ place.start_work_time.slice(0, 5) }} - {{ place.end_work_time.slice(0, 5) }}
@@ -162,9 +166,9 @@
     </div>
 
     <div class="clist">
-      <div v-for="tag in place.tags">
+      <div v-for="tag in this.tags">
         <div class="citem">
-          {{ tag.name }}
+          {{ tag }}
         </div>
       </div>
     </div>
@@ -181,19 +185,12 @@ import "swiper/css/bundle";
 import axios from 'axios';
 import MyModal from "@/components/UI/MyModal.vue";
 import { getPlaceByID } from "@/api/methods";
+import { postReview } from "@/api/methods";
+import { createID } from "@/api/cheeze";
 
 
 
 export default {
-  beforeMount() {
-    const route = useRoute();
-    getPlaceByID(route.params.id).then((response) => {
-      this.place = response.data;
-    });
-    return {
-      place,
-    };
-  },
   name: "place-id-info",
   data() {
     return {
@@ -208,6 +205,7 @@ export default {
       marks: [1, 2, 3, 4, 5, 7, 8, 9, 10],
       reviews_text: "",
       place: {},
+      tags: [],
     };
   },
   methods: {
@@ -231,34 +229,30 @@ export default {
       this.reviews_text = event.target.value;
     },
     addReview() {
-      var date = new Date();
-      var components = [
-        date.getDate(),
-        date.getMinutes(),
-        date.getSeconds(),
-        date.getMilliseconds()
-      ];
-
-      var id = components.join("");
 
       const data = {
-        review_id: id,
-        // place_id: this.place.id,
-        place_id: 155759431,
+        review_id: createID(),
+        place_id: this.place.place_id,
         user_id: 15521349,
         date: new Date(),
         text: this.reviews_text,
         mark: this.selected,
       }
 
-      axios.post(`http://localhost:8000/reviews`, data)
-        .then(response => {
-          console.log(response)
+      this.model = !this.model;
+      console.log(this.tags)
+      console.log(this.place)
+
+      postReview(data)
+        .then((response) => {
+          console.log(response);
         })
-        .catch(error => {
-          console.log(error)
-        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
+
+
     showModel() {
       this.model = !this.model;
     },
@@ -274,6 +268,7 @@ export default {
     getPlaceByID(route.params.id)
       .then((response) => {
         this.place = response.data;
+        this.tags = Object.values(response.data.tags);
       })
       .catch((error) => {
         console.log(error);

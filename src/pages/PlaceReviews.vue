@@ -25,12 +25,16 @@
 
     <div class="place-image-slider">
 
-      <swiper :options="swiperOptions">
+      <swiper :options="swiperOptions" v-if="place.images !== null && place.images !== 'null'">
         <swiper-slide v-for="(slide, index) in place.images" :key="index">
           <img class="place-image" :src="slide" alt="place" />
           <span class="place-number-of-photo">{{ index + 1 }} / {{ place.images.length }}</span>
         </swiper-slide>
       </swiper>
+
+      <div class="place-image" v-else>
+        <img class="place-image" src="@/assets/no-image.jpg" alt="place" />
+      </div>
 
     </div>
 
@@ -139,45 +143,42 @@
 
 <script>
 import { useRoute } from "vue-router";
-import { data } from "@/data";
 import MyTextArea from "@/components/UI/MyTextArea.vue";
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
-import axios from 'axios';
+import { getPlaceByID, getReviewsByID, postReview } from "@/api/methods.js";
+import { createID } from "@/api/cheeze";
 
 export default {
   name: "place-id-reviews",
   components: {
     'my-text-area': MyTextArea,
   },
-  data() {
+  beforeMount() {
     const route = useRoute();
-    const place = data.find((place) => place.id == route.params.id);
 
+    getPlaceByID(route.params.id)
+      .then((response) => {
+        this.place = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    getReviewsByID(route.params.id)
+      .then((response) => {
+        this.reviews = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  data() {
     return {
-      reviews: [
-        {
-          id: 1,
-          login: 'login',
-          avatar: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
-          mark: 5,
-          text: 'texttexttexttexttexttexttexttexttexttexttexttex fwafwafwafwa wafwafwafwafaw f waf wafwafwafawfwafwaf',
-          image: 'https://incrussia.ru/wp-content/uploads/2018/10/iStock-694189032.jpg',
-          date: '05.10.2022'
-        },
-        {
-          id: 1,
-          login: 'login',
-          avatar: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
-          mark: 7,
-          text: 'text',
-          image: 'https://incrussia.ru/wp-content/uploads/2018/10/iStock-694189032.jpg',
-          date: '05.10.2022'
-        },
-      ],
+      place: {},
+      reviews: [],
 
-      place,
       selected: 0,
       marks: [1, 2, 3, 4, 5, 7, 8, 9, 10],
       swiperOptions: {
@@ -207,33 +208,26 @@ export default {
       this.$router.push(`/reviews/${this.place.id}`)
     },
     addReview() {
-      var date = new Date();
-      var components = [
-        date.getDate(),
-        date.getMinutes(),
-        date.getSeconds(),
-        date.getMilliseconds()
-      ];
-
-      var id = components.join("");
 
       const data = {
-        review_id: id,
-        // place_id: this.place.id,
-        place_id: 155759431,
+        review_id: createID(),
+        place_id: this.place.place_id,
         user_id: 15521349,
         date: new Date(),
         text: this.reviews_text,
         mark: this.selected,
       }
 
-      axios.post(`http://localhost:8000/reviews`, data)
-        .then(response => {
-          console.log(response)
+      this.model = !this.model;
+      console.log(this.reviews)
+
+      postReview(data)
+        .then((response) => {
+          console.log(response);
         })
-        .catch(error => {
-          console.log(error)
-        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   components: {

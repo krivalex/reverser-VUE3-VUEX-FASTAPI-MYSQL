@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      image: "https://reversers-images.fra1.digitaloceanspaces.com/reversers-images/base/20230427005655879112?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=DO00TEVUBHKB6D7XRJXY%2F20230426%2Ffra1%2Fs3%2Faws4_request&X-Amz-Date=20230426T215017Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=1bfe0c8565e250e879f6e98aef355ed8225a1c6ade24cdd09c5d267e8d5b3b00",
+      image: "https://s15.stc.all.kpcdn.net/putevoditel/serialy/wp-content/uploads/2019/12/thwwitcher_14.jpg"
     };
   },
 };
