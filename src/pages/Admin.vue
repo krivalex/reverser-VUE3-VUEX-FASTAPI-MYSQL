@@ -313,8 +313,6 @@ export default {
       }
 
       uploadImage(image_pack)
-      console.log(data)
-      console.log(image_pack)
     }
   },
   data() {
@@ -521,6 +519,37 @@ export default {
   font-weight: bold;
   text-decoration: none;
   border: 0px;
+}
+
+@media screen and (min-width: 768px) {
+  .register-label h1 {
+    font-size: 40px;
+  }
+
+  .inputs {
+    padding: 0 200px;
+  }
+
+  .required {
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
+    color: blue;
+    font-size: 50px;
+    z-index: 10;
+  }
+
+  .register-item label {
+    font-size: 30px;
+  }
+
+  .register-item input {
+    max-width: 100%;
+  }
+
+  .register-item {
+    margin-top: 15px;
+  }
 }
 </style>
 

@@ -85,9 +85,9 @@
             </div>
           </div>
 
-          <div class="add_photo">
-            <input accept=".jpg, .png" type="file" id="file" name="file" />
-          </div>
+          <form class="add_photo" enctype="multipart/form-data">
+            <my-input v-model="images" name="images" type="file" accept=".jpg, .png" @input="imagesInput"></my-input>
+          </form>
 
           <div class="add_action">
             <button @click="addReview" class="skip_button">Добавить отзыв</button>
@@ -147,7 +147,7 @@ import MyTextArea from "@/components/UI/MyTextArea.vue";
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
-import { getPlaceByID, getReviewsByID, postReview } from "@/api/methods.js";
+import { getPlaceByID, getReviewsByID, postReview, uploadReviewImageByID } from "@/api/methods.js";
 import { createID } from "@/api/cheeze";
 
 export default {
@@ -169,6 +169,7 @@ export default {
     getReviewsByID(route.params.id)
       .then((response) => {
         this.reviews = response.data;
+        console.log(this.reviews);
       })
       .catch((error) => {
         console.log(error);
@@ -189,6 +190,7 @@ export default {
       },
       model: false,
       reviews_text: '',
+      review_image: '',
     };
   },
   methods: {
@@ -207,10 +209,24 @@ export default {
     redirectReviews() {
       this.$router.push(`/reviews/${this.place.id}`)
     },
+    imagesInput(event) {
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onload = () => {
+          const binary = reader.result;
+          this.review_image = binary;
+        };
+      }
+    },
     addReview() {
 
+      const id = createID();
+
       const data = {
-        review_id: createID(),
+        review_id: id,
         place_id: this.place.place_id,
         user_id: 15521349,
         date: new Date(),
@@ -219,7 +235,6 @@ export default {
       }
 
       this.model = !this.model;
-      console.log(this.reviews)
 
       postReview(data)
         .then((response) => {
@@ -228,6 +243,13 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+
+      const review_pack = {
+        review_id: id,
+        file: this.review_image
+      }
+
+      uploadReviewImageByID(review_pack)
     },
   },
   components: {

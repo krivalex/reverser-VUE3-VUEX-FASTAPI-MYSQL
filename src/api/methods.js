@@ -60,7 +60,8 @@ const putUserByID = (user) => {
 
 const getReviewsByID = (id) => {
   try {
-    return axios.get(`${base_url}/reviews/${id}`)
+    const response = axios.get(`${base_url}/review/${id}`)
+    return response
   } catch (error) {
     console.log(error)
   }
@@ -68,7 +69,7 @@ const getReviewsByID = (id) => {
 
 const putReview = (review) => {
   try {
-    return axios.put(`${base_url}/reviews/${review.id}`, review)
+    return axios.put(`${base_url}/review/${review.id}`, review)
   } catch (error) {
     console.log(error)
   }
@@ -76,7 +77,7 @@ const putReview = (review) => {
 
 const deleteReview = (id) => {
   try {
-    return axios.delete(`${base_url}/reviews/${id}`)
+    return axios.delete(`${base_url}/review/${id}`)
   } catch (error) {
     console.log(error)
   }
@@ -121,4 +122,33 @@ const getImageByID = async (place_id) => {
   }
 }
 
-export { getPlaces, getImageByID, getPlaceByID, postPlace, getUsers, getUserByID, postUser, putUserByID, getReviewsByID, putReview, deleteReview, postReview, allTags, uploadImage }
+const uploadReviewImageByID = async (review_pack) => {
+  try {
+    const response = await axios.post(`${base_url}/review/imageupload/${review_pack.review_id}`, review_pack, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export {
+  getPlaces,
+  uploadReviewImageByID,
+  getImageByID,
+  getPlaceByID,
+  postPlace,
+  getUsers,
+  getUserByID,
+  postUser,
+  putUserByID,
+  getReviewsByID,
+  putReview,
+  deleteReview,
+  postReview,
+  allTags,
+  uploadImage,
+}

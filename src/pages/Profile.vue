@@ -43,9 +43,11 @@
       <h1>Избранное</h1>
     </div>
 
-    <div v-for="place in places" :key="place.id">
-      <div class="profile-favourites" v-for="favourite in favourites" :key="favourite">
-        <card-item v-if="favourite === place.id" :place="place" />
+    <div class="all">
+      <div class="place" v-for="place in places" :key="place.id">
+        <div class="profile-favourites" v-for="favourite in favourites" :key="favourite">
+          <card-item v-if="favourite === place.id" :place="place" />
+        </div>
       </div>
     </div>
 
@@ -237,5 +239,36 @@ export default {
 
 .image-status {
   height: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .status-container {
+    transform: scale(2);
+    transform-origin: top right;
+  }
+
+  .all {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    flex-direction: row;
+  }
+
+  .place {
+    margin: 10px;
+  }
+
+
+  .image-status {
+    transform: scale(1.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
 }
 </style>
