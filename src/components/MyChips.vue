@@ -21,10 +21,7 @@
       </div>
     </div>
     <div class="chip_preview" v-else>
-      <div class="input-icon">
-        <my-input type="search" v-model="searchTag" @input="getTag" class="input-main-input-second"
-          placeholder="Нажмите на теги, или найдите их через поиск" />
-      </div>
+      Нажмите на теги, или найдите их через поиск
     </div>
     <div v-if="lst.length > 0" class="clist">
       <div class="citem-popular citem" v-for="item in lst.slice(0, 30)" :key="item" @click="doSelect(item)">
@@ -275,18 +272,6 @@ export default {
     align-items: center;
     width: fit-content;
     margin: 0 auto;
-  }
-
-  .input-main-input-second {
-    border: none;
-  }
-
-  .input-main-input-second::selection {
-    border: none;
-  }
-
-  ::-webkit-input-placeholder {
-    color: rgb(18, 18, 18);
   }
 }
 </style>

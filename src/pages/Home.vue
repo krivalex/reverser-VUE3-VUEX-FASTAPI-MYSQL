@@ -6,7 +6,9 @@
       <places-list :places="places" />
     </div>
     <div v-else>
-      Loading...
+      <div class="loading">
+        <fade-loader :loading="loading" :color="black"></fade-loader>
+      </div>
     </div>
 
     <div class="zaglushka">
@@ -19,6 +21,8 @@
 import PlacesList from "@/pages/PlacesList.vue";
 import EmptyPage from "@/pages/EmptyPage.vue";
 import { allTags, getPlaces } from "@/api/methods.js";
+import { FadeLoader } from 'vue-spinner/dist/vue-spinner.min.js'
+
 
 export default {
   data() {
@@ -37,6 +41,7 @@ export default {
   components: {
     PlacesList,
     EmptyPage,
+    FadeLoader
   },
 };
 </script>

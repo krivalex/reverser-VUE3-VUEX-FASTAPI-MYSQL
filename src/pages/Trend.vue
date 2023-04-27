@@ -5,9 +5,11 @@
       <h1>Ваши рекомендации</h1>
     </div>
 
-    <div v-for="p in places" :key="p.id">
-      <div class="profile-recomendation" v-for="recomendation in recomendations" :key="recomendation">
-        <card-item v-if="recomendation === p.id" :place="p" />
+    <div class="all">
+      <div class="trend" v-for="p in places" :key="p.id">
+        <div class="profile-recomendation" v-for="recomendation in recomendations" :key="recomendation">
+          <card-item v-if="recomendation === p.id" :place="p" />
+        </div>
       </div>
     </div>
 
@@ -68,5 +70,14 @@ export default {
   margin: 0 auto;
   text-align: center;
   padding: 0 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .all {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>

@@ -26,10 +26,10 @@
 
       <div class="place-image-slider">
 
-        <swiper :options="swiperOptions" v-if="place.images !== null && place.images !== 'null'">
-          <swiper-slide v-for="(slide, index) in place.images" :key="index">
+        <swiper :options="swiperOptions" v-if="images !== null && images !== 'null'">
+          <swiper-slide v-for="(slide, index) in images" :key="index">
             <img class="place-image" :src="slide" alt="place" />
-            <span class="place-number-of-photo">{{ index + 1 }} / {{ place.images.length }}</span>
+            <span class="place-number-of-photo">{{ index + 1 }} / {{ 1 }}</span>
           </swiper-slide>
         </swiper>
 
@@ -207,6 +207,9 @@ export default {
       place: {},
       tags: [],
     };
+  },
+  async mounted() {
+    this.image = await getImageByID(this.place.place_id);
   },
   methods: {
     TwoGISRedirect() {

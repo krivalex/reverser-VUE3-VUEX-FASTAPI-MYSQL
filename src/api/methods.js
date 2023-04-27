@@ -114,7 +114,8 @@ const uploadImage = async (image_pack) => {
 const getImageByID = async (place_id) => {
   try {
     const response = await axios.get(`${base_url}/getimage/${place_id}`)
-    return response
+    const data = response.data
+    return data
   } catch (error) {
     console.log(error)
   }

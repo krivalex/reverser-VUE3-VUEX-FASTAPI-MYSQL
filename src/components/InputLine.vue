@@ -1,8 +1,8 @@
 <template>
   <div class="main-input">
     <my-chips v-if="data.length !== 0" :list="data" @selected="getSelected"></my-chips>
-    <div v-else>
-      Загрузка...
+    <div v-else class="loading_big">
+      <fade-loader :loading="loading" :color="color" :height="height" :width="width"></fade-loader>
     </div>
   </div>
 </template>
@@ -10,6 +10,7 @@
 import MyChips from './MyChips.vue'
 import MyInput from '../components/UI/MyInput.vue'
 import MyButton from '../components/UI/MyButton.vue'
+import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
 
 export default {
   name: 'input-line',
@@ -18,6 +19,7 @@ export default {
     MyChips,
     MyInput,
     MyButton,
+    FadeLoader
   },
   async mounted() {
     this.data = await this.tags
@@ -33,6 +35,9 @@ export default {
     return {
       selected: [],
       data: [],
+      color: '#DC143C',
+      height: '15px',
+      width: '5px',
     }
   },
 }

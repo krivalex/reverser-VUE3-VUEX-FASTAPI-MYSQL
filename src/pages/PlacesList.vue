@@ -1,12 +1,17 @@
 <template>
   <div>
     <input-line :tags="tags" @selected="filterOnSelect"></input-line>
-    <card-list :places="filteredPlaces"></card-list>
+    <card-list v-if="all_places !== []" :places="filteredPlaces"></card-list>
+    <div class="loading_big" v-else>
+      <fade-loader :loading="loading" :color="color" :height="height" :width="width"></fade-loader>
+    </div>
   </div>
 </template>
 
 <script>
 import { getPlaces } from "@/api/methods";
+import FadeLoader from 'vue-spinner/src/FadeLoader.vue'
+
 export default {
   name: "main-page",
   data() {
@@ -15,7 +20,15 @@ export default {
       all_tags: [],
       view_places: [],
       all_places: [],
+      color: '#DC143C',
+      height: '15px',
+      width: '5px',
     };
+  },
+  components: {
+    InputLine,
+    CardList,
+    FadeLoader
   },
   mounted() {
     getPlaces().then((res) => {
