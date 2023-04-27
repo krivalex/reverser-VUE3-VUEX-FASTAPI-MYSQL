@@ -38,10 +38,14 @@
 </template>
 
 <script>
-import { BinaryToImage } from "@/api/cheeze.js";
+import { getImageByID } from '@/api/methods';
+
 export default {
   name: "card-item",
   props: ["place"],
+  mounted() {
+    this.image = getImageByID(Number(this.place.place_id));
+  },
   methods: {
     routeToPlace() {
       this.$router.push(`/place/${this.place.place_id}`);
@@ -49,7 +53,7 @@ export default {
   },
   data() {
     return {
-      image: "https://s15.stc.all.kpcdn.net/putevoditel/serialy/wp-content/uploads/2019/12/thwwitcher_14.jpg"
+      image: ''
     };
   },
 };
@@ -164,5 +168,11 @@ export default {
   background-color: #f5f5f5;
   border-radius: 55px;
   padding: 5px 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .place {
+    width: 500px;
+  }
 }
 </style>

@@ -111,4 +111,13 @@ const uploadImage = async (image_pack) => {
   }
 }
 
-export { getPlaces, getPlaceByID, postPlace, getUsers, getUserByID, postUser, putUserByID, getReviewsByID, putReview, deleteReview, postReview, allTags, uploadImage }
+const getImageByID = async (place_id) => {
+  try {
+    const response = await axios.get(`${base_url}/getimage/${place_id}`)
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export { getPlaces, getImageByID, getPlaceByID, postPlace, getUsers, getUserByID, postUser, putUserByID, getReviewsByID, putReview, deleteReview, postReview, allTags, uploadImage }

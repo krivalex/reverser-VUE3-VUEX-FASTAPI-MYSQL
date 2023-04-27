@@ -3,7 +3,8 @@
     <form @submit.prevent="handleSubmit" class="input-input">
       <div class="input-icon">
         <i v-if="searchTag.length == 0" class="fa fa-search"></i>
-        <my-input v-model="searchTag" @input="getTag" class="input-main-input" placeholder="Поиск по тегам" />
+        <my-input type="search" v-model="searchTag" @input="getTag" class="input-main-input"
+          placeholder="Поиск по тегам" />
       </div>
       <my-button class="search_chip_add" type="submit" @click="addTag">Add</my-button>
     </form>
@@ -20,10 +21,13 @@
       </div>
     </div>
     <div class="chip_preview" v-else>
-      Нажмите на теги, или найдите их через поиск
+      <div class="input-icon">
+        <my-input type="search" v-model="searchTag" @input="getTag" class="input-main-input-second"
+          placeholder="Нажмите на теги, или найдите их через поиск" />
+      </div>
     </div>
     <div v-if="lst.length > 0" class="clist">
-      <div class="citem-popular citem" v-for="item in lst.slice(0, 10)" :key="item" @click="doSelect(item)">
+      <div class="citem-popular citem" v-for="item in lst.slice(0, 30)" :key="item" @click="doSelect(item)">
         {{ item }}
       </div>
     </div>
@@ -184,6 +188,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 5px;
+  text-align: center;
+  margin: auto auto;
 }
 
 .input-icon {
@@ -230,5 +237,56 @@ export default {
   font-size: 20px;
   font-style: italic;
   text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .citem {
+    max-height: 50px;
+  }
+
+  .chip_form {
+    overflow: hidden;
+    max-height: 150px;
+    max-width: 70%;
+    margin: 0 auto;
+  }
+
+  .input-icon i {
+    position: absolute;
+    top: 45%;
+    left: 3%;
+  }
+
+  .input-icon input {
+    width: 400px;
+  }
+
+  .input-all {
+    margin: 0 auto;
+  }
+
+  .input-input {
+    width: 100%;
+  }
+
+  .input-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .input-main-input-second {
+    border: none;
+  }
+
+  .input-main-input-second::selection {
+    border: none;
+  }
+
+  ::-webkit-input-placeholder {
+    color: rgb(18, 18, 18);
+  }
 }
 </style>

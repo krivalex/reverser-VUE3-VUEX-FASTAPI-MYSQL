@@ -1,11 +1,16 @@
 <template>
   <div id="container">
     <div v-if="places">
-      <h3 class="temp">alpha version 7.9.2</h3>
+      <h3 class="temp">beta version 1.9.2</h3>
+      <h3 class="me">@krivalex</h3>
       <places-list :places="places" />
     </div>
     <div v-else>
       Loading...
+    </div>
+
+    <div class="zaglushka">
+
     </div>
 
   </div>
@@ -35,3 +40,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@media screen and (min-width: 768px) {
+  #container {
+    padding: 0 30px;
+  }
+
+  .temp {
+    font-size: larger;
+  }
+
+}
+</style>

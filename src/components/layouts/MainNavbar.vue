@@ -1,6 +1,6 @@
 <template>
-  <SwipeBottomNavigation :options="options" v-model="selected" swiper-color='#FFFFFF' background-color='#DC143C'
-    icon-color='#FFFFFF' />
+  <SwipeBottomNavigation class="swiper" :options="options" v-model="selected" swiper-color='#FFFFFF'
+    background-color='#DC143C' icon-color='#FFFFFF' style="transform-y: scale(0.5)" />
 </template>
 
 <script>
@@ -25,4 +25,9 @@ export default {
 </script>
 
 <style>
+@media screen and (min-width: 768px) {
+  .vue-bottom-navigation {
+    display: none;
+  }
+}
 </style>
