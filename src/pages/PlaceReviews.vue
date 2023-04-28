@@ -86,7 +86,8 @@
           </div>
 
           <form class="add_photo" enctype="multipart/form-data">
-            <my-input v-model="images" name="images" type="file" accept=".jpg, .png" @input="imagesInput"></my-input>
+            <my-input v-model="upload_image" name="images" type="file" accept=".jpg, .png"
+              @input="imagesInput"></my-input>
           </form>
 
           <div class="add_action">
@@ -102,7 +103,7 @@
 
     <div class="all-reviews">
       <div class="reviews-list">
-        <div v-for="review in reviews" :key="review.id" class="reviews-item">
+        <div v-for="review in  reviews " :key="review.review_id" class="reviews-item">
 
           <div class="reviews-item-header">
             <div class="reviews-image-h1">
@@ -120,7 +121,7 @@
           </div>
 
           <div class="reviews-item-image">
-            <img :src="review_image" alt="image">
+            <img :src="getImage(review.review_id)" alt="image">
           </div>
 
           <div class="reviews-item-text">
@@ -175,11 +176,15 @@ export default {
         console.log(error);
       });
 
-    getImageReviewByID(this.reviews.review_id)
-      .then((response) => {
-        this.review_image = response.data;
-        console.log(this.review_image);
-      })
+    // getImageReviewByID(route.params.id)
+    //   .then((response) => {
+    //     this.all_reviews_image = response;
+    //     console.log(this.all_reviews_image);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
   },
   data() {
     return {
@@ -196,8 +201,20 @@ export default {
       },
       model: false,
       reviews_text: '',
-      review_image: '',
+      review_image: "",
+      upload_image: "",
+      all_reviews_image: [],
     };
+  },
+  mounted() {
+    const route = useRoute();
+    getImageReviewByID(route.params.id)
+      .then((response) => {
+        this.all_reviews_image = response;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   methods: {
     textInput(event) {
@@ -223,10 +240,19 @@ export default {
         reader.readAsArrayBuffer(file);
         reader.onload = () => {
           const binary = reader.result;
-          this.review_image = binary;
+          this.upload_image = binary;
         };
       }
     },
+    getImage(id) {
+      if (this.all_reviews_image && id in this.all_reviews_image) {
+        return this.all_reviews_image[id];
+      } else {
+        console.log(`Изображение с айди ${id} не найдено`);
+        return '';
+      }
+    },
+
     addReview() {
 
       const id = createID();
@@ -252,12 +278,13 @@ export default {
 
       const review_pack = {
         review_id: id,
-        file: this.review_image
+        file: this.upload_image
       }
 
-      uploadReviewImageByID(review_pack).then((response) => {
-        console.log(response);
-      })
+      uploadReviewImageByID(review_pack)
+        .then((response) => {
+          console.log(response);
+        })
         .catch((error) => {
           console.log(error);
         });

@@ -143,9 +143,9 @@ const uploadReviewImageByID = async (review_pack) => {
   }
 }
 
-const getImageReviewByID = async (review_id) => {
+const getImageReviewByID = async (place_id) => {
   try {
-    const response = await axios.get(`${base_url}/review/getitem/${review_id}`)
+    const response = await axios.get(`${base_url}/review/images/getall/${place_id}`)
     const data = response.data
     return data
   } catch (error) {

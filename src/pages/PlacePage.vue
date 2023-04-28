@@ -681,5 +681,15 @@ input[type="file" i] {
   .place-front p {
     font-size: 30px;
   }
+
+  .place-front i {
+    font-size: 30px;
+    margin-bottom: 4px;
+  }
+
+  .place-mark p,
+  .place-mark i {
+    font-size: 30px;
+  }
 }
 </style>

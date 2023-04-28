@@ -1,6 +1,6 @@
 <template>
   <section id="registration">
-
+    <h3 class="me_white">@krivalex</h3>
     <div id="first-stage" v-if="first_stage === 'true'" class="register">
 
       <div class="register-label">
@@ -83,7 +83,7 @@
         <div class="register-item">
           <my-input v-model="phone" name="phone" placeholder="+7" type="tel" @input="phoneInput"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"></my-input>
-          <i class="fa fa-phone"></i>
+          <i class="phone fa fa-phone"></i>
         </div>
         <div class="register-selected">
           <v-select v-model="profession" :reduce="(option) => option.value" label="label" :options="prof_options"
@@ -131,7 +131,7 @@
         </button>
       </div>
 
-      <div class="skip validation">
+      <div class="skip validation" v-if="this.phone.length < 11">
         <button class="skip_button" @click="secondStage">
           Пропустить
         </button>
@@ -149,7 +149,7 @@
         <h3>Отметьте теги, которые наиболее подходят вам</h3>
       </div>
       <div class="register-tags">
-        <input-line :tags="tags" @selected="filterOnSelect" />
+        <input-line :tags="tags" @selected="filterOnSelect"></input-line>
       </div>
       <!-- Валидационная часть -->
       <div class="next_button_section validation" id="third_stage_button">
@@ -182,10 +182,8 @@ import MyButton from "@/components/UI/MyButton.vue";
 import InputLine from "@/components/InputLine.vue";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
-import { data } from "@/data";
 import { createID } from "@/api/cheeze";
-import { postUser, allTags } from "@/api/methods";
-import { getFromLocalStorage, addToLocalStorage } from "@/api/storage";
+import { postUser, allTags, getPlaces } from "@/api/methods";
 
 export default {
   setup() {
@@ -239,6 +237,11 @@ export default {
         { label: "Алматы", value: "Almaty" },
       ]
     };
+  },
+  mounted() {
+    getPlaces().then((res) => {
+      this.all_places = res.data;
+    });
   },
   name: "Registration",
   components: {
@@ -319,6 +322,13 @@ export default {
 
       const id = createID()
 
+      function arrayToObject(array) {
+        return array.reduce((obj, item, index) => {
+          obj[index] = item;
+          return obj;
+        }, {});
+      }
+
       const data = {
         user_id: id,
         login: localStorage.getItem('login'),
@@ -330,7 +340,7 @@ export default {
         married: this.married,
         gender: this.gender,
         city: this.city,
-        preferences: { "10_tag": "name" },
+        preferences: arrayToObject(this.filteredTags),
         info_show: false,
         coins: 0,
         status: "client"
@@ -344,10 +354,7 @@ export default {
       this.$router.push(`/`);
     },
     filterOnSelect(tagsList) {
-      this.filteredTags = this.places.filter((place) => {
-        const preferences = place.tags.map((tag) => tag.name);
-        return tagsList.every((tag) => preferences.includes(tag));
-      });
+      this.filteredTags = tagsList;
     },
 
 
@@ -372,17 +379,50 @@ export default {
       fourth_stage: localStorage.getItem('fourth_stage') ? localStorage.getItem('fourth_stage') : 'false',
 
       password_retry: "",
-      places: data,
+      filteredTags: [],
+      all_tags: [],
+      view_places: [],
+      all_places: [],
+
+      places: allTags().then(
+        (res) => {
+          const data = res.data.tags;
+          return data;
+        },
+        (err) => {
+          console.log(err);
+        }
+      )
     };
   },
   computed: {
-    tags() {
-      return this.places
-        .map((el) => el.tags)
-        .flat()
-        .map((el) => el.name);
+    async tags() {
+      const res = await this.places;
+      const uniqueTags = {};
+      for (const [key, value] of Object.entries(res)) {
+        for (const tag of value) {
+          if (tag !== '') {
+            if (!uniqueTags[tag]) {
+              uniqueTags[tag] = [];
+            }
+            uniqueTags[tag].push(value);
+          }
+        }
+      }
+      this.all_tags = Object.values(uniqueTags).reduce((acc, val) => acc.concat(val)).flat()
+      return Object.values(uniqueTags).reduce((acc, val) => acc.concat(val)).flat();
     },
-  },
+    filteredPlaces() {
+      if (!this.filteredTags.length) {
+        return this.all_places.slice(0, 10);
+      } else {
+        return this.all_places.filter((place) => {
+          const tagsArray = Object.values(place.tags);
+          return this.filteredTags.every((tag) => tagsArray.includes(tag));
+        }).slice(0, 10);
+      }
+    },
+  }
 };
 
 </script>
@@ -546,5 +586,78 @@ export default {
 
 #fourth_stage_button {
   margin-top: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .input {
+    width: 40%;
+  }
+
+  input[type="tel"] {
+    width: 100%;
+  }
+
+  input[type="date"] {
+    width: 100%;
+  }
+
+
+
+  .register-item i {
+    position: absolute;
+    right: 32%;
+    top: 55%;
+    transform: translateY(-50%) translateX(50%);
+    font-size: 20px;
+    color: gray;
+    transform-origin: center center;
+  }
+
+  .register-text {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .register-text p {
+    font-size: 15px;
+  }
+
+  .register-label h1 {
+    font-size: 60px;
+  }
+
+  .next_button {
+    width: 40%;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #D9C5C9;
+    color: black;
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    border: 0px;
+    margin-top: 20px;
+  }
+
+  .register-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone {
+    display: none;
+  }
+
+
+  .skip_button {
+    transform: scale(2);
+    margin-bottom: 80px;
+  }
+
+  .validation {
+    margin-bottom: 50px;
+  }
 }
 </style>

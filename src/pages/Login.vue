@@ -1,6 +1,8 @@
 <template>
   <section id="login">
 
+    <h3 class="me_white">@krivalex</h3>
+
     <div class="register-label">
       <h1>Добро пожаловать</h1>
     </div>
@@ -124,11 +126,13 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .register-text p strong {
   font-size: 22px;
   color: #D9C5C9;
+  cursor: pointer;
 }
 
 .register-label {
@@ -209,5 +213,44 @@ export default {
   color: lightgray;
   display: flex;
   justify-content: center;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .input {
+    width: 35%;
+  }
+
+  .register-item i {
+    position: absolute;
+    right: 33.5%;
+    top: 53%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: gray;
+  }
+
+  .register-label h1 {
+    font-size: 60px;
+  }
+
+  .register-label {
+    padding-bottom: 10px;
+    padding-top: 80px;
+  }
+
+  .forward-password {
+    font-size: 30px;
+  }
+
+  .register-text p {
+    font-size: 20px;
+  }
+
+  .register-text p strong {
+    font-size: 30px;
+  }
+
+
 }
 </style>

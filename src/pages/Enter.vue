@@ -1,5 +1,6 @@
 <template>
   <div class="enter">
+    <h3 class="me_white">@krivalex</h3>
     <div class="enter-info">
       <h1>Reverser</h1>
       <div class="divider"></div>
@@ -19,11 +20,6 @@
     </div>
     <div class="enter-links">
     </div>
-    <!-- <div class="trips">
-      <img id="trip1" src="@/assets/login.png">
-      <img id="trip2" src="@/assets/register.png">
-      <img id="trip3" src="@/assets/back.png">
-    </div> -->
   </div>
 </template>
 
@@ -167,5 +163,34 @@ export default {
   margin-top: 5px;
   color: white;
   font-style: italic;
+}
+
+@media screen and (min-width: 768px) {
+  .enter-info h1 {
+    font-size: 80px;
+  }
+
+  .divider {
+    width: 350px;
+  }
+
+  .enter-info p {
+    font-size: 30px;
+  }
+
+  .enter-info_more h2 {
+    font-size: 25px;
+    width: 75%;
+    margin: 0 auto;
+  }
+
+  .about-team {
+    margin-top: 50px;
+  }
+
+
+  .about-team h3 {
+    font-size: 25px;
+  }
 }
 </style>
