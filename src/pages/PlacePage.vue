@@ -29,7 +29,7 @@
         <swiper :options="swiperOptions" v-if="images !== null && images !== 'null'">
           <swiper-slide v-for="(slide, index) in images" :key="index">
             <img class="place-image" :src="slide" alt="place" />
-            <span class="place-number-of-photo">{{ index + 1 }} / {{ 1 }}</span>
+            <span class="place-number-of-photo">{{ index + 1 }} / {{ images.length }}</span>
           </swiper-slide>
         </swiper>
 
@@ -149,9 +149,10 @@
               </div>
             </div>
 
-            <div class="add_photo">
-              <input accept=".jpg, .png" type="file" id="file" name="file" />
-            </div>
+            <form class="add_photo" enctype="multipart/form-data">
+              <my-input v-model="upload_image" name="images" type="file" accept=".jpg, .png"
+                @input="imagesInput"></my-input>
+            </form>
 
             <div class="add_action">
               <button @click="addReview" class="skip_button">Добавить отзыв</button>
@@ -182,11 +183,9 @@
 import { useRoute } from "vue-router";
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
 import "swiper/css/bundle";
-import axios from 'axios';
 import MyModal from "@/components/UI/MyModal.vue";
-import { getPlaceByID } from "@/api/methods";
-import { postReview } from "@/api/methods";
 import { createID } from "@/api/cheeze";
+import { getPlaceByID, postReview, uploadReviewImageByID, getImageByID } from "@/api/methods.js";
 
 
 
@@ -206,10 +205,13 @@ export default {
       reviews_text: "",
       place: {},
       tags: [],
+      images: [],
+      upload_image: null,
     };
   },
   async mounted() {
-    this.image = await getImageByID(this.place.place_id);
+    const route = useRoute();
+    this.images = await getImageByID(route.params.id);
   },
   methods: {
     TwoGISRedirect() {
@@ -224,6 +226,9 @@ export default {
     textInput(event) {
       console.log(event.target.value);
     },
+    showModel() {
+      this.model = !this.model;
+    },
     ratioClick(event) {
       console.log(event.target.value);
       this.selected = event.target.value;
@@ -231,20 +236,32 @@ export default {
     textInput(event) {
       this.reviews_text = event.target.value;
     },
+    imagesInput(event) {
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onload = () => {
+          const binary = reader.result;
+          this.upload_image = binary;
+        };
+      }
+    },
     addReview() {
 
+      const id = createID();
+
       const data = {
-        review_id: createID(),
+        review_id: id,
         place_id: this.place.place_id,
-        user_id: 15521349,
+        user_id: localStorage.getItem('user_id'),
         date: new Date(),
         text: this.reviews_text,
         mark: this.selected,
       }
 
       this.model = !this.model;
-      console.log(this.tags)
-      console.log(this.place)
 
       postReview(data)
         .then((response) => {
@@ -253,11 +270,19 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    },
 
+      const review_pack = {
+        review_id: id,
+        file: this.upload_image
+      }
 
-    showModel() {
-      this.model = !this.model;
+      uploadReviewImageByID(review_pack)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   components: {

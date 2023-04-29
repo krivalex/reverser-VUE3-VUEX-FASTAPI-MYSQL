@@ -25,10 +25,10 @@
 
     <div class="place-image-slider">
 
-      <swiper :options="swiperOptions" v-if="place.images !== null && place.images !== 'null'">
-        <swiper-slide v-for="(slide, index) in place.images" :key="index">
+      <swiper :options="swiperOptions" v-if="this.images !== null && this.images !== 'null'">
+        <swiper-slide v-for="(slide, index) in this.images" :key="index">
           <img class="place-image" :src="slide" alt="place" />
-          <span class="place-number-of-photo">{{ index + 1 }} / {{ place.images.length }}</span>
+          <span class="place-number-of-photo">{{ index + 1 }} / {{ this.images.length }}</span>
         </swiper-slide>
       </swiper>
 
@@ -148,7 +148,7 @@ import MyTextArea from "@/components/UI/MyTextArea.vue";
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
-import { getPlaceByID, getReviewsByID, postReview, uploadReviewImageByID, getImageReviewByID } from "@/api/methods.js";
+import { getPlaceByID, getReviewsByID, postReview, getAvatarByID, uploadReviewImageByID, getImageReviewByID, getImageByID } from "@/api/methods.js";
 import { createID } from "@/api/cheeze";
 
 export default {
@@ -176,20 +176,12 @@ export default {
         console.log(error);
       });
 
-    // getImageReviewByID(route.params.id)
-    //   .then((response) => {
-    //     this.all_reviews_image = response;
-    //     console.log(this.all_reviews_image);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
   },
   data() {
     return {
       place: {},
       reviews: [],
+      images: [],
 
       selected: 0,
       marks: [1, 2, 3, 4, 5, 7, 8, 9, 10],
@@ -202,12 +194,15 @@ export default {
       model: false,
       reviews_text: '',
       review_image: "",
-      upload_image: "",
+      upload_image: null,
       all_reviews_image: [],
+      avatar: null,
     };
   },
-  mounted() {
+  async mounted() {
     const route = useRoute();
+    this.images = await getImageByID(route.params.id);
+
     getImageReviewByID(route.params.id)
       .then((response) => {
         this.all_reviews_image = response;
@@ -215,6 +210,11 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+
+    for (let i = 0; i < this.reviews.length; i++) {
+      console.log(this.reviews[i].user_id);
+      this.reviews[i].avatar = await getAvatarByID(this.reviews[i].user_id);
+    }
   },
   methods: {
     textInput(event) {
@@ -252,6 +252,14 @@ export default {
         return '';
       }
     },
+    getReviewAvatar(id) {
+      if (this.reviews && id in this.reviews) {
+        return this.reviews[id].avatar;
+      } else {
+        console.log(`Изображение с айди ${id} не найдено`);
+        return '';
+      }
+    },
 
     addReview() {
 
@@ -260,7 +268,7 @@ export default {
       const data = {
         review_id: id,
         place_id: this.place.place_id,
-        user_id: 15521349,
+        user_id: localStorage.getItem('user_id'),
         date: new Date(),
         text: this.reviews_text,
         mark: this.selected,

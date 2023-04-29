@@ -109,7 +109,7 @@ const allTags = (response) => {
 
 const uploadImage = async (image_pack) => {
   try {
-    const response = await axios.post(`${base_url}/uploadfile/${image_pack.place_id}`, image_pack, {
+    const response = await axios.put(`${base_url}/uploadfile/${image_pack.place_id}`, image_pack, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -153,9 +153,66 @@ const getImageReviewByID = async (place_id) => {
   }
 }
 
+const addToFavorite = async (favorite_pack) => {
+  try {
+    const response = await axios.put(`${base_url}/user/addfavorite/${favorite_pack.user_id}/${favorite_pack.place_id}`, favorite_pack)
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const uploadAvatarByID = async (avatar_pack) => {
+  try {
+    const response = await axios.put(`${base_url}/uploadavatar/${avatar_pack.user_id}`, avatar_pack, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getAvatarByID = async (user_id) => {
+  try {
+    const response = await axios.get(`${base_url}/user/avatar/${user_id}`)
+    const data = response.data
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getReviewsByUserID = async (user_id) => {
+  try {
+    const response = await axios.get(`${base_url}/user/reviews/${user_id}`)
+    const data = response.data
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getReviewsCountByUserID = async (user_id) => {
+  try {
+    const response = await axios.get(`${base_url}/user/reviews/count/${user_id}`)
+    const data = response.data
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export {
   getPlaces,
+  getReviewsByUserID,
+  getReviewsCountByUserID,
   uploadReviewImageByID,
+  getAvatarByID,
+  uploadAvatarByID,
+  addToFavorite,
   getImageReviewByID,
   getImageByID,
   getPlaceByID,

@@ -40,6 +40,10 @@
       </button>
     </div>
 
+    <div class="server-validation" v-if="validation">
+      <p>{{ validation }}</p>
+    </div>
+
     <div class="register-text">
       <p>У вас еще нет аккаунта? <strong @click="redirectRegister">РЕГИСТРАЦИЯ</strong></p>
     </div>
@@ -87,6 +91,16 @@ export default {
 
       checkUser(login_pack).then((response) => {
         console.log(response);
+        if (response.data.message == "User does not exist") {
+          this.validation = "Пользователь не найден";
+        }
+        else {
+          localStorage.setItem("user_id", response.data.user_id);
+          this.validation = "Вы успешно авторизовались";
+          this.$router.push("/");
+        }
+
+
       });
     }
 
@@ -216,6 +230,14 @@ export default {
   cursor: pointer;
 }
 
+.server-validation {
+  font-size: 25px;
+  margin-top: 20px;
+  width: 80%;
+  color: #f7f97e;
+  margin: 0 auto;
+}
+
 @media screen and (min-width: 768px) {
   .input {
     width: 35%;
@@ -249,6 +271,18 @@ export default {
 
   .register-text p strong {
     font-size: 30px;
+  }
+
+  .next_button {
+    width: 35%;
+    height: 70px;
+    border-radius: 50px;
+    background-color: #D9C5C9;
+    color: black;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    border: 0px;
   }
 
 

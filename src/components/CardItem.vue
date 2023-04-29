@@ -28,7 +28,10 @@
       </div>
 
       <div class="place-marks">
-        <p class="like">
+        <p class="like" @click="addToFavourite" v-if="InFavourites(place.place_id)">
+          <i class="fa fa-heart" aria-hidden="true"></i>
+        </p>
+        <p class="like-red" v-else>
           <i class="fa fa-heart" aria-hidden="true"></i>
         </p>
       </div>
@@ -38,22 +41,43 @@
 </template>
 
 <script>
-import { getImageByID } from '@/api/methods';
+import { getImageByID, addToFavorite, getUserByID } from '@/api/methods';
 
 export default {
   name: "card-item",
   props: ["place"],
   async mounted() {
     this.image = await getImageByID(this.place.place_id);
+    this.image = this.image.slice(0, 1);
+    console.log(this.image)
+
+    const user = await getUserByID(localStorage.getItem("user_id"));
+    this.favourites = user.favourites;
+
+
   },
   methods: {
     routeToPlace() {
       this.$router.push(`/place/${this.place.place_id}`);
     },
+    addToFavourite() {
+      const favorite_pack = {
+        user_id: localStorage.getItem("user_id"),
+        place_id: this.place.place_id,
+      }
+
+      addToFavorite(favorite_pack).then((response) => {
+        console.log(response);
+      });
+    },
+    InFavourites(place_id) {
+      return this.favourites.includes(place_id);
+    }
   },
   data() {
     return {
-      image: "https://phonoteka.org/uploads/posts/2022-09/1663853186_2-phonoteka-org-p-znachok-zagruzki-bez-fona-instagram-2.png"
+      image: "https://phonoteka.org/uploads/posts/2022-09/1663853186_2-phonoteka-org-p-znachok-zagruzki-bez-fona-instagram-2.png",
+      favourites: [],
     };
   },
 };
@@ -135,6 +159,12 @@ export default {
 .like i {
   margin-top: 5px;
   font-size: 30px;
+}
+
+.like-red i {
+  margin-top: 5px;
+  font-size: 30px;
+  color: #DC143C;
 }
 
 .place-name {

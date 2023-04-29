@@ -72,10 +72,21 @@
           @input="endWorkTimeInput"></my-input>
       </div>
       <div class="register-photo">
-        <label for="images">Картинки (от 1 до 10) (JPG, PNG)</label>
+        <label for="images">Картинки 1 (JPG, PNG)</label>
         <form enctype="multipart/form-data">
-          <my-input v-model="images" name="images" type="file" accept=".jpg, .png" multiple="true"
-            @input="imagesInput"></my-input>
+          <my-input v-model="images1" name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
+        </form>
+      </div>
+      <div class="register-photo">
+        <label for="images">Картинки 2 (JPG, PNG)</label>
+        <form enctype="multipart/form-data">
+          <my-input v-model="images2" name="file" type="file" accept=".jpg, .png" @input="imagesInput2"></my-input>
+        </form>
+      </div>
+      <div class="register-photo">
+        <label for="images">Картинки 3 (JPG, PNG)</label>
+        <form enctype="multipart/form-data">
+          <my-input v-model="images3" name="file" type="file" accept=".jpg, .png" @input="imagesInput3"></my-input>
         </form>
       </div>
       <div class="register-label">
@@ -259,7 +270,7 @@ export default {
     endWorkTimeInput(event) {
       this.end_work_time = event.target.value;
     },
-    imagesInput(event) {
+    imagesInput1(event) {
       const files = event.target.files;
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
@@ -267,7 +278,43 @@ export default {
         reader.readAsArrayBuffer(file);
         reader.onload = () => {
           const binary = reader.result;
-          this.image = binary;
+          this.images1 = binary;
+          // this.uploadImages.push(binary);
+
+          // var index = Object.keys(this.uploadImages).length;
+          // this.uploadImages[index] = binary;
+        };
+      }
+    },
+    imagesInput2(event) {
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onload = () => {
+          const binary = reader.result;
+          this.images2 = binary;
+          // this.uploadImages.push(binary);
+
+          // var index = Object.keys(this.uploadImages).length;
+          // this.uploadImages[index] = binary;
+        };
+      }
+    },
+    imagesInput3(event) {
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onload = () => {
+          const binary = reader.result;
+          this.images3 = binary;
+          // this.uploadImages.push(binary);
+
+          // var index = Object.keys(this.uploadImages).length;
+          // this.uploadImages[index] = binary;
         };
       }
     },
@@ -303,14 +350,38 @@ export default {
         },
 
       }
-      postPlace(data)
+      postPlace(data).then((response) => {
+        console.log(response);
+        let image_pack = {
+          place_id: id,
+          file: this.images1,
+        }
 
-      const image_pack = {
-        place_id: id,
-        file: this.image
-      }
+        uploadImage(image_pack).then((response) => {
+          console.log(response);
+        });
 
-      uploadImage(image_pack)
+        image_pack = {
+          place_id: id,
+          file: this.images2,
+        }
+
+        uploadImage(image_pack).then((response) => {
+          console.log(response);
+        });
+
+        image_pack = {
+          place_id: id,
+          file: this.images3,
+        }
+
+        uploadImage(image_pack).then((response) => {
+          console.log(response);
+        });
+      });
+
+
+
     }
   },
   data() {
@@ -327,7 +398,9 @@ export default {
       long_description: "",
       start_work_time: "",
       end_work_time: "",
-      images: "",
+      images1: "",
+      images2: "",
+      images3: "",
       tag10: "",
       tag9: "",
       tag8: "",
@@ -338,6 +411,7 @@ export default {
       tag3: "",
       tag2: "",
       tag1: "",
+      uploadImages: [],
     }
   },
 }

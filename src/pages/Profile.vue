@@ -9,9 +9,15 @@
       <div class="image-status">
         <div class="profile-image">
           <div class="image-label">
-            <img :src="this.profile_img" alt="profile_img" />
+            <img :src="this.avatar" alt="profile_img" />
           </div>
         </div>
+
+        <form enctype="multipart/form-data">
+          <my-input v-model="avatar" name="file" type="file" accept=".jpg, .png" @input="imagesInput"></my-input>
+        </form>
+
+        <button @click="uploadImage">Загрузить</button>
 
         <div class="profile-status">
           <h1>{{ this.username }}</h1>
@@ -21,19 +27,19 @@
 
       <div class="status-container">
         <div class="status-label">
-          <p>6</p>
+          <p>{{ this.favourites.length }}</p>
           <i class="fa fa-heart" id="star"></i>
         </div>
         <div class="status-label">
-          <p>3</p>
+          <p>{{ this.review_count }}</p>
           <i class="fa fa-check" id="check"></i>
         </div>
         <div class="status-label">
-          <p>2</p>
+          <p>{{ this.rewards }}</p>
           <i class="fa fa-trophy" id="trophy"></i>
         </div>
         <div class="status-label">
-          <p>10</p>
+          <p>{{ this.coins }}</p>
           <i class="fa fa-dollar" id="dollar"></i>
         </div>
       </div>
@@ -44,9 +50,13 @@
     </div>
 
     <div class="all">
-      <div class="place" v-for="place in places" :key="place.id">
-        <div class="profile-favourites" v-for="favourite in favourites" :key="favourite">
-          <card-item v-if="favourite === place.id" :place="place" />
+      {{ this.places }}
+      {{ this.favourites }}
+      {{ this.all_reviews }}
+
+      <div class="place" v-for="place in this.places" :key="place.place_id">
+        <div class="profile-favourites">
+          <card-item :place="place" />
         </div>
       </div>
     </div>
@@ -58,26 +68,93 @@
 
 <script>
 import CardItem from "@/components/CardItem.vue";
-import { data } from "@/data";
+import { getUserByID, getPlaceByID, uploadAvatarByID, getAvatarByID, getReviewsByUserID, getReviewsCountByUserID } from "@/api/methods";
 export default {
-  setup() {
-    return {
-      places: data,
-    };
+  beforeMount() {
+    const user_id = localStorage.getItem("user_id");
+    getUserByID(user_id).then((res) => {
+      this.username = res.data.login;
+      this.phone_number = res.data.phone;
+      this.coins = res.data.coins;
+      this.rewards = res.data.rewards;
+      this.status = res.data.status;
+      this.favourites = res.data.favourites;
+    });
+
+    getReviewsCountByUserID(user_id).then((res) => {
+      this.review_count = res.data;
+    });
+
+    getReviewsByUserID(user_id).then((res) => {
+      this.all_reviews = res.data;
+    });
+
+
   },
+  async mounted() {
+    this.favourites.forEach((element) => {
+      getPlaceByID(element).then((res) => {
+        this.places.push(res.data);
+        return this.places;
+      });
+    });
+    console.log(this.places);
+
+    const user_id = localStorage.getItem("user_id");
+    getAvatarByID(user_id).then((res) => {
+      console.log(res);
+      this.avatar = res;
+    });
+  },
+
   name: "Profile",
+  methods: {
+    getPlaces() {
+      this.favourites.forEach((element) => {
+        getPlaceByID(element).then((res) => {
+          this.places.push(res.data);
+          return this.places;
+        });
+      });
+    },
+    imagesInput(event) {
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onload = () => {
+          const binary = reader.result;
+          this.avatar = binary;
+        };
+      }
+    },
+    uploadImage() {
+      const avatar_pack = {
+        user_id: localStorage.getItem("user_id"),
+        file: this.avatar,
+      }
+
+      uploadAvatarByID(avatar_pack).then((res) => {
+        console.log(res);
+      });
+    }
+  },
   components: {
     CardItem,
   },
   data() {
     return {
-      username: "Алексей",
-      phone_number: "+77022618926",
-      coins: 10,
-      rewards: ["obsidian", "diamond"],
-      profile_img: "https://popgolf.com/wp-content/uploads/2021/09/unnamed-e1631869170769.jpeg",
-      status: "admin",
-      favourites: [3, 13, 5],
+      username: "",
+      phone_number: "",
+      coins: 0,
+      rewards: [],
+      status: "client",
+      avatar: "",
+      favourites: [],
+      places: [],
+      review_count: 0,
+      all_reviews: [],
     };
   },
 };
