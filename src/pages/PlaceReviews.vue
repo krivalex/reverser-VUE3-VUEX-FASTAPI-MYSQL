@@ -103,12 +103,12 @@
 
     <div class="all-reviews">
       <div class="reviews-list">
-        <div v-for="review in  reviews " :key="review.review_id" class="reviews-item">
+        <div v-for="review in reviews " :key="review.review_id" class="reviews-item">
 
           <div class="reviews-item-header">
             <div class="reviews-image-h1">
-              <img :src="review.avatar" alt="avatar">
-              <h1>{{ review.login }}</h1>
+              <img :src="review.avatar" alt="загрузка">
+              <h1>{{ review.username }}</h1>
             </div>
             <div class="reviews-item-header-mark">
               <div class="marks" v-for="mark in review.mark">
@@ -129,7 +129,9 @@
           </div>
 
           <div class="reviews-item-date">
-            <p>{{ review.date }}</p>
+            <p>{{ review.date.slice(0, 10) }}</p>
+            <p>/</p>
+            <p>{{ review.date.slice(11) }}</p>
           </div>
 
         </div>
@@ -148,7 +150,7 @@ import MyTextArea from "@/components/UI/MyTextArea.vue";
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
-import { getPlaceByID, getReviewsByID, postReview, getAvatarByID, uploadReviewImageByID, getImageReviewByID, getImageByID } from "@/api/methods.js";
+import { getPlaceByID, getReviewsByID, postReview, getAvatarByID, uploadReviewImageByID, getImageReviewByID, getImageByID, getUserByID } from "@/api/methods.js";
 import { createID } from "@/api/cheeze";
 
 export default {
@@ -192,11 +194,10 @@ export default {
         },
       },
       model: false,
-      reviews_text: '',
-      review_image: "",
+      reviews_text: "загрузка...",
+      review_image: null,
       upload_image: null,
       all_reviews_image: [],
-      avatar: null,
     };
   },
   async mounted() {
@@ -210,6 +211,13 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+
+    for (let i = 0; i < this.reviews.length; i++) {
+      console.log(this.reviews[i].user_id);
+      const data = await getUserByID(this.reviews[i].user_id);
+      console.log(data.data.login);
+      this.reviews[i].username = data.data.login
+    }
 
     for (let i = 0; i < this.reviews.length; i++) {
       console.log(this.reviews[i].user_id);
@@ -354,7 +362,6 @@ export default {
 
 .place-full {
   min-height: 90vh;
-  background-color: white;
 }
 
 .place-front {
@@ -648,5 +655,156 @@ input[type="file" i] {
 
 .reviews-item-text p {
   max-width: 80%;
+}
+
+.reviews-item {
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+}
+
+@media screen and (min-width: 768px) {
+  .place-full {
+    padding: 30px 100px;
+  }
+
+  .no-background {
+    padding: 50px
+  }
+
+  .place-front h2 {
+    font-size: 40px;
+  }
+
+  .place-front p {
+    font-size: 30px;
+  }
+
+  .place-front i {
+    font-size: 30px;
+    margin-bottom: 4px;
+  }
+
+  .place-mark p,
+  .place-mark i {
+    font-size: 30px;
+  }
+
+  .place-image-slider {
+    height: 500px;
+  }
+
+
+  .place-image {
+    height: 500px;
+  }
+
+  .short-decription {
+    margin-top: 15px;
+    font-size: 25px;
+  }
+
+  .place-nav-like {
+    height: 60px;
+  }
+
+  .button-nav {
+    height: 60px;
+    width: 600px;
+  }
+
+  #info {
+    width: 300px;
+    font-size: 20px;
+  }
+
+  #review {
+    width: 300px;
+    font-size: 20px;
+  }
+
+  .like {
+    position: absolute;
+    right: 0;
+  }
+
+  .like i {
+    font-size: 60px;
+    color: black;
+  }
+
+  .like i:hover {
+    color: red;
+  }
+
+  .place-option p,
+  .place-option i {
+    font-size: 22px;
+  }
+
+  .place-options {
+    margin-top: 50px;
+  }
+
+  .place-review-info h2 {
+    font-size: 40px;
+  }
+
+  .place-button-rewiew {
+    transform: scale(1.3);
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .clist div {
+    font-size: 20px;
+    margin: 5px;
+  }
+
+  .place-number-of-photo {
+    font-size: 50px;
+  }
+
+  .reviews-item-header-mark {
+    width: 200px;
+  }
+
+  .marks i {
+    font-size: 22px;
+  }
+
+  .reviews-image-h1 h1 {
+    font-size: 22px;
+    margin-left: 15px;
+  }
+
+  .reviews-item-image img {
+    height: 360px;
+    margin-top: 20px;
+  }
+
+  .reviews-image-h1 img {
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  }
+
+  .reviews-item-date p {
+    font-size: 15px;
+  }
+
+  .place-full {
+    overflow: hidden;
+  }
+
+  .reviews-item {
+    width: 70%;
+    margin: 30px auto;
+  }
+
+  .reviews-item-date {
+    margin-top: 20px;
+  }
+
+
 }
 </style>

@@ -693,6 +693,7 @@ input[type="file" i] {
 @media screen and (min-width: 768px) {
   .place-full {
     padding: 30px 100px;
+    overflow: hidden;
   }
 
   .no-background {
@@ -715,6 +716,79 @@ input[type="file" i] {
   .place-mark p,
   .place-mark i {
     font-size: 30px;
+  }
+
+  .place-image-slider {
+    height: 500px;
+  }
+
+
+  .place-image {
+    height: 500px;
+  }
+
+  .short-decription {
+    margin-top: 15px;
+    font-size: 25px;
+  }
+
+  .place-nav-like {
+    height: 60px;
+  }
+
+  .button-nav {
+    height: 60px;
+    width: 600px;
+  }
+
+  #info {
+    width: 300px;
+    font-size: 20px;
+  }
+
+  #review {
+    width: 300px;
+    font-size: 20px;
+  }
+
+  .like {
+    position: absolute;
+    right: 0;
+  }
+
+  .like i {
+    font-size: 60px;
+    color: black;
+  }
+
+  .like i:hover {
+    color: red;
+  }
+
+  .place-option p,
+  .place-option i {
+    font-size: 22px;
+  }
+
+  .place-options {
+    margin-top: 50px;
+  }
+
+  .place-review-info h2 {
+    font-size: 40px;
+  }
+
+  .place-button-rewiew {
+    transform: scale(1.3);
+  }
+
+  .clist div {
+    font-size: 20px;
+    margin: 5px;
+  }
+
+  .place-number-of-photo {
+    font-size: 50px;
   }
 }
 </style>

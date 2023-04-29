@@ -1,7 +1,7 @@
 <template>
   <div class="place">
     <div class="place-image">
-      <span>Короткое описание</span>
+      <span>{{ place.short_description }}</span>
       <img :src="image" alt="place" @click="routeToPlace" />
     </div>
 
@@ -18,7 +18,7 @@
             <p class="place-rating">
               <i class="fa fa-star" aria-hidden="true"></i>
             </p>
-            <p class="place-rating-value">9.6</p>
+            <p class="place-rating-value">?</p>
           </div>
           <p class="place-category" @click="routeToPlace">
             {{ place.category }}, {{ place.subcategory }}
@@ -28,10 +28,10 @@
       </div>
 
       <div class="place-marks">
-        <p class="like" @click="addToFavourite" v-if="InFavourites(place.place_id)">
+        <p class="like-red" @click="addToFavourite" v-if="InFavourites(place.place_id)">
           <i class="fa fa-heart" aria-hidden="true"></i>
         </p>
-        <p class="like-red" v-else>
+        <p class="like" @click="addToFavourite" v-else>
           <i class="fa fa-heart" aria-hidden="true"></i>
         </p>
       </div>

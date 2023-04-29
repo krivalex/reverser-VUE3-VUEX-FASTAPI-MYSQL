@@ -56,4 +56,51 @@ export default {
   right: 0;
   cursor: pointer;
 }
+
+@media screen and (min-width: 768px) {
+  .dialog-content {
+    max-width: 500px;
+  }
+
+  .close-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .dialog-content {
+    padding: 50px;
+  }
+
+  .dialog-content h1 {
+    font-size: 2rem;
+  }
+
+  .dialog-content p {
+    font-size: 1.5rem;
+  }
+
+  .dialog-content button {
+    font-size: 1.5rem;
+  }
+
+  .dialog-content input {
+    font-size: 1.5rem;
+  }
+
+  .dialog-content label {
+    font-size: 1.5rem;
+  }
+
+  .dialog-content select {
+    font-size: 1.5rem;
+  }
+
+  .dialog-content textarea {
+    font-size: 1.5rem;
+  }
+
+
+
+
+}
 </style>
