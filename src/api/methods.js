@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const base_url = 'http://localhost:8000'
+const base_url = 'http://64.226.113.198'
 
 const getPlaces = async (response) => {
   try {
