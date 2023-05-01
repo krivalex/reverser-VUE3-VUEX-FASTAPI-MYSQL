@@ -52,7 +52,7 @@ export default {
     console.log(this.image)
 
     const user = await getUserByID(localStorage.getItem("user_id"));
-    this.favourites = user.favourites;
+    this.favourites = user.data.favourites;
 
 
   },
@@ -69,6 +69,12 @@ export default {
       addToFavorite(favorite_pack).then((response) => {
         console.log(response);
       });
+
+      if (this.favourites.includes(this.place.place_id)) {
+        this.favourites = this.favourites.filter((item) => item !== this.place.place_id);
+      } else {
+        this.favourites.push(this.place.place_id);
+      }
     },
     InFavourites(place_id) {
       return this.favourites.includes(place_id);

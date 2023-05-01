@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const base_url = 'http://64.226.113.198'
+const base_url = 'http://127.0.0.1:8000'
 
 const getPlaces = async (response) => {
   try {

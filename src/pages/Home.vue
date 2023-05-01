@@ -7,7 +7,7 @@
     </div>
     <div v-else>
       <div class="loading">
-        <fade-loader :loading="loading" :color="black"></fade-loader>
+        <fade-loader :color="black"></fade-loader>
       </div>
     </div>
 

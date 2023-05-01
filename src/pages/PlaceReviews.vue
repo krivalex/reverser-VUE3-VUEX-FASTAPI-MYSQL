@@ -194,7 +194,7 @@ export default {
         },
       },
       model: false,
-      reviews_text: "загрузка...",
+      reviews_text: "",
       review_image: null,
       upload_image: null,
       all_reviews_image: [],

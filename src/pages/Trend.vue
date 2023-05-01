@@ -1,17 +1,19 @@
 <template>
   <section id="trend">
 
-    <div class="trend-label">
-      <h1>Ваши рекомендации</h1>
-    </div>
+    <!-- <div class="trend-label">
+      <h1>В РАЗРАБОТКЕ</h1>
+    </div> -->
 
-    <div class="all">
+    <img class="waiting" src="https://www.cqf.su/img/in-construct.png">
+
+    <!-- <div class="all">
       <div class="trend" v-for="p in places" :key="p.id">
         <div class="profile-recomendation" v-for="recomendation in recomendations" :key="recomendation">
           <card-item v-if="recomendation === p.id" :place="p" />
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="zaglushka"></div>
   </section>
@@ -72,12 +74,32 @@ export default {
   padding: 0 10px;
 }
 
+.waiting {
+  width: 75%;
+  margin: auto auto;
+}
+
+#trend {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+}
+
 @media screen and (min-width: 768px) {
   .all {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+  }
+
+  .waiting {
+    width: 40%;
+    margin: auto auto;
   }
 }
 </style>
