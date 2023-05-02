@@ -169,7 +169,9 @@ export default {
     const route = this.$route;
     this.images = await getImageByID(route.params.id);
 
-    getImageReviewByID(route.params.id)
+    console.log(this.all_reviews.map(review => review.review_id));
+
+    getImageReviewByID(this.all_reviews.map(review => review.review_id))
       .then((response) => {
         this.all_reviews_image = response;
       })

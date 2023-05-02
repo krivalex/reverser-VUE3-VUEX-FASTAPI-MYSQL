@@ -118,7 +118,7 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: scroll;
-  max-height: 400px;
+  max-height: 350px;
   background-color: white;
 }
 
