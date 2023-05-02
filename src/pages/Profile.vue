@@ -126,7 +126,7 @@ import CardItem from "@/components/CardItem.vue";
 import { getUserByID, getPlaceByID, uploadAvatarByID, getAvatarByID, getReviewsByUserID, getReviewsCountByUserID, getImageReviewByID, getImageByID } from "@/api/methods";
 export default {
   created() {
-    const user_id = localStorage.getItem("user_id");
+    const user_id = Number(localStorage.getItem("user_id"));
     getUserByID(user_id).then((res) => {
       this.username = res.data.login;
       this.phone_number = res.data.phone;
