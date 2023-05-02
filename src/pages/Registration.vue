@@ -349,6 +349,8 @@ export default {
       postUser(data).then((res) => {
         console.log(res)
       })
+
+      localStorage.setItem('user_id', id)
     },
     fourthStage() {
       this.$router.push(`/`);

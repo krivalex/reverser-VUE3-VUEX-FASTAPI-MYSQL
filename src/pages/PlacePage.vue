@@ -217,10 +217,10 @@ export default {
     TwoGISRedirect() {
       window.location.assign(this.place.TWOgis)
     },
-    redirectPlace() {
+    async redirectPlace() {
       this.$router.push(`/place/${this.place.id}`)
     },
-    redirectReviews() {
+    async redirectReviews() {
       this.$router.push(`/reviews/${this.place.id}`)
     },
     textInput(event) {

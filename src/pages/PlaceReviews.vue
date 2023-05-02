@@ -234,10 +234,10 @@ export default {
     showModel() {
       this.model = !this.model;
     },
-    redirectPlace() {
+    async redirectPlace() {
       this.$router.push(`/place/${this.place.id}`)
     },
-    redirectReviews() {
+    async redirectReviews() {
       this.$router.push(`/reviews/${this.place.id}`)
     },
     imagesInput(event) {
