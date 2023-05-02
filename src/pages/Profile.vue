@@ -241,7 +241,7 @@ export default {
     },
     uploadImage() {
       const avatar_pack = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: Number(localStorage.getItem("user_id")),
         file: this.avatar_final,
       }
 
