@@ -51,7 +51,7 @@ export default {
     this.image = this.image.slice(0, 1);
     console.log(this.image)
 
-    const user = await getUserByID(localStorage.getItem("user_id"));
+    const user = await Number(getUserByID(localStorage.getItem("user_id")));
     this.favourites = user.data.favourites;
 
 
