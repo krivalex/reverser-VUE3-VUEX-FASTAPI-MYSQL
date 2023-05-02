@@ -234,11 +234,11 @@ export default {
     showModel() {
       this.model = !this.model;
     },
-    async redirectPlace() {
-      this.$router.push(`/place/${this.place.id}`)
+    redirectPlace() {
+      this.$router.push(`/place/${this.place.place_id}`)
     },
-    async redirectReviews() {
-      this.$router.push(`/reviews/${this.place.id}`)
+    redirectReviews() {
+      this.$router.push(`/reviews/${this.place.place_id}`)
     },
     imagesInput(event) {
       const files = event.target.files;
