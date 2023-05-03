@@ -51,7 +51,7 @@ export default {
     this.image = this.image.slice(0, 1);
     console.log(this.image)
 
-    const user = await Number(getUserByID(localStorage.getItem("user_id")));
+    const user = await getUserByID(Number(localStorage.getItem("user_id")));
     this.favourites = user.data.favourites;
 
 
@@ -61,8 +61,10 @@ export default {
       this.$router.push(`/place/${this.place.place_id}`);
     },
     addToFavourite() {
+      console.log(Number(localStorage.getItem("user_id")));
+      console.log(this.place.place_id);
       const favorite_pack = {
-        user_id: localStorage.getItem("user_id"),
+        user_id: Number(localStorage.getItem("user_id")),
         place_id: this.place.place_id,
       }
 
@@ -70,20 +72,22 @@ export default {
         console.log(response);
       });
 
-      if (this.favourites.includes(this.place.place_id)) {
-        this.favourites = this.favourites.filter((item) => item !== this.place.place_id);
+      this.favourites = this.favourites.split(",");
+
+      if (this.place.place_id in this.favourites) {
+        delete this.favourites[this.place.place_id];
       } else {
-        this.favourites.push(this.place.place_id);
+        this.favourites[this.place.place_id] = true;
       }
     },
     InFavourites(place_id) {
-      return this.favourites.includes(place_id);
+      return Object.keys(this.favourites).includes(place_id);
     }
   },
   data() {
     return {
       image: "https://phonoteka.org/uploads/posts/2022-09/1663853186_2-phonoteka-org-p-znachok-zagruzki-bez-fona-instagram-2.png",
-      favourites: [],
+      favourites: "",
     };
   },
 };

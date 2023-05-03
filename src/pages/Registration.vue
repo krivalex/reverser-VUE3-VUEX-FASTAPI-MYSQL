@@ -238,11 +238,6 @@ export default {
       ]
     };
   },
-  mounted() {
-    getPlaces().then((res) => {
-      this.all_places = res.data;
-    });
-  },
   name: "Registration",
   components: {
     MyInput,
@@ -343,7 +338,11 @@ export default {
         preferences: arrayToObject(this.filteredTags),
         info_show: false,
         coins: 0,
-        status: "client"
+        status: "client",
+        anchors: {},
+        favourites: "",
+        rewards: {},
+        recommendations: null,
       }
 
       postUser(data).then((res) => {
@@ -374,6 +373,7 @@ export default {
       gender: "",
       city: "",
       preferences: [],
+
 
       first_stage: localStorage.getItem('first_stage') ? localStorage.getItem('first_stage') : 'true',
       second_stage: localStorage.getItem('second_stage') ? localStorage.getItem('second_stage') : 'false',

@@ -12,16 +12,21 @@
         <div class="reviews">
 
           <div class="reviews_text">
-            <h1 class="review-desc">{{ this.email }}</h1>
+            <h1 class="review-desc">Ваш email:</h1>
+            <h1 class="review-desc"><strong>{{ this.email }}</strong></h1>
           </div>
 
 
+          <div class="reviews_text">
+            <h1 class="review-desc">Загрузить аватар:</h1>
+          </div>
+
           <form enctype="multipart/form-data">
-            <my-input v-model="avatar" name="file" type="file" accept=".jpg, .png" @input="imagesInput"></my-input>
+            <my-input v-model="avatar_new" name="file" type="file" accept=".jpg, .png" @input="imagesInput"></my-input>
           </form>
 
           <div class="add_action">
-            <button @click="uploadImage" class="skip_button">Обновить</button>
+            <button @click="uploadImage" class="skip_button">Обновить профиль</button>
           </div>
 
         </div>
@@ -125,8 +130,9 @@ import MyModal from "@/components/UI/MyModal.vue";
 import CardItem from "@/components/CardItem.vue";
 import { getUserByID, getPlaceByID, uploadAvatarByID, getAvatarByID, getReviewsByUserID, getReviewsCountByUserID, getImageReviewByID, getImageByID } from "@/api/methods";
 export default {
-  created() {
-    const user_id = Number(localStorage.getItem("user_id"));
+  beforeMount() {
+    let user_id = Number(localStorage.getItem("user_id"));
+    console.log(user_id);
     getUserByID(user_id).then((res) => {
       this.username = res.data.login;
       this.phone_number = res.data.phone;
@@ -137,17 +143,26 @@ export default {
       this.places = [];
       this.email = res.data.email;
 
-      console.log(this.favourites);
 
-      Promise.all(
-        this.favourites.map((element) => {
-          return getPlaceByID(element);
+      console.log(this.favourites);
+      this.favourites = this.favourites.split(",").slice(0, -1);
+
+      const promises = [];
+
+      for (const key in this.favourites) {
+        if (Object.hasOwnProperty.call(this.favourites, key)) {
+          const element = this.favourites[key];
+          promises.push(getPlaceByID(element));
+        }
+      }
+
+      Promise.all(promises)
+        .then((places) => {
+          this.places = places.map((place) => place.data);
         })
-      ).then(places => {
-        this.places = places.map(place => place.data)
-      }).catch(error => {
-        console.log(error);
-      });
+        .catch((error) => {
+          console.log(error);
+        });
 
     });
 
@@ -155,80 +170,83 @@ export default {
       this.review_count = res;
     });
 
-    getReviewsByUserID(user_id).then((res) => {
-      this.all_reviews = res;
-    });
+    // getReviewsByUserID(user_id).then((res) => {
+    //   this.all_reviews = res;
+    // });
 
+    console.log(user_id);
     getAvatarByID(user_id).then((res) => {
-      this.avatar = res;
+      if (res != "Image not found") {
+        this.avatar = res;
+      }
     });
 
 
   },
   async mounted() {
-    const route = this.$route;
-    this.images = await getImageByID(route.params.id);
+    // const route = this.$route;
+    // this.images = await getImageByID(this.places.place_id);
 
-    console.log(this.all_reviews.map(review => review.review_id));
+    // console.log(this.all_reviews.map(review => review.review_id));
 
-    getImageReviewByID(this.all_reviews.map(review => review.review_id))
-      .then((response) => {
-        this.all_reviews_image = response;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // getImageReviewByID(this.all_reviews.map(review => review.review_id))
+    //   .then((response) => {
+    //     this.all_reviews_image = response;
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
-    for (let i = 0; i < this.reviews.length; i++) {
-      console.log(this.reviews[i].user_id);
-      const data = await getUserByID(this.reviews[i].user_id);
-      console.log(data.data.login);
-      this.reviews[i].username = data.data.login
-    }
+    // for (let i = 0; i < this.reviews.length; i++) {
+    //   console.log(this.reviews[i].user_id);
+    //   const data = await getUserByID(this.reviews[i].user_id);
+    //   console.log(data.data.login);
+    //   this.reviews[i].username = data.data.login
+    // }
 
-    for (let i = 0; i < this.reviews.length; i++) {
-      console.log(this.reviews[i].user_id);
-      this.reviews[i].avatar = await getAvatarByID(this.reviews[i].user_id);
-    }
+    // for (let i = 0; i < this.reviews.length; i++) {
+    //   console.log(this.reviews[i].user_id);
+    //   this.reviews[i].avatar = await getAvatarByID(this.reviews[i].user_id);
+    // }
   },
 
   name: "Profile",
   methods: {
-    getPlaces() {
-      this.favourites.forEach((element) => {
-        getPlaceByID(element).then((res) => {
-          this.places.push(res.data);
-          return this.places;
-        });
-      });
-    },
+    // getPlaces() {
+    //   this.favourites.forEach((element) => {
+    //     getPlaceByID(element).then((res) => {
+    //       this.places.push(res.data);
+    //       return this.places;
+    //     });
+    //   });
+    // },
     showModel() {
       this.model = !this.model;
     },
-    getImage(id) {
-      if (this.all_reviews_image && id in this.all_reviews_image) {
-        return this.all_reviews_image[id];
-      } else {
-        console.log(`Изображение с айди ${id} не найдено`);
-        return '';
-      }
-    },
-    getReviewAvatar(id) {
-      if (this.all_reviews && id in this.all_reviews) {
-        return this.all_reviews[id].avatar;
-      } else {
-        console.log(`Изображение с айди ${id} не найдено`);
-        return '';
-      }
-    },
-    getReviewAvatar(id) {
-      if (this.reviews && id in this.reviews) {
-        return this.reviews[id].avatar;
-      } else {
-        console.log(`Изображение с айди ${id} не найдено`);
-        return '';
-      }
-    },
+    // getImage(id) {
+    //   if (this.all_reviews_image && id in this.all_reviews_image) {
+    //     return this.all_reviews_image[id];
+    //   } else {
+    //     console.log(`Изображение с айди ${id} не найдено`);
+    //     return '';
+    //   }
+    // },
+    // getReviewAvatar(id) {
+    //   if (this.all_reviews && id in this.all_reviews) {
+    //     return this.all_reviews[id].avatar;
+    //   } else {
+    //     console.log(`Изображение с айди ${id} не найдено`);
+    //     return '';
+    //   }
+    // },
+    // getReviewAvatar(id) {
+    //   if (this.reviews && id in this.reviews) {
+    //     return this.reviews[id].avatar;
+    //   } else {
+    //     console.log(`Изображение с айди ${id} не найдено`);
+    //     return '';
+    //   }
+    // },
     imagesInput(event) {
       const files = event.target.files;
       for (let i = 0; i < files.length; i++) {
@@ -237,19 +255,21 @@ export default {
         reader.readAsArrayBuffer(file);
         reader.onload = () => {
           const binary = reader.result;
-          this.avatar_final = binary;
+          this.avatar_new = binary;
         };
       }
     },
     uploadImage() {
       const avatar_pack = {
         user_id: Number(localStorage.getItem("user_id")),
-        file: this.avatar_final,
+        file: this.avatar_new,
       }
 
       uploadAvatarByID(avatar_pack).then((res) => {
         console.log(res);
       });
+
+      this.showModel()
     }
   },
   components: {
@@ -265,8 +285,8 @@ export default {
       coins: 0,
       rewards: [],
       status: "client",
-      avatar: null,
-      avatar_final: null,
+      avatar: "",
+      avatar_new: "",
       favourites: [],
       places: [],
       review_count: 0,
@@ -436,6 +456,11 @@ export default {
   height: 100%;
 }
 
+.all {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
 @media screen and (min-width: 768px) {
   .status-container {
     transform: scale(2);
@@ -447,13 +472,13 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    width: 100%;
     margin-top: 20px;
     flex-direction: row;
   }
 
   .place {
     margin: 10px;
+    max-width: 80%;
   }
 
 
@@ -496,6 +521,15 @@ export default {
   z-index: 1;
   font-size: 20px;
   margin-right: 10px;
+}
+
+.reviews_text {
+  max-width: 80%;
+  margin: 15px auto;
+}
+
+.reviews_text strong {
+  color: lightgray;
 }
 
 .reviews_marks_item input {
@@ -707,8 +741,10 @@ export default {
 }
 
 .review-desc {
-  font-size: 30px;
+  font-size: 15px;
   text-align: center;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .add_action {
@@ -818,6 +854,10 @@ input[type="file" i] {
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+}
+
+.fa-edit {
+  z-index: 1000;
 }
 
 @media screen and (min-width: 768px) {

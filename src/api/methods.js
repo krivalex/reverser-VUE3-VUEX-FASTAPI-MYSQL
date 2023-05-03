@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const base_url = 'https://reversers-api.com'
+// const base_url = 'https://reversers-api.com'
+const base_url = 'http://localhost:8000'
 
 const getPlaces = async (response) => {
   try {
