@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <div v-if="places">
-      <h3 class="temp">beta version 1.9.2</h3>
+      <h3 class="temp">beta version 2.0</h3>
       <h3 class="me">@krivalex</h3>
       <places-list :places="places" />
     </div>
