@@ -71,24 +71,6 @@
         <my-input type="time" v-model="end_work_time" name="end-work-time" placeholder="Время закрытия"
           @input="endWorkTimeInput"></my-input>
       </div>
-      <div class="register-photo">
-        <label for="images">Картинки 1 (JPG, PNG)</label>
-        <form enctype="multipart/form-data">
-          <my-input v-model="images1" name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
-        </form>
-      </div>
-      <div class="register-photo">
-        <label for="images">Картинки 2 (JPG, PNG)</label>
-        <form enctype="multipart/form-data">
-          <my-input v-model="images2" name="file" type="file" accept=".jpg, .png" @input="imagesInput2"></my-input>
-        </form>
-      </div>
-      <div class="register-photo">
-        <label for="images">Картинки 3 (JPG, PNG)</label>
-        <form enctype="multipart/form-data">
-          <my-input v-model="images3" name="file" type="file" accept=".jpg, .png" @input="imagesInput3"></my-input>
-        </form>
-      </div>
       <div class="register-label">
         <h3>Укажите 10 тегов, 10 - самый главный, 1 - самый неглавный</h3>
       </div>
@@ -142,6 +124,24 @@
         <v-select v-model="tag1" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (1 баллов)" />
       </div>
+    </div>
+    <div class="register-photo">
+      <label for="images">Картинки 1 (JPG, PNG)</label>
+      <form enctype="multipart/form-data">
+        <my-input v-model="images1" name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
+      </form>
+    </div>
+    <div class="register-photo">
+      <label for="images">Картинки 2 (JPG, PNG)</label>
+      <form enctype="multipart/form-data">
+        <my-input v-model="images2" name="file" type="file" accept=".jpg, .png" @input="imagesInput2"></my-input>
+      </form>
+    </div>
+    <div class="register-photo">
+      <label for="images">Картинки 3 (JPG, PNG)</label>
+      <form enctype="multipart/form-data">
+        <my-input v-model="images3" name="file" type="file" accept=".jpg, .png" @input="imagesInput3"></my-input>
+      </form>
     </div>
 
     <!-- Валидационная часть -->
