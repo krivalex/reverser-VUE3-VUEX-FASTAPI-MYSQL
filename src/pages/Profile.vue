@@ -130,10 +130,11 @@ import MyModal from "@/components/UI/MyModal.vue";
 import CardItem from "@/components/CardItem.vue";
 import { getUserByID, getPlaceByID, uploadAvatarByID, getAvatarByID, getReviewsByUserID, getReviewsCountByUserID, getImageReviewByID, getImageByID } from "@/api/methods";
 export default {
-  beforeMount() {
+  created() {
     let user_id = Number(localStorage.getItem("user_id"));
     console.log(user_id);
     getUserByID(user_id).then((res) => {
+      console.log(res);
       this.username = res.data.login;
       this.phone_number = res.data.phone;
       this.coins = res.data.coins;
@@ -338,6 +339,7 @@ export default {
   margin: 0 auto;
   margin-top: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  object-fit: cover;
 }
 
 .profile-image {

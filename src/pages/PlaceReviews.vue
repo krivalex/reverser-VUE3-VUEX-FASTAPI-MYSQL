@@ -633,6 +633,19 @@ input[type="file" i] {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-size: 8px;
+}
+
+.reviews-image-h1 h1 {
+  max-width: 50px;
+}
+
+.reviews-image-h1 img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 7px;
 }
 
 .reviews-item-text {

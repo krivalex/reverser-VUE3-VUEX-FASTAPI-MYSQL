@@ -316,6 +316,7 @@ export default {
       this.fourth_stage = localStorage.getItem('fourth_stage')
 
       const id = createID()
+      localStorage.setItem('user_id', id)
 
       function arrayToObject(array) {
         return array.reduce((obj, item, index) => {
@@ -349,7 +350,6 @@ export default {
         console.log(res)
       })
 
-      localStorage.setItem('user_id', id)
     },
     fourthStage() {
       this.$router.push(`/`);
