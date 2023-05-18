@@ -1,20 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-const PlacePage = () => import('@/pages/PlacePage.vue')
-const PlaceReviews = () => import('@/pages/PlaceReviews.vue')
+const PlacePage = () => import('@/pages/app/PlacePage.vue')
+const PlaceReviews = () => import('@/pages/app/PlaceReviews.vue')
 
-const Home = () => import('@/pages/Home.vue')
-const Profile = () => import('@/pages/Profile.vue')
-const Trend = () => import('@/pages/Trend.vue')
+const Home = () => import('@/pages/app/Home.vue')
+const Profile = () => import('@/pages/profile/Profile.vue')
+const Trend = () => import('@/pages/app/Trend.vue')
 
-const NotFound = () => import('@/pages/NotFound.vue')
+const NotFound = () => import('@/pages/app/NotFound.vue')
 
-const Registration = () => import('@/pages/Registration.vue')
-const Login = () => import('@/pages/Login.vue')
-const Enter = () => import('@/pages/Enter.vue')
-const ResetPassword = () => import('@/pages/ResetLogin.vue')
+const ClientRegistration = () => import('@/pages/registration/ClientRegistration.vue')
+const Login = () => import('@/pages/registration/Login.vue')
+const Enter = () => import('@/pages/registration/Enter.vue')
+const ResetPassword = () => import('@/pages/registration/ResetLogin.vue')
 
-const Admin = () => import('@/pages/Admin.vue')
+const Admin = () => import('@/pages/admin/Admin.vue')
 
 const routes = [
   {
@@ -44,9 +44,9 @@ const routes = [
     meta: { isAuth: false },
   },
   {
-    path: '/registration',
-    name: 'registration',
-    component: Registration,
+    path: '/client_registration',
+    name: 'client_registration',
+    component: ClientRegistration,
     meta: { isAuth: false },
   },
   {

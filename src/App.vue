@@ -6,7 +6,7 @@
     <div v-if="$route.name === 'place' || $route.name === 'reviews'">
       <place-navbar />
     </div>
-    <div v-else-if="$route.name === 'registration' || $route.name === 'login' || $route.name === 'enter'">
+    <div v-else-if="$route.name === 'client_registration' || $route.name === 'login' || $route.name === 'enter'">
       <register-navbar />
     </div>
     <div v-else-if="$route.name === 'admin'">

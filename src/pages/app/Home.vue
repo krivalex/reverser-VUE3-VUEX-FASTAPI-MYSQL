@@ -5,23 +5,13 @@
       <h3 class="me">@krivalex</h3>
       <places-list :places="places" />
     </div>
-    <div v-else>
-      <div class="loading">
-        <fade-loader :color="black"></fade-loader>
-      </div>
-    </div>
-
-    <div class="zaglushka">
-
-    </div>
+    <div class="zaglushka"></div>
 
   </div>
 </template>
 <script>
-import PlacesList from "@/pages/PlacesList.vue";
-import EmptyPage from "@/pages/EmptyPage.vue";
-import { allTags, getPlaces } from "@/api/methods.js";
-import { FadeLoader } from 'vue-spinner/dist/vue-spinner.min.js'
+import PlacesList from "@/pages/app/PlacesList.vue";
+import { allTags } from "@/api/methods.js";
 
 
 export default {
@@ -39,9 +29,7 @@ export default {
     };
   },
   components: {
-    PlacesList,
-    EmptyPage,
-    FadeLoader
+    PlacesList
   },
 };
 </script>
