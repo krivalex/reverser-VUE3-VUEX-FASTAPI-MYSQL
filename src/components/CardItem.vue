@@ -49,7 +49,6 @@ export default {
   async mounted() {
     this.image = await getImageByID(this.place.place_id);
     this.image = this.image.slice(0, 1);
-    console.log(this.image)
 
     const user = await getUserByID(Number(localStorage.getItem("user_id")));
     this.favourites = user.data.favourites;
@@ -61,8 +60,6 @@ export default {
       this.$router.push(`/place/${this.place.place_id}`);
     },
     addToFavourite() {
-      console.log(Number(localStorage.getItem("user_id")));
-      console.log(this.place.place_id);
       const favorite_pack = {
         user_id: Number(localStorage.getItem("user_id")),
         place_id: this.place.place_id,

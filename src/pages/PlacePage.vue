@@ -26,10 +26,10 @@
 
       <div class="place-image-slider">
 
-        <swiper :options="swiperOptions" v-if="images !== null && images !== 'null'">
-          <swiper-slide v-for="(slide, index) in images" :key="index">
+        <swiper :options="swiperOptions" v-if="this.place_images !== null && this.place_images !== 'null'">
+          <swiper-slide v-for="(slide, index) in this.place_images" :key="index">
             <img class="place-image" :src="slide" alt="place" />
-            <span class="place-number-of-photo">{{ index + 1 }} / {{ images.length }}</span>
+            <span class="place-number-of-photo">{{ index + 1 }} / {{ this.place_images.length }}</span>
           </swiper-slide>
         </swiper>
 
@@ -92,15 +92,15 @@
 
         <div class="place-social-media">
 
-          <div class="place-social-media-item" v-if="place.TWOgis">
+          <div class="place-social-media-item" v-if="place.two_gis_url" @click="TwoGISRedirect">
             <img class="social-logo" src="@/assets/2gis.png">
           </div>
 
-          <div class="place-social-media-item" v-if="place.instagram">
+          <div class="place-social-media-item" v-if="place.instagram_link" @click="InstagramRedirect">
             <img class="social-logo" src="@/assets/instagram.png">
           </div>
 
-          <div class="place-social-media-item" v-if="place.whatsapp">
+          <div class="place-social-media-item" v-if="place.phone" @click="WhatsappRedirect">
             <img class="social-logo" src="@/assets/whatsapp.png">
           </div>
 
@@ -181,16 +181,31 @@
 
 <script>
 import { useRoute } from "vue-router";
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
 import { createID } from "@/api/cheeze";
-import { getPlaceByID, postReview, uploadReviewImageByID, getImageByID } from "@/api/methods.js";
 
 
 
 export default {
   name: "place-id-info",
+  async beforeMount() {
+    const route = useRoute();
+    await this.$store.dispatch('fetchPlaceInfo', route.params.id);
+    await this.$store.dispatch('fetchPlaceImages', route.params.id);
+  },
+  computed: {
+    place_images() {
+      return this.$store.state.place_page_images;
+    },
+    place() {
+      return this.$store.state.place_page_info;
+    },
+    tags() {
+      return Object.values(this.place.tags);
+    }
+  },
   data() {
     return {
       swiperOptions: {
@@ -203,19 +218,18 @@ export default {
       selected: 0,
       marks: [1, 2, 3, 4, 5, 7, 8, 9, 10],
       reviews_text: "",
-      place: {},
-      tags: [],
-      images: [],
       upload_image: null,
     };
   },
-  async mounted() {
-    const route = useRoute();
-    this.images = await getImageByID(route.params.id);
-  },
   methods: {
     TwoGISRedirect() {
-      window.location.assign(this.place.TWOgis)
+      window.open(this.place.two_gis_url, '_blank')
+    },
+    WhatsappRedirect() {
+      window.open(`https://wa.me/${this.place.phone}`, '_blank')
+    },
+    InstagramRedirect() {
+      window.open(this.place.instagram_link, '_blank')
     },
     redirectPlace() {
       this.$router.push(`/place/${this.place.place_id}`)
@@ -223,14 +237,10 @@ export default {
     redirectReviews() {
       this.$router.push(`/reviews/${this.place.place_id}`)
     },
-    textInput(event) {
-      console.log(event.target.value);
-    },
     showModel() {
       this.model = !this.model;
     },
     ratioClick(event) {
-      console.log(event.target.value);
       this.selected = event.target.value;
     },
     textInput(event) {
@@ -248,10 +258,8 @@ export default {
         };
       }
     },
-    addReview() {
-
+    async addReview() {
       const id = createID();
-
       const data = {
         review_id: id,
         place_id: this.place.place_id,
@@ -261,28 +269,15 @@ export default {
         mark: this.selected,
       }
 
-      this.model = !this.model;
-
-      postReview(data)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
       const review_pack = {
         review_id: id,
         file: this.upload_image
       }
+      this.model = !this.model;
 
-      uploadReviewImageByID(review_pack)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      await this.$store.dispatch('addReview', data);
+      await this.$store.dispatch('addReviewImage', review_pack);
+
     },
   },
   components: {
@@ -290,18 +285,7 @@ export default {
     SwiperSlide,
     MyModal
   },
-  beforeMount() {
-    const route = useRoute();
 
-    getPlaceByID(route.params.id)
-      .then((response) => {
-        this.place = response.data;
-        this.tags = Object.values(response.data.tags);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
 };  
 </script>
 

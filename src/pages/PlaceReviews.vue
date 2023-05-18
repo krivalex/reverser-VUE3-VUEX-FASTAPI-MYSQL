@@ -25,10 +25,10 @@
 
     <div class="place-image-slider">
 
-      <swiper :options="swiperOptions" v-if="this.images !== null && this.images !== 'null'">
-        <swiper-slide v-for="(slide, index) in this.images" :key="index">
+      <swiper :options="swiperOptions" v-if="this.place_images !== null && this.place_images !== 'null'">
+        <swiper-slide v-for="(slide, index) in this.place_images" :key="index">
           <img class="place-image" :src="slide" alt="place" />
-          <span class="place-number-of-photo">{{ index + 1 }} / {{ this.images.length }}</span>
+          <span class="place-number-of-photo">{{ index + 1 }} / {{ this.place_images.length }}</span>
         </swiper-slide>
       </swiper>
 
@@ -103,12 +103,12 @@
 
     <div class="all-reviews">
       <div class="reviews-list">
-        <div v-for="review in reviews " :key="review.review_id" class="reviews-item">
+        <div v-for="review in reviews" :key="review.review_id" class="reviews-item">
 
           <div class="reviews-item-header">
             <div class="reviews-image-h1">
               <img :src="review.avatar" alt="загрузка">
-              <h1>{{ review.username }}</h1>
+              <h1>{{ review.login }}</h1>
             </div>
             <div class="reviews-item-header-mark">
               <div class="marks" v-for="mark in review.mark">
@@ -120,9 +120,9 @@
             </div>
           </div>
 
-          <div class="reviews-item-image">
+          <!-- <div class="reviews-item-image">
             <img :src="getImage(review.review_id)" alt="image">
-          </div>
+          </div> -->
 
           <div class="reviews-item-text">
             <p>{{ review.text }}</p>
@@ -147,44 +147,46 @@
 <script>
 import { useRoute } from "vue-router";
 import MyTextArea from "@/components/UI/MyTextArea.vue";
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
-import { getPlaceByID, getReviewsByID, postReview, getAvatarByID, uploadReviewImageByID, getImageReviewByID, getImageByID, getUserByID } from "@/api/methods.js";
 import { createID } from "@/api/cheeze";
 
 export default {
   name: "place-id-reviews",
   components: {
     'my-text-area': MyTextArea,
+    Swiper,
+    SwiperSlide,
+    MyModal,
   },
-  beforeMount() {
+  async beforeMount() {
     const route = useRoute();
 
-    getPlaceByID(route.params.id)
-      .then((response) => {
-        this.place = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    getReviewsByID(route.params.id)
-      .then((response) => {
-        this.reviews = response.data;
-        console.log(this.reviews);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await this.$store.dispatch("fetchPlaceImages", route.params.id);
+    await this.$store.dispatch("fetchPlaceInfo", route.params.id);
+    await this.$store.dispatch("fetchReviewItemImages", route.params.id);
+    await this.$store.dispatch("fetchReviewItemInfo", route.params.id);
 
   },
+  computed: {
+    place_images() {
+      return this.$store.state.place_page_images;
+    },
+    place() {
+      return this.$store.state.place_page_info;
+    },
+    reviews() {
+      return this.$store.state.review_item_info;
+    },
+    all_reviews_image() {
+      return this.$store.state.review_item_images;
+    }
+  },
+
+
   data() {
     return {
-      place: {},
-      reviews: [],
-      images: [],
-
       selected: 0,
       marks: [1, 2, 3, 4, 5, 7, 8, 9, 10],
       swiperOptions: {
@@ -197,32 +199,7 @@ export default {
       reviews_text: "",
       review_image: null,
       upload_image: null,
-      all_reviews_image: [],
     };
-  },
-  async mounted() {
-    const route = useRoute();
-    this.images = await getImageByID(route.params.id);
-
-    getImageReviewByID(route.params.id)
-      .then((response) => {
-        this.all_reviews_image = response;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    for (let i = 0; i < this.reviews.length; i++) {
-      console.log(this.reviews[i].user_id);
-      const data = await getUserByID(this.reviews[i].user_id);
-      console.log(data.data.login);
-      this.reviews[i].username = data.data.login
-    }
-
-    for (let i = 0; i < this.reviews.length; i++) {
-      console.log(this.reviews[i].user_id);
-      this.reviews[i].avatar = await getAvatarByID(this.reviews[i].user_id);
-    }
   },
   methods: {
     textInput(event) {
@@ -252,27 +229,9 @@ export default {
         };
       }
     },
-    getImage(id) {
-      if (this.all_reviews_image && id in this.all_reviews_image) {
-        return this.all_reviews_image[id];
-      } else {
-        console.log(`Изображение с айди ${id} не найдено`);
-        return '';
-      }
-    },
-    getReviewAvatar(id) {
-      if (this.reviews && id in this.reviews) {
-        return this.reviews[id].avatar;
-      } else {
-        console.log(`Изображение с айди ${id} не найдено`);
-        return '';
-      }
-    },
 
-    addReview() {
-
+    async addReview() {
       const id = createID();
-
       const data = {
         review_id: id,
         place_id: this.place.place_id,
@@ -282,34 +241,16 @@ export default {
         mark: this.selected,
       }
 
-      this.model = !this.model;
-
-      postReview(data)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
       const review_pack = {
         review_id: id,
         file: this.upload_image
       }
+      this.model = !this.model;
 
-      uploadReviewImageByID(review_pack)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      await this.$store.dispatch('addReview', data);
+      await this.$store.dispatch('addReviewImage', review_pack);
+
     },
-  },
-  components: {
-    Swiper,
-    SwiperSlide,
-    MyModal,
   },
 };
 </script>

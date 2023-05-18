@@ -11,6 +11,8 @@ import 'swiper/swiper-bundle.css'
 import '@/assets/styles/main.css'
 import 'bottom-navigation-vue/dist/style.css'
 
+import store from './store'
+
 library.add(faUserSecret)
 
 const app = createApp(App)
@@ -24,4 +26,5 @@ directives.forEach((directive) => {
 })
 
 app.use(SwipeNavigationVue)
+app.use(store)
 app.use(router).mount('#app')
