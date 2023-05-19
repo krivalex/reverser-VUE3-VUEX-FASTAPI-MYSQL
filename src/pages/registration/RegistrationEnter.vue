@@ -1,23 +1,25 @@
 <template>
-  <div class="split left" @click="redirectClientRegistration">
-    <div class="centered">
-      <img src="@/assets/client.jpg" alt="пользователь">
-      <h2>Пользователь приложения</h2>
-      <p>После прохождения регистрации, вы сможете просматривать больше информации, читать и оставлять отзывы и
-        рейтинги,пользоваться личной системой рекомендаций</p>
-      <button>Регистрация как "Пользователь"</button>
+  <section id="register-enter">
+    <div class="split left" @click="redirectClientRegistration">
+      <div class="centered">
+        <img src="@/assets/client.jpg" alt="пользователь">
+        <h2>Пользователь приложения</h2>
+        <p>После прохождения регистрации, вы сможете просматривать больше информации, читать и оставлять отзывы и
+          рейтинги,пользоваться личной системой рекомендаций</p>
+        <button>Регистрация как "Пользователь"</button>
+      </div>
     </div>
-  </div>
 
-  <div class="split right" @click="redirectManagerRegistration">
-    <div class="centered">
-      <img src="@/assets/manager.png" alt="владелец">
-      <h2>Владелец или менеджер заведения</h2>
-      <p>После прохождения регистрации, вы сможете добавить свое заведение, и редактировать любую информацию в нем,
-        просматривать и отвечать на отзывы под вашим заведением</p>
-      <button>Регистрация как "Владелец"</button>
+    <div class="split right" @click="redirectManagerRegistration">
+      <div class="centered">
+        <img src="@/assets/manager.png" alt="владелец">
+        <h2>Владелец или менеджер заведения</h2>
+        <p>После прохождения регистрации, вы сможете добавить свое заведение, и редактировать любую информацию в нем,
+          просматривать и отвечать на отзывы под вашим заведением</p>
+        <button>Регистрация как "Владелец"</button>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -36,6 +38,15 @@ export default {
 </script>
 
 <style scoped>
+#register-enter {
+  position: relative;
+  height: calc(100vh-60px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Split the screen in half */
 .split {
   height: 100%;
@@ -44,6 +55,7 @@ export default {
   z-index: 1;
   top: 0;
   overflow-x: hidden;
+  overflow-y: hidden;
   padding-top: 20px;
 }
 
