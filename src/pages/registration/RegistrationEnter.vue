@@ -41,7 +41,7 @@ export default {
 #register-enter {
   position: relative;
   height: calc(100vh-60px);
-  width: 100%;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -160,7 +160,7 @@ export default {
 @media screen and (max-width: 767px) {
 
   .split {
-    height: 47%;
+    height: 50%;
     width: 100%;
     position: fixed;
     z-index: 1;
@@ -213,8 +213,82 @@ export default {
 
   .centered {
     width: 100vw;
-    height: 45vh;
   }
 
+}
+
+@media screen and (max-height: 700px) {
+  .split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-top: 20px;
+  }
+
+  .left {
+    left: 0;
+    background-color: white;
+  }
+
+  .right {
+    right: 0;
+    background-color: #ec4967;
+    color: white;
+  }
+
+  .centered {
+    width: 100vw;
+  }
+
+  .centered img {
+    width: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .centered h2 {
+    font-size: 0.8rem;
+    max-width: 40%;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    margin: 10px auto;
+  }
+
+  .centered p {
+    font-size: 0.7rem;
+    padding: 0 10px;
+    font-weight: 400;
+    max-width: 40%;
+    text-align: center;
+    margin: 10px auto;
+  }
+
+  .left button {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #ec4967;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .right button {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    color: #ec4967;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
 }
 </style>
