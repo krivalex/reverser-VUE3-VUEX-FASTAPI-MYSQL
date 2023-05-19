@@ -1,5 +1,5 @@
 <template>
-  <div class="split left">
+  <div class="split left" @click="redirectClientRegistration">
     <div class="centered">
       <img src="@/assets/client.jpg" alt="пользователь">
       <h2>Пользователь приложения</h2>
@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <div class="split right">
+  <div class="split right" @click="redirectManagerRegistration">
     <div class="centered">
       <img src="@/assets/manager.png" alt="владелец">
       <h2>Владелец или менеджер заведения</h2>
@@ -24,7 +24,14 @@
 export default {
   name: "registration-enter",
   components: {},
-  methods: {},
+  methods: {
+    redirectClientRegistration() {
+      this.$router.push({ name: "client_registration" });
+    },
+    redirectManagerRegistration() {
+      this.$router.push({ name: "manager_registration" });
+    },
+  },
 };
 </script>
 

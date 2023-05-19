@@ -3,10 +3,10 @@
     <main class="main">
       <router-view />
     </main>
-    <div v-if="$route.name === 'place' || $route.name === 'reviews'">
+    <div v-if="this.for_place.includes($route.name)">
       <place-navbar />
     </div>
-    <div v-else-if="$route.name === 'registration' || $route.name === 'login' || $route.name === 'enter'">
+    <div v-else-if="this.for_registration.includes($route.name)">
       <register-navbar />
     </div>
     <div v-else-if="$route.name === 'admin'">
@@ -34,7 +34,12 @@ export default {
     RegisterNavbar,
     AdminNavbar,
   },
-
+  setup() {
+    return {
+      for_registration: ['registration', 'login', 'enter', 'client_registration', 'manager_registration'],
+      for_place: ['place', 'reviews'],
+    };
+  },
 };
 </script>
 
