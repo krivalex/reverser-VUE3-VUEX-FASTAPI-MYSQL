@@ -16,7 +16,7 @@
 
       <div class="icon-button">
         <i class="fa fa-heart" aria-hidden="true"></i>
-        <i class="fa fa-share" aria-hidden="true"></i>
+        <i class="fa fa-share" aria-hidden="true" @click="share"></i>
       </div>
 
       <div class="place-name">
@@ -277,6 +277,20 @@ export default {
       await this.$store.dispatch('addReviewImage', review_pack);
 
     },
+    share() {
+      const route = useRoute();
+      if (navigator.share) {
+        navigator.share({
+          title: 'Заголовок',
+          text: 'Текст для поделиться',
+          url: `https://reverse-travelling.netlify.app/place/${route.params.id}`
+        })
+          .then(() => console.log('Ссылка успешно поделена'))
+          .catch((error) => console.log('Ошибка при попытке поделиться:', error));
+      } else {
+        console.log('Браузер не поддерживает функцию поделиться');
+      }
+    }
   },
   components: {
     Swiper,
@@ -371,6 +385,7 @@ export default {
   font-size: larger;
   font-weight: 600;
   font-size: 30px;
+  margin-right: 15px;
 }
 
 .place-short-description {
@@ -796,20 +811,22 @@ input[type="file" i] {
   margin-left: 12px;
   padding: 10px;
   border-radius: 50%;
+  cursor: pointer;
+  z-index: 11;
 }
 
 .icon-button {
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 1000;
-  cursor: pointer;
+  z-index: 10;
   padding: 10px;
 }
 
 .place-name h2 {
   font-size: 20px;
   position: absolute;
+  margin-left: 15px;
   bottom: 0;
   left: 0;
   padding: 5px 10px;
