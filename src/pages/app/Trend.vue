@@ -77,6 +77,7 @@ export default {
 .waiting {
   width: 75%;
   margin: auto auto;
+  filter: contrast(0);
 }
 
 #trend {
