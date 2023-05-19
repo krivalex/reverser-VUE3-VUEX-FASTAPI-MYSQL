@@ -9,6 +9,7 @@ const Trend = () => import('@/pages/app/Trend.vue')
 
 const NotFound = () => import('@/pages/app/NotFound.vue')
 
+const EnterRegistaration = () => import('@/pages/registration/RegistrationEnter.vue')
 const ClientRegistration = () => import('@/pages/registration/ClientRegistration.vue')
 const Login = () => import('@/pages/registration/Login.vue')
 const Enter = () => import('@/pages/registration/Enter.vue')
@@ -41,6 +42,12 @@ const routes = [
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: NotFound,
+    meta: { isAuth: false },
+  },
+  {
+    path: '/registration',
+    name: 'registration',
+    component: EnterRegistaration,
     meta: { isAuth: false },
   },
   {

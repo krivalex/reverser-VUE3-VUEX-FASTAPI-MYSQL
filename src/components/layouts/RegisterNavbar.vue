@@ -1,6 +1,6 @@
 <template>
-  <SwipeBottomNavigation :options="options" v-model="selected" swiper-color='white' background-color='white'
-    icon-color='#DC143C' />
+  <SwipeBottomNavigation :options="options" v-model="selected" swiper-color='#DC143C' background-color='black'
+    icon-color='white' />
 </template>
 
 <script>
@@ -15,15 +15,18 @@ export default {
     options: [
       { id: 1, icon: "fa fa-backward", title: "Назад", path: { name: "home" } },
       { id: 2, icon: "fa fa-info", title: "О приложении", path: { name: "enter" } },
-      { id: 3, icon: "fa fa-plus", title: "Регистрация", path: { name: "client_registration" } },
+      { id: 3, icon: "fa fa-plus", title: "Регистрация", path: { name: "registration" } },
       { id: 4, icon: "fa fa-user", title: "Войти", path: { name: "login" } },
     ],
     swiperColor: '#8066C7',
     backgroundColor: '#ed7979',
-    iconColor: '#ffffff7',
+    iconColor: 'white',
   }),
 };
 </script>
 
 <style>
+i {
+  color: white;
+}
 </style>
