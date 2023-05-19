@@ -95,6 +95,11 @@
         <div class="place-long-description">
           <p class="long-decription" v-if="place.long_description">{{ place.long_description }}</p>
           <p class="long-decription" v-else>Длинное описание</p>
+          <ShareNetwork url="https://news.vuejs.org/issues/180" network="WhatsApp"
+            title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
+            description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You.">
+            Share on Facebook
+          </ShareNetwork>
         </div>
       </div>
 
@@ -183,6 +188,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
 import { createID } from "@/api/cheeze";
+import ShareNetworks from 'vue-social-sharing';
 
 
 
@@ -278,12 +284,16 @@ export default {
 
     },
     share() {
-      const route = useRoute();
+      const dummyInput = document.createElement('input');
+      dummyInput.value = window.location.href;
+      document.body.appendChild(dummyInput);
+      dummyInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummyInput);
+
       if (navigator.share) {
         navigator.share({
-          title: 'Заголовок',
-          text: 'Текст для поделиться',
-          url: `https://reverse-travelling.netlify.app/place/${route.params.id}`
+          url: window.location.href
         })
           .then(() => console.log('Ссылка успешно поделена'))
           .catch((error) => console.log('Ошибка при попытке поделиться:', error));
@@ -295,7 +305,8 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-    MyModal
+    MyModal,
+    ShareNetworks
   },
 
 };  
@@ -317,14 +328,14 @@ export default {
 }
 
 .place-front p {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 400;
   margin-bottom: 2px;
   color: gray;
 }
 
 .place-front i {
-  font-size: 18px;
+  font-size: 22px;
   margin-bottom: 2px;
   color: gray;
 }
@@ -348,10 +359,17 @@ export default {
   align-items: center;
 }
 
-.place-mark i {
+.fa-heart {
   color: #DC143C;
   margin-right: 3px;
   font-size: 20px;
+}
+
+.fa-star {
+  color: #f6ff00;
+  margin-right: 3px;
+  font-size: 20px;
+  -webkit-text-stroke: #000000 0.5px;
 }
 
 .place-mark p {
@@ -539,7 +557,7 @@ export default {
 }
 
 .place-button-rewiew button {
-  background-color: #DC143C;
+  background-color: black;
   color: white;
   border: none;
   padding: 10px 30px;

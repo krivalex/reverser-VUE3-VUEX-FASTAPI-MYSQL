@@ -17,7 +17,7 @@ export default {
       {
         selected: 2,
         options: [
-          { id: 1, icon: "fa fa-backward", title: "Назад", path: { name: "home" } },
+          { id: 1, icon: "fa fa-arrow-left", title: "Назад", path: { name: "home" } },
           { id: 2, icon: "fa fa-book", title: "О заведении", path: { name: "place" } },
           { id: 3, icon: "fa fa-comments", title: "Отзывы", path: { name: "reviews", params: { id: route.params.id } } },
         ],

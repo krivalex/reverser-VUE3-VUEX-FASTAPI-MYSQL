@@ -13,7 +13,7 @@ export default {
   data: () => ({
     selected: 1,
     options: [
-      { id: 1, icon: "fa fa-backward", title: "Назад", path: { name: "home" } },
+      { id: 1, icon: "fa fa-arrow-left", title: "Назад", path: { name: "home" } },
       { id: 2, icon: "fa fa-gear", title: "Добавить заведение", path: { name: "admin" } },
     ],
     swiperColor: '#8066C7',
