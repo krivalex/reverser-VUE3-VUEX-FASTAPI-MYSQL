@@ -1,5 +1,45 @@
 <template>
-  <div class="container place-full">
+  <div class="place-full">
+
+    <div class="place-image-slider">
+
+      <swiper :options="swiperOptions" v-if="this.place_images !== null && this.place_images !== 'null'">
+        <swiper-slide v-for="(slide, index) in this.place_images" :key="index">
+          <img class="place-image" :src="slide" alt="place" />
+          <span class="place-number-of-photo">{{ index + 1 }} / {{ this.place_images.length }}</span>
+        </swiper-slide>
+      </swiper>
+
+      <div class="place-image" v-else>
+        <img class="place-image" src="@/assets/no-image.jpg" alt="place" />
+      </div>
+
+      <div class="icon-button">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+        <i class="fa fa-share" aria-hidden="true"></i>
+      </div>
+
+      <div class="place-name">
+        <h2>{{ place.short_description }}</h2>
+      </div>
+
+      <div class="place-social-media">
+
+        <div class="place-social-media-item" v-if="place.two_gis_url" @click="TwoGISRedirect">
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+        </div>
+
+        <div class="place-social-media-item" v-if="place.instagram_link" @click="InstagramRedirect">
+          <i class="fa fa-instagram" aria-hidden="true"></i>
+        </div>
+
+        <div class="place-social-media-item" v-if="place.phone" @click="WhatsappRedirect">
+          <i class="fa fa-whatsapp" aria-hidden="true"></i>
+        </div>
+
+      </div>
+
+    </div>
 
     <div class="no-background">
       <div class="place-front">
@@ -8,52 +48,14 @@
         <i class="fa fa-home" aria-hidden="true"></i>
       </div>
 
-      <div class="place-rating">
-
-        <div class="place-mark">
-          <i class="fa fa-star" aria-hidden="true"></i>
-          <p>9.6</p>
-        </div>
-
-        <div class="place-mark">
-          <i class="fa fa-heart" aria-hidden="true"></i>
-          <p>999</p>
-        </div>
 
 
-
-      </div>
-
-      <div class="place-image-slider">
-
-        <swiper :options="swiperOptions" v-if="this.place_images !== null && this.place_images !== 'null'">
-          <swiper-slide v-for="(slide, index) in this.place_images" :key="index">
-            <img class="place-image" :src="slide" alt="place" />
-            <span class="place-number-of-photo">{{ index + 1 }} / {{ this.place_images.length }}</span>
-          </swiper-slide>
-        </swiper>
-
-        <div class="place-image" v-else>
-          <img class="place-image" src="@/assets/no-image.jpg" alt="place" />
-        </div>
-
-      </div>
-
-
-      <div class="place-short-description">
-        <p class="short-decription" v-if="place.short_description">{{ place.short_description }}</p>
-        <p class="short-decription" v-else>Короткое описание</p>
-      </div>
-
-      <div class="place-nav-like">
+      <!-- <div class="place-nav-like">
         <div class="button-nav">
           <button @click="redirectPlace" id="info" class="place-info">Инфо</button>
           <button @click="redirectReviews" id="review" class="place-rewiew">Отзывы</button>
         </div>
-        <div class="like">
-          <i class="fa fa-heart" aria-hidden="true"></i>
-        </div>
-      </div>
+      </div> -->
 
 
       <div class="place-info">
@@ -68,7 +70,7 @@
           </div>
 
           <div class="place-option">
-            <i class="fa fa-car" aria-hidden="true"></i>
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
             <p class="place-category">
               {{ place.geometry_name }}
             </p>
@@ -82,26 +84,10 @@
           </div>
 
           <div class="place-option" v-if="place.start_work_time && place.end_work_time">
-            <i class="fa fa-fire" aria-hidden="true"></i>
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
             <p class="place-category">
               {{ place.start_work_time.slice(0, 5) }} - {{ place.end_work_time.slice(0, 5) }}
             </p>
-          </div>
-
-        </div>
-
-        <div class="place-social-media">
-
-          <div class="place-social-media-item" v-if="place.two_gis_url" @click="TwoGISRedirect">
-            <img class="social-logo" src="@/assets/2gis.png">
-          </div>
-
-          <div class="place-social-media-item" v-if="place.instagram_link" @click="InstagramRedirect">
-            <img class="social-logo" src="@/assets/instagram.png">
-          </div>
-
-          <div class="place-social-media-item" v-if="place.phone" @click="WhatsappRedirect">
-            <img class="social-logo" src="@/assets/whatsapp.png">
           </div>
 
         </div>
@@ -164,11 +150,23 @@
 
       </my-modal>
 
+      <div class="place-rating">
+        <div class="place-mark">
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <p>9.6</p>
+        </div>
+
+        <div class="place-mark">
+          <i class="fa fa-heart" aria-hidden="true"></i>
+          <p>999</p>
+        </div>
+      </div>
+
     </div>
 
     <div class="clist">
       <div v-for="tag in this.tags">
-        <div class="citem">
+        <div v-if="tag !== ''" class="citem">
           {{ tag }}
         </div>
       </div>
@@ -293,12 +291,12 @@ export default {
 .place-front {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-end;
 }
 
 .place-front h2 {
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 600;
   margin: 0;
   padding: 0;
@@ -318,12 +316,15 @@ export default {
 }
 
 .place-rating {
+  position: absolute;
+  bottom: 0;
+  max-width: 100vw;
+  width: 95%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-top: 10px;
-  padding-bottom: 5px;
+  padding: 5px 20px;
 }
 
 .place-mark {
@@ -348,25 +349,28 @@ export default {
 
 .place-image-slider {
   width: 100%;
-  height: 200px;
+  height: 350px;
   position: relative;
 }
 
 .place-image {
   width: 100%;
-  height: 200px;
+  height: 370px;
   object-fit: cover;
   position: relative;
 }
 
 .place-number-of-photo {
   position: absolute;
-  bottom: 0;
+  bottom: 6%;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(245, 245, 245, 0.545);
+  -webkit-text-stroke: 1px #000000;
   color: white;
   padding: 7px;
   font-size: larger;
+  font-weight: 600;
+  font-size: 30px;
 }
 
 .place-short-description {
@@ -434,7 +438,8 @@ export default {
 }
 
 .place-info {
-  margin-top: 20px;
+  margin-top: 40px;
+  position: relative;
 }
 
 .place-options {
@@ -469,17 +474,21 @@ export default {
 }
 
 .place-social-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 10px;
-  margin-left: 10px;
+  padding: 10px;
 }
 
+
 .social-logo {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   margin-right: 10px;
   object-fit: cover;
   border-radius: 15px;
@@ -544,7 +553,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  background-color: #FD6D6D;
+  background-color: #908f8f;
   color: white
 }
 
@@ -561,8 +570,11 @@ export default {
 .no-background {
   background-color: white;
   padding: 10px;
-  border-radius: 15px;
+  border-radius: 25px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 30;
+  position: relative;
+  height: 500px;
 }
 
 .add_reviews {
@@ -775,5 +787,70 @@ input[type="file" i] {
   .place-number-of-photo {
     font-size: 50px;
   }
+}
+
+.icon-button i {
+  -webkit-text-stroke: 2px #000000;
+  font-size: 30px;
+  background-color: rgba(245, 245, 245, 0.825);
+  margin-left: 12px;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.icon-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.place-name h2 {
+  font-size: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 5px 10px;
+  background-color: rgba(245, 245, 245, 0.695);
+  z-index: 20;
+  max-width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.place-social-media-item {
+  font-size: 35px;
+  background-color: rgba(245, 245, 245, 0.901);
+  margin-left: 12px;
+  padding: 5px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.place-social-media-item i {
+  -webkit-text-stroke: 0.5px #000000;
+  font-size: 35px;
+}
+
+.fa-instagram {
+  color: #e75f8c;
+  font-size: 30px;
+}
+
+.fa-whatsapp {
+  color: #25D366;
+  font-size: 30px;
+}
+
+.fa-map-marker {
+  color: #5c8aed;
+  font-size: 30px;
 }
 </style>
