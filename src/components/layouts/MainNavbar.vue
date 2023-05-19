@@ -1,6 +1,6 @@
 <template>
   <SwipeBottomNavigation class="swiper" :options="options" v-model="selected" swiper-color='#FFFFFF'
-    background-color='#DC143C' icon-color='#FFFFFF' style="transform-y: scale(0.5)" />
+    background-color='black' icon-color='#FFFFFF' />
 </template>
 
 <script>

@@ -118,7 +118,7 @@ export default {
 
 <style scoped>
 #login {
-  background-color: #DC143C;
+  background-color: #535353;
   height: 100vh;
   width: 100vw;
   display: flex;

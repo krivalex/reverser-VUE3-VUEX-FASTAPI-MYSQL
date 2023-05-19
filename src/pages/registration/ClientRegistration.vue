@@ -5,6 +5,7 @@
 
       <div class="register-label">
         <h1>Регистрация</h1>
+        <p>"Пользователь"</p>
       </div>
 
       <div class="inputs">
@@ -170,10 +171,8 @@
       </div>
     </div>
 
-
-
+    <div class="zaglushka"></div>
   </section>
-  <div class="zaglushka"></div>
 </template>
 
 <script>
@@ -431,7 +430,7 @@ export default {
 
 <style scoped>
 #registration {
-  background-color: #DC143C;
+  background-color: #535353;
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -496,12 +495,13 @@ export default {
   width: 80%;
   height: 50px;
   border-radius: 50px;
-  background-color: #D9C5C9;
+  background-color: #ec4967;
   color: black;
   font-size: 20px;
   font-weight: bold;
   text-decoration: none;
   border: 0px;
+  margin-top: 15px;
 }
 
 .register-selected {

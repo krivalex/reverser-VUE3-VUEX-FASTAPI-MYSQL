@@ -1,7 +1,9 @@
 <template>
   <div class="wrapper">
     <main class="main">
-      <router-view />
+      <transition name="fade">
+        <router-view />
+      </transition>
     </main>
     <div v-if="this.for_place.includes($route.name)">
       <place-navbar />
@@ -19,7 +21,6 @@
 </template>
 
 <script>
-import FooterComponent from "./trash/Footer.vue";
 import MobileComponent from "./components/layouts/MainNavbar.vue";
 import PlaceNavbar from "./components/layouts/PlaceNavbar.vue";
 import RegisterNavbar from "./components/layouts/RegisterNavbar.vue";
@@ -28,7 +29,6 @@ import AdminNavbar from "./components/layouts/AdminNavbar.vue";
 export default {
   name: "App vue",
   components: {
-    FooterComponent,
     MobileComponent,
     PlaceNavbar,
     RegisterNavbar,
@@ -43,7 +43,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 /* sticky footer */
 .wrapper {
   display: flex;
@@ -57,5 +57,18 @@ export default {
 
 .footer {
   flex-shrink: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+  transform: rotate3d(1, 0, 0, 0deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: rotate3d(1, 0, 0, 180deg);
 }
 </style>

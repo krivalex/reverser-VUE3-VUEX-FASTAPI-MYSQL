@@ -6,7 +6,6 @@
       <places-list :places="places" />
     </div>
     <div class="zaglushka"></div>
-
   </div>
 </template>
 <script>

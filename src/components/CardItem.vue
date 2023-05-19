@@ -2,6 +2,14 @@
   <div class="place">
     <div class="place-image">
       <span>{{ place.short_description }}</span>
+      <div class="place-marks">
+        <!-- <p class="like-red" @click="addToFavourite" v-if="InFavourites(place.place_id)">
+          <i class="fa fa-heart" aria-hidden="true"></i>
+        </p> -->
+        <p class="like" @click="addToFavourite">
+          <i class="fa fa-heart" aria-hidden="true"></i>
+        </p>
+      </div>
       <img :src="image" alt="place" @click="routeToPlace" />
     </div>
 
@@ -27,14 +35,7 @@
 
       </div>
 
-      <div class="place-marks">
-        <p class="like-red" @click="addToFavourite" v-if="InFavourites(place.place_id)">
-          <i class="fa fa-heart" aria-hidden="true"></i>
-        </p>
-        <p class="like" @click="addToFavourite" v-else>
-          <i class="fa fa-heart" aria-hidden="true"></i>
-        </p>
-      </div>
+
 
     </div>
   </div>
@@ -108,7 +109,13 @@ export default {
   height: 200px;
   object-fit: cover;
   border-radius: 20px;
-  border: 2px solid rgb(0, 0, 0);
+  border: 0px solid rgb(0, 0, 0);
+}
+
+.like i {
+  color: rgba(255, 255, 255, 0.494);
+  -webkit-text-stroke: 2px #000000;
+  padding-right: 5px;
 }
 
 .like:hover {
@@ -197,14 +204,21 @@ export default {
 
 .place-image span {
   position: absolute;
-  top: 5%;
-  left: 5%;
+  bottom: 5%;
+  right: 2%;
   font-size: 20px;
   font-weight: bold;
   color: #000000;
   background-color: #f5f5f5;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   border-radius: 55px;
   padding: 5px 10px;
+}
+
+.place-marks {
+  position: absolute;
+  top: 5%;
+  right: 2%;
 }
 
 @media screen and (min-width: 768px) {

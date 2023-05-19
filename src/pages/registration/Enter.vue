@@ -8,8 +8,7 @@
     </div>
     <div class="enter-info_more">
       <h2>
-        Чтобы просматривать отзывы, добавлять заведения в избранные, и пользоваться рекомендациями,
-        вам нужно зарегистрироваться или войти в свой аккаунт
+        Приложение для создания полной коммуникации между клиентами и владельцами заведений
       </h2>
     </div>
     <div class="about-team">
@@ -54,7 +53,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #DC143C;
+  background-color: #535353;
   color: white;
   text-align: center;
 }

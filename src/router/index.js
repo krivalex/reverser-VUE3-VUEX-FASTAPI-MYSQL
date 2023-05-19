@@ -22,75 +22,75 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
-    meta: { isAuth: false },
+    meta: { isAuth: false, trasition: 'fade' },
   },
   {
     path: '/place/:id',
     name: 'place',
     component: PlacePage,
     props: true,
-    meta: { isAuth: false },
+    meta: { isAuth: false, trasition: 'fade' },
   },
   {
     path: '/reviews/:id',
     name: 'reviews',
     component: PlaceReviews,
     props: true,
-    meta: { isAuth: true },
+    meta: { isAuth: true, trasition: 'fade' },
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: NotFound,
-    meta: { isAuth: false },
+    meta: { isAuth: false, trasition: 'fade' },
   },
   {
     path: '/registration',
     name: 'registration',
     component: EnterRegistaration,
-    meta: { isAuth: false },
+    meta: { isAuth: false, trasition: 'fade' },
   },
   {
     path: '/client_registration',
     name: 'client_registration',
     component: ClientRegistration,
-    meta: { isAuth: false },
+    meta: { isAuth: false, trasition: 'fade' },
   },
   {
     path: '/login',
     name: 'login',
     component: Login,
-    meta: { isAuth: false },
+    meta: { isAuth: false, trasition: 'fade' },
   },
   {
     path: '/profile',
     name: 'profile',
     component: Profile,
-    meta: { isAuth: true },
+    meta: { isAuth: true, trasition: 'fade' },
   },
   {
     path: '/trend',
     name: 'trend',
     component: Trend,
-    meta: { isAuth: true },
+    meta: { isAuth: true, trasition: 'fade' },
   },
   {
     path: '/admin',
     name: 'admin',
     component: Admin,
-    meta: { isAuth: true, admin: true },
+    meta: { isAuth: true, admin: true, trasition: 'fade' },
   },
   {
     path: '/enter',
     name: 'enter',
     component: Enter,
-    meta: { isAuth: false },
+    meta: { isAuth: false, trasition: 'fade' },
   },
   {
     path: '/reset',
     name: 'reset',
     component: ResetPassword,
-    meta: { isAuth: false },
+    meta: { isAuth: false, trasition: 'fade' },
   },
 ]
 
@@ -102,6 +102,14 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const isAuth = localStorage.getItem('user_id')
   const isAdmin = localStorage.getItem('admin_id')
+
+  const toMeta = to.meta.transition
+  const fromMeta = from.meta.transition
+
+  if (toMeta && fromMeta && toMeta !== fromMeta) {
+    document.body.classList.remove(fromMeta)
+    document.body.classList.add(toMeta)
+  }
 
   // Redirect to admin page if user has admin privileges
   if (to.meta.admin && isAdmin) {

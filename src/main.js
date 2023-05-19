@@ -10,6 +10,7 @@ import SwipeNavigationVue from 'bottom-navigation-vue'
 import 'swiper/swiper-bundle.css'
 import '@/assets/styles/main.css'
 import 'bottom-navigation-vue/dist/style.css'
+import 'animate.css'
 
 import store from './store'
 

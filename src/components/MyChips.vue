@@ -113,7 +113,7 @@ export default {
 .chip_form {
   margin: 5px 5px;
   padding: 20px;
-  box-shadow: 0px 1px 6px #a3bcb9;
+  box-shadow: 0px 1px 6px #797979;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -131,8 +131,7 @@ export default {
   border-radius: 55px;
   padding: 10px 20px;
   color: #fff;
-  background-color: #f53b3b;
-  box-shadow: 0px 1px 6px #86efac;
+  background-color: #000000;
   width: fit-content;
   margin: 3px 5px;
   cursor: pointer;
@@ -152,7 +151,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  background-color: #FD6D6D;
+  background-color: #888888;
   color: white;
   font-size: 18px;
 }
@@ -173,7 +172,7 @@ export default {
 }
 
 .input-main-input {
-  background-color: #DC143C;
+  background-color: black;
   color: white;
   border-radius: 20px;
 }
@@ -203,7 +202,7 @@ export default {
 }
 
 .citem-popular {
-  background-color: #DC143C;
+  background-color: #908f8f;
   color: white;
   font-size: 15px;
   padding: 5px 10px;
@@ -243,7 +242,7 @@ export default {
 
   .chip_form {
     overflow: hidden;
-    max-height: 150px;
+    max-height: 250px;
     max-width: 70%;
     margin: 0 auto;
   }
