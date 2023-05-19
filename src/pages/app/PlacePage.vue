@@ -95,11 +95,6 @@
         <div class="place-long-description">
           <p class="long-decription" v-if="place.long_description">{{ place.long_description }}</p>
           <p class="long-decription" v-else>Длинное описание</p>
-          <ShareNetwork url="https://news.vuejs.org/issues/180" network="WhatsApp"
-            title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-            description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You.">
-            Share on Facebook
-          </ShareNetwork>
         </div>
       </div>
 
@@ -162,6 +157,16 @@
         </div>
 
         <div class="place-mark">
+          <i class="fa fa-comments" aria-hidden="true"></i>
+          <p>999</p>
+        </div>
+
+        <div class="place-mark">
+          <i class="fa fa-trophy" aria-hidden="true"></i>
+          <p>999</p>
+        </div>
+
+        <div class="place-mark">
           <i class="fa fa-heart" aria-hidden="true"></i>
           <p>999</p>
         </div>
@@ -188,7 +193,6 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
 import { createID } from "@/api/cheeze";
-import ShareNetworks from 'vue-social-sharing';
 
 
 
@@ -234,12 +238,6 @@ export default {
     },
     InstagramRedirect() {
       window.open(this.place.instagram_link, '_blank')
-    },
-    redirectPlace() {
-      this.$router.push(`/place/${this.place.place_id}`)
-    },
-    redirectReviews() {
-      this.$router.push(`/reviews/${this.place.place_id}`)
     },
     showModel() {
       this.model = !this.model;
@@ -306,13 +304,16 @@ export default {
     Swiper,
     SwiperSlide,
     MyModal,
-    ShareNetworks
   },
 
 };  
 </script>
 
 <style scoped>
+.place-full {
+  font-family: 'Play', sans-serif;
+}
+
 .place-front {
   display: flex;
   flex-direction: row;
@@ -361,6 +362,18 @@ export default {
 
 .fa-heart {
   color: #DC143C;
+  margin-right: 3px;
+  font-size: 20px;
+}
+
+.fa-trophy {
+  color: #4d52f3;
+  margin-right: 3px;
+  font-size: 20px;
+}
+
+.fa-comments {
+  color: #4df36e;
   margin-right: 3px;
   font-size: 20px;
 }
@@ -581,7 +594,7 @@ export default {
   border-radius: 1rem;
   cursor: pointer;
   font-size: 15px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: 'Unbounded', cursive;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -608,10 +621,11 @@ export default {
   z-index: 30;
   position: relative;
   height: 500px;
+
 }
 
 .add_reviews {
-  background-color: #DC143C;
+  background-color: #908f8f;
   color: white;
   position: relative;
   max-width: 60vw;
@@ -724,6 +738,7 @@ input[type="file" i] {
   .place-full {
     padding: 30px 100px;
     overflow: hidden;
+
   }
 
   .no-background {

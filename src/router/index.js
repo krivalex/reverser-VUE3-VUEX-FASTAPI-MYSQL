@@ -35,7 +35,6 @@ const routes = [
     path: '/reviews/:id',
     name: 'reviews',
     component: PlaceReviews,
-    props: true,
     meta: { isAuth: true, trasition: 'fade' },
   },
   {

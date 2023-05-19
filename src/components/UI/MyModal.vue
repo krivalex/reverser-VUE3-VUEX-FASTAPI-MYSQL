@@ -39,7 +39,7 @@ export default {
 }
 
 .dialog-content {
-  background-color: #DC143C;
+  background-color: #908f8f;
   margin: auto;
   padding: 30px;
   border-radius: 20px;
@@ -55,6 +55,16 @@ export default {
   top: 0;
   right: 0;
   cursor: pointer;
+}
+
+.dialog-enter-active,
+.dialog-leave-active {
+  transition: opacity 0.3s;
+}
+
+.dialog-enter,
+.dialog-leave-to {
+  opacity: 0;
 }
 
 @media screen and (min-width: 768px) {

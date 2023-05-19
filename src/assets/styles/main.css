@@ -4,6 +4,9 @@
   box-sizing: border-box;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unbounded&display=swap');
+
 /* colors */
 /* red = #DC143C */
 
@@ -14,6 +17,7 @@
   background-image: url('@/assets/b.jpg');
   background-repeat: repeat;
   /* background-size: cover; */
+  font-family: 'Play', sans-serif;
 }
 
 #container {
@@ -37,7 +41,7 @@
 }
 
 .zaglushka {
-  height: 100px;
+  height: 60px;
 }
 
 .me {
