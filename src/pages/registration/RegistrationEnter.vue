@@ -40,11 +40,11 @@ export default {
 <style scoped>
 #register-enter {
   position: relative;
-  height: calc(100vh-60px);
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: calc(100vh - 60px)
 }
 
 /* Split the screen in half */
@@ -160,23 +160,22 @@ export default {
 @media screen and (max-width: 767px) {
 
   .split {
-    height: 50%;
-    width: 100%;
+    width: 100vw;
     position: fixed;
     z-index: 1;
     top: 0;
     overflow-x: hidden;
-    padding-top: 20px;
   }
 
   .left {
+    height: calc(50vh - 30px);
     top: 0;
     background-color: white;
-    height: 50%;
   }
 
   .right {
-    top: 47%;
+    height: calc(50vh - 30px);
+    top: calc(50vh - 30px);
     background-color: #ec4967;
     color: white;
   }
