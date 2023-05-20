@@ -6,7 +6,6 @@
         <my-input type="search" v-model="searchTag" @input="getTag" class="input-main-input"
           placeholder="Поиск по тегам" />
       </div>
-      <my-button class="search_chip_add" type="submit" @click="addTag">Add</my-button>
     </form>
     <div v-if="searchTag.length > 0" class="input-list">
       <div class="citem" v-for="item in prefenceTag()" :key="item" @click="doSelect(item)">
@@ -20,9 +19,9 @@
         {{ item }}
       </div>
     </div>
-    <div class="chip_preview" v-else>
+    <!-- <div class="chip_preview" v-else>
       Нажмите на теги, или найдите их через поиск
-    </div>
+    </div> -->
     <div v-if="lst.length > 0" class="clist">
       <div class="citem-popular citem" v-for="item in lst.slice(0, 30)" :key="item" @click="doSelect(item)">
         {{ item }}
@@ -109,17 +108,13 @@ export default {
 }
 
 </script>
+
 <style scoped>
 .chip_form {
-  margin: 5px 5px;
-  padding: 20px;
-  box-shadow: 0px 1px 6px #797979;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   overflow: scroll;
   max-height: 350px;
-  background-color: white;
 }
 
 .chip_list {
@@ -197,7 +192,7 @@ export default {
 
 .input-icon i {
   position: absolute;
-  top: 40%;
+  top: 45%;
   left: 5%;
 }
 
@@ -212,11 +207,11 @@ export default {
   display: flex;
   gap: 5px;
   flex-wrap: wrap;
+  margin: 0 10px;
   margin-top: 20px;
-  height: 190px;
+  height: 200px;
   overflow: auto;
-  justify-content: space-evenly;
-
+  justify-content: space-around;
 }
 
 .input-list {
@@ -229,10 +224,16 @@ export default {
 }
 
 .chip_preview {
-  color: gray;
+  color: black;
   font-size: 20px;
   font-style: italic;
   text-align: center;
+}
+
+.input-all {
+  margin-bottom: 10px;
+  width: 90%;
+  margin: 0 auto;
 }
 
 @media screen and (min-width: 768px) {
@@ -259,6 +260,7 @@ export default {
 
   .input-all {
     margin: 0 auto;
+    margin-bottom: 10px;
   }
 
   .input-input {
