@@ -11,33 +11,43 @@
     <div v-else-if="this.for_registration.includes($route.name)">
       <register-navbar />
     </div>
-    <div v-else-if="$route.name === 'admin'">
-      <admin-navbar />
+    <div v-else-if="this.for_client.includes($route.name)">
+      <client-navbar />
+    </div>
+    <div v-else-if="this.for_manager.includes($route.name)">
+      <manager-navbar />
+    </div>
+    <div v-else-if="$route.name == 'quit'">
     </div>
     <div v-else>
-      <mobile-component />
+      <main-navbar />
     </div>
   </div>
 </template>
 
 <script>
-import MobileComponent from "./components/layouts/MainNavbar.vue";
+import MainNavbar from "./components/layouts/MainNavbar.vue";
 import PlaceNavbar from "./components/layouts/PlaceNavbar.vue";
 import RegisterNavbar from "./components/layouts/RegisterNavbar.vue";
-import AdminNavbar from "./components/layouts/AdminNavbar.vue";
+import ManagerNavbar from "./components/layouts/ManagerNavbar.vue";
+import ClientNavbar from "./components/layouts/ClientNavbar.vue";
 
 export default {
   name: "App vue",
   components: {
-    MobileComponent,
+    MainNavbar,
     PlaceNavbar,
     RegisterNavbar,
-    AdminNavbar,
+    ManagerNavbar,
+    ClientNavbar
   },
   setup() {
     return {
       for_registration: ['registration', 'login', 'enter', 'client_registration', 'manager_registration'],
       for_place: ['place', 'reviews'],
+      for_app: ['home', 'trend', 'fullmap', 'client'],
+      for_client: ['client', 'client_favourites', 'client_reviews'],
+      for_manager: ['manager', 'add_place', 'edit_place', 'answer_to_reviews']
     };
   },
 };

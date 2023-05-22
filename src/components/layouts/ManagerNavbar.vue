@@ -8,14 +8,15 @@
 import { SwipeBottomNavigation } from "bottom-navigation-vue";
 
 export default {
-  name: "main-navbar",
+  name: "manager-navbar",
   components: { SwipeBottomNavigation },
   data: () => ({
     selected: 1,
     options: [
-      { id: 1, icon: "fa fa-home", title: "Главная", path: { name: "home" } },
-      { id: 2, icon: "fa fa-fire", title: "Рекомендации", path: { name: "trend" } },
-      { id: 3, icon: "fa fa-user", title: "Профиль", path: { name: "client" } },
+      { id: 1, icon: "fa fa-sign-out", title: "Выйти", path: { name: "quit" } },
+      { id: 2, icon: "fa fa-gear", title: "Мои заведения", path: { name: "manager" } },
+      { id: 3, icon: "fa fa-plus", title: "Добавить заведение", path: { name: "add_place" } },
+      { id: 4, icon: "fa fa-comments", title: "Отзывы", path: { name: "answer_to_reviews" } },
     ],
     swiperColor: '#8066C7',
     backgroundColor: '#ed7979',

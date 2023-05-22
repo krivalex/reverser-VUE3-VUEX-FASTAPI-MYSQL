@@ -35,7 +35,7 @@ export default {
     return {
       selected: [],
       data: [],
-      color: '#DC143C',
+      color: 'var(--main-haki-color)',
       height: '15px',
       width: '5px',
     }

@@ -2,12 +2,21 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const PlacePage = () => import('@/pages/app/PlacePage.vue')
 const PlaceReviews = () => import('@/pages/app/PlaceReviews.vue')
+const NotFound = () => import('@/pages/app/NotFound.vue')
+const QuitPage = () => import('@/pages/app/QuitPage.vue')
 
 const Home = () => import('@/pages/app/Home.vue')
-const Profile = () => import('@/pages/profile/Profile.vue')
-const Trend = () => import('@/pages/app/Trend.vue')
+const TrendPage = () => import('@/pages/app/TrendPage.vue')
+const FullMapPage = () => import('@/pages/app/FullMapPage.vue')
 
-const NotFound = () => import('@/pages/app/NotFound.vue')
+const ClientProfile = () => import('@/pages/client/Client.vue')
+const MyReviews = () => import('@/pages/client/MyReviews.vue')
+const MyFavourites = () => import('@/pages/client/MyFavourites.vue')
+
+const ManagerProfile = () => import('@/pages/manager/Manager.vue')
+const AddPlace = () => import('@/pages/manager/AddPlacePage.vue')
+const EditPlace = () => import('@/pages/manager/EditPlacePage.vue')
+const AnswerToReviews = () => import('@/pages/manager/AnswerToReviews.vue')
 
 const EnterRegistaration = () => import('@/pages/registration/RegistrationEnter.vue')
 const ClientRegistration = () => import('@/pages/registration/ClientRegistration.vue')
@@ -16,8 +25,6 @@ const ManagerRegistration = () => import('@/pages/registration/ManagerRegistrati
 const Login = () => import('@/pages/registration/Login.vue')
 const Enter = () => import('@/pages/registration/Enter.vue')
 const ResetPassword = () => import('@/pages/registration/ResetLogin.vue')
-
-const Admin = () => import('@/pages/admin/Admin.vue')
 
 const routes = [
   {
@@ -70,22 +77,10 @@ const routes = [
     meta: { isAuth: false, trasition: 'fade' },
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: Profile,
-    meta: { isAuth: true, trasition: 'fade' },
-  },
-  {
     path: '/trend',
     name: 'trend',
-    component: Trend,
+    component: TrendPage,
     meta: { isAuth: true, trasition: 'fade' },
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    component: Admin,
-    meta: { isAuth: true, admin: true, trasition: 'fade' },
   },
   {
     path: '/enter',
@@ -98,6 +93,61 @@ const routes = [
     name: 'reset',
     component: ResetPassword,
     meta: { isAuth: false, trasition: 'fade' },
+  },
+  {
+    path: '/fullmap',
+    name: 'fullmap',
+    component: FullMapPage,
+    meta: { isAuth: false, trasition: 'fade' },
+  },
+  {
+    path: '/client',
+    name: 'client',
+    component: ClientProfile,
+    meta: { isAuth: true, trasition: 'fade' },
+  },
+  {
+    path: '/client/reviews',
+    name: 'client_reviews',
+    component: MyReviews,
+    meta: { isAuth: true, trasition: 'fade' },
+  },
+  {
+    path: '/client/favourites',
+    name: 'client_favourites',
+    component: MyFavourites,
+    meta: { isAuth: true, trasition: 'fade' },
+  },
+  {
+    path: '/manager',
+    name: 'manager',
+    component: ManagerProfile,
+    meta: { isAuth: true, trasition: 'fade', admin: true },
+  },
+  {
+    path: '/manager/add',
+    name: 'add_place',
+    component: AddPlace,
+    meta: { isAuth: true, trasition: 'fade', admin: true },
+  },
+  {
+    path: '/manager/edit/:id',
+    name: 'edit_place',
+    component: EditPlace,
+    props: true,
+    meta: { isAuth: true, trasition: 'fade', admin: true },
+  },
+  {
+    path: '/manager/answer',
+    name: 'answer_to_reviews',
+    component: AnswerToReviews,
+    meta: { isAuth: true, trasition: 'fade', admin: true },
+  },
+  {
+    path: '/quit',
+    name: 'quit',
+    component: QuitPage,
+    meta: { isAuth: true, trasition: 'fade' },
   },
 ]
 
