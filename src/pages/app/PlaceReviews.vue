@@ -351,34 +351,6 @@ export default {
   color: gray;
 }
 
-.place-rating {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 10px;
-  padding-bottom: 5px;
-}
-
-.place-mark {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.place-mark i {
-  color: #DC143C;
-  margin-right: 3px;
-  font-size: 20px;
-}
-
-.place-mark p {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0;
-  padding: 0;
-}
 
 .place-image-slider {
   width: 100%;
@@ -401,69 +373,6 @@ export default {
   color: white;
   padding: 7px;
   font-size: larger;
-}
-
-.place-short-description {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.place-nav-like {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  height: 40px;
-}
-
-#info {
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-}
-
-#review {
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-
-.like {
-  position: absolute;
-  right: 0;
-}
-
-.like i {
-  font-size: 35px;
-  color: black;
-}
-
-.like i:hover {
-  color: red;
-}
-
-.button-nav {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  width: 200px;
-  height: 30px;
-}
-
-.button-nav button {
-  background-color: lightgray;
-  border: none;
-  color: black;
-  padding: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  border: 3px solid white;
-  width: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .place-button-rewiew {
@@ -563,16 +472,6 @@ input[type="file" i] {
   object-fit: cover;
 }
 
-.gold {
-  color: gold;
-}
-
-.reviews-item-image img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
 .reviews-item-header-mark {
   display: flex;
   flex-direction: row;
@@ -659,11 +558,6 @@ input[type="file" i] {
     margin-bottom: 4px;
   }
 
-  .place-mark p,
-  .place-mark i {
-    font-size: 30px;
-  }
-
   .place-image-slider {
     height: 500px;
   }
@@ -673,66 +567,10 @@ input[type="file" i] {
     height: 500px;
   }
 
-  .short-decription {
-    margin-top: 15px;
-    font-size: 25px;
-  }
-
-  .place-nav-like {
-    height: 60px;
-  }
-
-  .button-nav {
-    height: 60px;
-    width: 600px;
-  }
-
-  #info {
-    width: 300px;
-    font-size: 20px;
-  }
-
-  #review {
-    width: 300px;
-    font-size: 20px;
-  }
-
-  .like {
-    position: absolute;
-    right: 0;
-  }
-
-  .like i {
-    font-size: 60px;
-    color: black;
-  }
-
-  .like i:hover {
-    color: red;
-  }
-
-  .place-option p,
-  .place-option i {
-    font-size: 22px;
-  }
-
-  .place-options {
-    margin-top: 50px;
-  }
-
-  .place-review-info h2 {
-    font-size: 40px;
-  }
-
   .place-button-rewiew {
     transform: scale(1.3);
     margin-top: 40px;
     margin-bottom: 40px;
-  }
-
-  .clist div {
-    font-size: 20px;
-    margin: 5px;
   }
 
   .place-number-of-photo {
@@ -750,11 +588,6 @@ input[type="file" i] {
   .reviews-image-h1 h1 {
     font-size: 22px;
     margin-left: 15px;
-  }
-
-  .reviews-item-image img {
-    height: 360px;
-    margin-top: 20px;
   }
 
   .reviews-image-h1 img {
@@ -777,8 +610,6 @@ input[type="file" i] {
   .reviews-item-date {
     margin-top: 20px;
   }
-
-
 }
 
 .place-full {
@@ -1227,41 +1058,6 @@ input[type="file" i] {
   .place-image {
     height: 500px;
   }
-
-
-  .place-nav-like {
-    height: 60px;
-  }
-
-  .button-nav {
-    height: 60px;
-    width: 600px;
-  }
-
-  #info {
-    width: 300px;
-    font-size: 20px;
-  }
-
-  #review {
-    width: 300px;
-    font-size: 20px;
-  }
-
-  .like {
-    position: absolute;
-    right: 0;
-  }
-
-  .like i {
-    font-size: 60px;
-    color: black;
-  }
-
-  .like i:hover {
-    color: red;
-  }
-
 
   .place-button-rewiew {
     transform: scale(1.3);

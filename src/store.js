@@ -34,9 +34,12 @@ const store = createStore({
     added_reviews: null,
     added_review_images: null,
     user_info_reviews: [],
+    user_info: [],
     avatar: null,
     all_tags: null,
     all_places: null,
+    user_id: null,
+    manager_id: null,
   },
   mutations: {
     setPlaceImages(state, path) {
@@ -75,9 +78,9 @@ const store = createStore({
       })
     },
     setUserInfo(state, user_id) {
-      state.user_info_reviews = []
+      state.user_info = []
       getUserByID(user_id).then((response) => {
-        state.user_info_reviews.push(response.data)
+        state.user_info.push(response.data)
       })
     },
     setAllTags(state) {
@@ -89,6 +92,14 @@ const store = createStore({
       getPlaces().then((response) => {
         state.all_places = response.data
       })
+    },
+    setUserReviews(state, user_id) {
+      getReviewsByUserID(user_id).then((response) => {
+        state.user_info_reviews = response
+      })
+    },
+    setUserId(state) {
+      state.user_id = localStorage.getItem('user_id')
     },
   },
   actions: {
@@ -122,10 +133,22 @@ const store = createStore({
     fetchAllPlaces({ commit }) {
       commit('setAllPlaces')
     },
+    fetchUserReviews({ commit }, user_id) {
+      commit('setUserReviews', user_id)
+    },
+    fetchUserId({ commit }, user_id) {
+      commit('setUserId', user_id)
+    },
   },
   getters: {
     getUserInfoReviews: (state) => {
       return state.user_info_reviews
+    },
+    getUserId: (state) => {
+      return state.user_id
+    },
+    getPlaceByID: (state) => {
+      return state.place_page_info
     },
   },
 })

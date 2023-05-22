@@ -772,30 +772,6 @@ input[type="file" i] {
     height: 500px;
   }
 
-  .short-decription {
-    margin-top: 15px;
-    font-size: 25px;
-  }
-
-  .place-nav-like {
-    height: 60px;
-  }
-
-  .button-nav {
-    height: 60px;
-    width: 600px;
-  }
-
-  #info {
-    width: 300px;
-    font-size: 20px;
-  }
-
-  #review {
-    width: 300px;
-    font-size: 20px;
-  }
-
   .like {
     position: absolute;
     right: 0;

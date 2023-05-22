@@ -67,9 +67,9 @@ const putUserByID = (user) => {
   }
 }
 
-const getReviewsByID = (id) => {
+const getReviewsByID = (place_id) => {
   try {
-    const response = axios.get(`${base_url}/review/${id}`)
+    const response = axios.get(`${base_url}/review/${place_id}`)
     return response
   } catch (error) {
     console.log(error)
