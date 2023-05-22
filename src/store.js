@@ -92,9 +92,6 @@ const store = createStore({
         state.user_info_reviews = response
       })
     },
-    setUserId(state) {
-      state.user_id = localStorage.getItem('user_id')
-    },
   },
   actions: {
     fetchPlaceImages({ commit }, images) {
@@ -137,9 +134,6 @@ const store = createStore({
     },
     getUserId: (state) => {
       return state.user_id
-    },
-    getPlaceByID: (state) => {
-      return state.place_page_info
     },
     getReviewItemInfo: (state) => {
       return state.review_item_info
