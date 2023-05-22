@@ -30,7 +30,7 @@
 
     <!-- Валидационная часть -->
     <div class="validation" v-if="this.email_or_phone == ''">
-      <p>Укажите почту или номер телефона</p>
+      <p>Укажите почту</p>
     </div>
     <div class="validation" v-else-if="this.password == ''">
       <p>Укажите ваш пароль</p>
