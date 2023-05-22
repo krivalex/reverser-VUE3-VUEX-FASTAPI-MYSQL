@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <section id="my-reviews">
     <div class="place" v-for="review in this.all_reviews" :key="review.review_id">
       <div v-for="review in reviews" :key="review.review_id" class="reviews-item">
@@ -922,4 +922,4 @@ input[type="file" i] {
   height: 100%;
   object-fit: cover;
 }
-</style>
+</style> -->
