@@ -23,7 +23,6 @@ import {
   uploadImage,
   checkUser,
 } from '@/api/methods'
-import { useRoute } from 'vue-router'
 
 const store = createStore({
   state: {
@@ -50,11 +49,6 @@ const store = createStore({
     setPlaceInfo(state, path) {
       getPlaceByID(path).then((response) => {
         state.place_page_info = response.data
-      })
-    },
-    setReviewItemImages(state, path) {
-      getImageReviewByID(path).then((response) => {
-        state.review_item_images = response
       })
     },
     setReviewItemInfo(state, path) {
@@ -109,9 +103,6 @@ const store = createStore({
     fetchPlaceInfo({ commit }, info) {
       commit('setPlaceInfo', info)
     },
-    fetchReviewItemImages({ commit }, images) {
-      commit('setReviewItemImages', images)
-    },
     fetchReviewItemInfo({ commit }, info) {
       commit('setReviewItemInfo', info)
     },
@@ -149,6 +140,9 @@ const store = createStore({
     },
     getPlaceByID: (state) => {
       return state.place_page_info
+    },
+    getReviewItemInfo: (state) => {
+      return state.review_item_info
     },
   },
 })

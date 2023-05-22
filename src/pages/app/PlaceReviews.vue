@@ -117,9 +117,9 @@
             </div>
           </div>
 
-          <!-- <div class="reviews-item-image">
-            <img :src="getImage(review.review_id)" alt="image">
-          </div> -->
+          <div class="reviews-item-image">
+            <img :src="review.image" alt="image">
+          </div>
 
           <div class="reviews-item-text">
             <p>{{ review.text }}</p>
@@ -161,7 +161,6 @@ export default {
 
     await this.$store.dispatch("fetchPlaceImages", route.params.id);
     await this.$store.dispatch("fetchPlaceInfo", route.params.id);
-    await this.$store.dispatch("fetchReviewItemImages", route.params.id);
     await this.$store.dispatch("fetchReviewItemInfo", route.params.id);
 
   },
@@ -175,9 +174,6 @@ export default {
     reviews() {
       return this.$store.state.review_item_info;
     },
-    all_reviews_image() {
-      return this.$store.state.review_item_images;
-    }
   },
 
 
@@ -475,7 +471,7 @@ input[type="file" i] {
 .reviews-item-header-mark {
   display: flex;
   flex-direction: row;
-  width: 140px;
+  width: 160px;
 }
 
 .marks i {
@@ -575,10 +571,6 @@ input[type="file" i] {
 
   .place-number-of-photo {
     font-size: 50px;
-  }
-
-  .reviews-item-header-mark {
-    width: 200px;
   }
 
   .marks i {
@@ -1013,13 +1005,6 @@ input[type="file" i] {
   width: 20px;
 }
 
-
-.highlight::before {
-  content: "\f005";
-  font-family: FontAwesome;
-  color: rgb(255, 247, 0);
-}
-
 .fa-star {
   color: black;
 }
@@ -1133,5 +1118,11 @@ input[type="file" i] {
 .fa-map-marker {
   color: #5c8aed;
   font-size: 30px;
+}
+
+.reviews-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>
