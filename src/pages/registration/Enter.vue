@@ -47,7 +47,7 @@ export default {
 
 <style scoped>
 .enter {
-  height: 100vh;
+  height: calc(100vh - 60px);
   width: 100vw;
   display: flex;
   flex-direction: column;
