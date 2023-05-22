@@ -117,7 +117,7 @@
             </div>
           </div>
 
-          <div class="reviews-item-image">
+          <div class="reviews-item-image" v-if="review.image !== null">
             <img :src="review.image" alt="image">
           </div>
 
