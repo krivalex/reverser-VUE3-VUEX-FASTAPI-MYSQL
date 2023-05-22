@@ -1,15 +1,15 @@
 <template>
-  <SwipeBottomNavigation :options="options" v-model="selected" swiper-color='white' background-color='black'
-    icon-color='white' />
+  <RingBottomNavigation class="swiper" :options="options" v-model="selected" border-color='white' title-color='white'
+    badge-color='#FBC02D' icon-color='#669C35' style="background-color: black; color: white;" />
 </template>
 
 <script>
 
-import { SwipeBottomNavigation } from "bottom-navigation-vue";
+import { RingBottomNavigation } from "bottom-navigation-vue";
 
 export default {
-  name: "mobile-component",
-  components: { SwipeBottomNavigation },
+  name: "register-navbar",
+  components: { RingBottomNavigation },
   data: () => ({
     selected: 3,
     options: [
@@ -18,9 +18,6 @@ export default {
       { id: 3, icon: "fa fa-plus", title: "Регистрация", path: { name: "registration" } },
       { id: 4, icon: "fa fa-user", title: "Войти", path: { name: "login" } },
     ],
-    swiperColor: '#8066C7',
-    backgroundColor: '#ed7979',
-    iconColor: 'white',
   }),
 };
 </script>

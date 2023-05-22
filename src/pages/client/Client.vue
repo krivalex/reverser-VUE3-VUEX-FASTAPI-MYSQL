@@ -83,38 +83,7 @@
         </div>
       </div>
 
-      <!-- <div class="place" v-for="review in this.all_reviews" :key="review.review_id">
-        <div class="profile-favourites">
-          <div class="reviews-item-header">
-            <div class="reviews-image-h1">
-              <img :src="review.avatar" alt="загрузка">
-              <h1>{{ review.username }}</h1>
-            </div>
-            <div class="reviews-item-header-mark">
-              <div class="marks" v-for="mark in review.mark">
-                <i class="gold fa fa-star" aria-hidden="true"></i>
-              </div>
-              <div class="marks" v-for="mark in 10 - review.mark">
-                <i class="fa fa-star" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
 
-          <div class="reviews-item-image">
-            <img :src="getImage(review.review_id)" alt="image">
-          </div>
-
-          <div class="reviews-item-text">
-            <p>{{ review.text }}</p>
-          </div>
-
-          <div class="reviews-item-date">
-            <p>{{ review.date.slice(0, 10) }}</p>
-            <p>/</p>
-            <p>{{ review.date.slice(11) }}</p>
-          </div>
-        </div>
-      </div> -->
 
     </div>
 

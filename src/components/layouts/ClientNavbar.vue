@@ -1,15 +1,15 @@
 <template>
-  <SwipeBottomNavigation class="swiper" :options="options" v-model="selected" swiper-color='#FFFFFF'
-    background-color='black' icon-color='#FFFFFF' />
+  <RingBottomNavigation class="swiper" :options="options" v-model="selected" border-color='white' title-color='white'
+    badge-color='#FBC02D' icon-color='#669C35' style="background-color: black; color: white;" />
 </template>
 
 <script>
 
-import { SwipeBottomNavigation } from "bottom-navigation-vue";
+import { RingBottomNavigation } from "bottom-navigation-vue";
 
 export default {
   name: "client-navbar",
-  components: { SwipeBottomNavigation },
+  components: { RingBottomNavigation },
   data: () => ({
     selected: 2,
     options: [
@@ -18,17 +18,9 @@ export default {
       { id: 2, icon: "fa fa-heart", title: "Избранное", path: { name: 'client_favourites' } },
       { id: 3, icon: "fa fa-comments", title: "Мои отзывы", path: { name: 'client_reviews' } },
     ],
-    swiperColor: '#8066C7',
-    backgroundColor: '#ed7979',
-    iconColor: '#ffffff7',
   }),
 };
 </script>
 
 <style>
-@media screen and (min-width: 768px) {
-  .vue-bottom-navigation {
-    display: none;
-  }
-}
 </style>

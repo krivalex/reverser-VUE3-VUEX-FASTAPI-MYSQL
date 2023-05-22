@@ -1,16 +1,16 @@
 <template>
-  <SwipeBottomNavigation :options="options" v-model="selected" swiper-color='#FFFFFF' background-color='black'
-    icon-color='#FFFFFF' />
+  <RingBottomNavigation class="swiper" :options="options" v-model="selected" border-color='white' title-color='white'
+    badge-color='#FBC02D' icon-color='#669C35' style="background-color: black; color: white;" />
 </template>
 
 <script>
 
-import { SwipeBottomNavigation } from "bottom-navigation-vue";
+import { RingBottomNavigation } from "bottom-navigation-vue";
 import { useRoute } from "vue-router";
 
 export default {
   name: "place-navbar",
-  components: { SwipeBottomNavigation },
+  components: { RingBottomNavigation },
   data() {
     const route = useRoute();
     return (
@@ -23,9 +23,6 @@ export default {
           { id: 4, icon: "fa fa-cutlery", title: "Меню", path: { name: "map" } },
           { id: 5, icon: "fa fa-map", title: "Карта", path: { name: "contacts" } },
         ],
-        swiperColor: '#8066C7',
-        backgroundColor: '#ed7979',
-        iconColor: '#ffffff7'
       }
     )
   }
