@@ -49,8 +49,6 @@
       <p>У вас еще нет аккаунта? <strong @click="redirectRegister">РЕГИСТРАЦИЯ</strong></p>
     </div>
 
-    <div class="zaglushka"></div>
-
   </section>
 </template>
 

@@ -17,8 +17,6 @@
       </my-button>
       <h3>Made by team <strong>"Reversers"</strong></h3>
     </div>
-    <div class="enter-links">
-    </div>
   </div>
 </template>
 
