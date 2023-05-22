@@ -2,8 +2,10 @@
   <section id="register-enter">
     <div class="split left" @click="redirectClientRegistration">
       <div class="centered">
-        <img src="@/assets/client.jpg" alt="пользователь">
-        <h2>Пользователь приложения</h2>
+        <div>
+          <img src="@/assets/client.jpg" alt="пользователь">
+          <h2>Пользователь приложения</h2>
+        </div>
         <p>После прохождения регистрации, вы сможете просматривать больше информации, читать и оставлять отзывы и
           рейтинги,пользоваться личной системой рекомендаций</p>
         <button>Регистрация как "Пользователь"</button>
@@ -12,8 +14,10 @@
 
     <div class="split right" @click="redirectManagerRegistration">
       <div class="centered">
-        <img src="@/assets/manager.png" alt="владелец">
-        <h2>Владелец или менеджер заведения</h2>
+        <div>
+          <img src="@/assets/manager.png" alt="владелец">
+          <h2>Владелец или менеджер заведения</h2>
+        </div>
         <p>После прохождения регистрации, вы сможете добавить свое заведение, и редактировать любую информацию в нем,
           просматривать и отвечать на отзывы под вашим заведением</p>
         <button>Регистрация как "Владелец"</button>
@@ -100,7 +104,7 @@ export default {
 /* Control the right side */
 .right {
   right: 0;
-  background-color: #ec4967;
+  background-color: var(--main-haki-color);
   color: white;
 }
 
@@ -139,7 +143,7 @@ export default {
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: none;
-  background-color: #ec4967;
+  background-color: var(--main-haki-color);
   color: white;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -152,71 +156,12 @@ export default {
   border-radius: 5px;
   border: none;
   background-color: white;
-  color: #ec4967;
+  color: var(--main-haki-color);
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
 
-@media screen and (max-width: 767px) {
-
-  .split {
-    width: 100vw;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    overflow-x: hidden;
-  }
-
-  .left {
-    height: calc(50vh - 30px);
-    top: 0;
-    background-color: white;
-  }
-
-  .right {
-    height: calc(50vh - 30px);
-    top: calc(50vh - 30px);
-    background-color: #ec4967;
-    color: white;
-  }
-
-  .centered img {
-    width: 150px;
-  }
-
-  .centered p {
-    width: 100%;
-  }
-
-  .right button {
-    font-size: 1.2rem;
-    padding: 0.5rem 0.5rem;
-    max-width: 45vw;
-  }
-
-  .left button {
-    font-size: 1.2rem;
-    padding: 0.5rem 0.5rem;
-    max-width: 45vw;
-  }
-
-  .centered h2 {
-    font-size: 1.2rem;
-    padding: auto;
-  }
-
-  .centered p {
-    font-size: 1rem;
-    padding: 0 10px;
-  }
-
-  .centered {
-    width: 100vw;
-  }
-
-}
-
-@media screen and (max-height: 700px) {
+@media screen and (max-width: 784px) {
   .split {
     height: 100%;
     width: 50%;
@@ -230,28 +175,29 @@ export default {
 
   .left {
     left: 0;
-    background-color: white;
   }
 
   .right {
     right: 0;
-    background-color: #ec4967;
-    color: white;
   }
 
   .centered {
     width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    height: 60%;
   }
 
   .centered img {
     width: 200px;
-    border-radius: 50%;
     object-fit: cover;
   }
 
   .centered h2 {
-    font-size: 0.8rem;
-    max-width: 40%;
+    font-size: 1.1rem;
+    max-width: 50%;
     font-weight: 700;
     margin-bottom: 1rem;
     margin: 10px auto;
@@ -267,27 +213,25 @@ export default {
   }
 
   .left button {
-    font-size: 1rem;
+    font-size: 0.7rem;
     font-weight: 700;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     border: none;
-    background-color: #ec4967;
-    color: white;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    max-width: 40%;
   }
 
   .right button {
-    font-size: 1rem;
+    font-size: 0.7rem;
     font-weight: 700;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     border: none;
-    background-color: white;
-    color: #ec4967;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    max-width: 40%;
   }
 }
 </style>

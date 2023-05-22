@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+
 @import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Unbounded&display=swap');
 
@@ -11,6 +12,12 @@
 /* red = #DC143C */
 
 #app {
+  --main-black-color: rgb(0, 0, 0);
+  --main-white-color: rgb(255, 255, 255);
+  --main-haki-color: #2e525b;
+  --main-grey-color: #D9C5C9;
+  --main-red-color: #DC143C;
+
   padding: 0px;
   background-color: rgb(255, 255, 255);
   /* padding: 20px; */

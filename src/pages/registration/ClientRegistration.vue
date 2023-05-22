@@ -430,7 +430,6 @@ export default {
 
 <style scoped>
 #registration {
-  background-color: #535353;
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -438,7 +437,8 @@ export default {
   align-items: center;
   justify-content: space-between;
   text-align: center;
-  color: #ffffff;
+  color: #000000;
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.25);
 
 }
 

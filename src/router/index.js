@@ -11,6 +11,8 @@ const NotFound = () => import('@/pages/app/NotFound.vue')
 
 const EnterRegistaration = () => import('@/pages/registration/RegistrationEnter.vue')
 const ClientRegistration = () => import('@/pages/registration/ClientRegistration.vue')
+const ManagerRegistration = () => import('@/pages/registration/ManagerRegistration.vue')
+
 const Login = () => import('@/pages/registration/Login.vue')
 const Enter = () => import('@/pages/registration/Enter.vue')
 const ResetPassword = () => import('@/pages/registration/ResetLogin.vue')
@@ -53,6 +55,12 @@ const routes = [
     path: '/client_registration',
     name: 'client_registration',
     component: ClientRegistration,
+    meta: { isAuth: false, trasition: 'fade' },
+  },
+  {
+    path: '/manager_registration',
+    name: 'manager_registration',
+    component: ManagerRegistration,
     meta: { isAuth: false, trasition: 'fade' },
   },
   {
