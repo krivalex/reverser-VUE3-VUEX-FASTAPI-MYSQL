@@ -53,7 +53,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #535353;
+  background-color: var(--main-haki-color);
   color: white;
   text-align: center;
 }
@@ -143,7 +143,7 @@ export default {
   width: 100%;
   height: 50px;
   border-radius: 50px;
-  background-color: #D9C5C9;
+  background-color: #ffffff;
   color: black;
   font-size: 20px;
   font-weight: bold;

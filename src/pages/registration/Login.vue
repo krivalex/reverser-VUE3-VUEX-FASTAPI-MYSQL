@@ -5,6 +5,7 @@
 
     <div class="register-label">
       <h1>Добро пожаловать</h1>
+      <p>"Менеджер"/"Пользователь"</p>
     </div>
 
     <div class="inputs">
@@ -118,7 +119,7 @@ export default {
 
 <style scoped>
 #login {
-  background-color: #535353;
+  background: var(--main-haki-color);
   height: 100vh;
   width: 100vw;
   display: flex;

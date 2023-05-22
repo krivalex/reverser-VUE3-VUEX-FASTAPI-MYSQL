@@ -109,7 +109,7 @@
             </div>
             <div class="reviews-item-header-mark">
               <div class="marks" v-for="mark in review.mark">
-                <i class="gold fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star highlight" aria-hidden="true"></i>
               </div>
               <div class="marks" v-for="mark in 10 - review.mark">
                 <i class="fa fa-star" aria-hidden="true"></i>
@@ -1187,6 +1187,10 @@ input[type="file" i] {
   content: "\f005";
   font-family: FontAwesome;
   color: rgb(255, 247, 0);
+}
+
+.fa-star {
+  color: black;
 }
 
 @media screen and (min-width: 768px) {

@@ -124,7 +124,7 @@ router.beforeEach((to, from, next) => {
   } else {
     // Redirect to login page if route requires authentication and user is not authenticated
     if (to.meta.isAuth && !isAuth) {
-      next({ name: 'enter' })
+      next({ name: 'registration' })
     } else {
       next()
     }

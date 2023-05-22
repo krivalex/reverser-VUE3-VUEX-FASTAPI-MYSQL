@@ -454,6 +454,10 @@ export default {
   justify-content: center;
 }
 
+.register-text h3 {
+  color: #000000;
+}
+
 .register-label {
   font-size: 25px;
   padding-bottom: 50px;
@@ -467,7 +471,7 @@ export default {
 .register-item input {
   max-width: 80%;
   height: 50px;
-  border: none;
+  border: 1px solid #000000;
   border-radius: 50px;
   background-color: #ffffff;
   font-size: 20px;
@@ -495,8 +499,8 @@ export default {
   width: 80%;
   height: 50px;
   border-radius: 50px;
-  background-color: #ec4967;
-  color: black;
+  background-color: var(--main-haki-color);
+  color: rgb(255, 255, 255);
   font-size: 20px;
   font-weight: bold;
   text-decoration: none;
@@ -519,16 +523,18 @@ export default {
   --vs-controls-color: black;
 
   --vs-dropdown-bg: #ffffff;
-  --vs-dropdown-color: #DC143C;
-  --vs-dropdown-option-color: #DC143C;
+  --vs-dropdown-color: white;
+  --vs-dropdown-option-color: var(--main-haki-color);
 
   --vs-selected-bg: #000000;
   --vs-selected-color: #000000;
 
   --vs-search-input-color: gray;
 
-  --vs-dropdown-option--active-bg: #DC143C;
+  --vs-dropdown-option--active-bg: #ffffff;
   --vs-dropdown-option--active-color: #DC143C;
+
+  border: 1px solid #000000;
 }
 
 .zaglushka {
