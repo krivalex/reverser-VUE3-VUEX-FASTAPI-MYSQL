@@ -1123,6 +1123,8 @@ input[type="file" i] {
 .reviews-item-image img {
   width: 100%;
   height: 100%;
+  max-width: 720px;
+  max-height: 720px;
   object-fit: cover;
 }
 </style>
