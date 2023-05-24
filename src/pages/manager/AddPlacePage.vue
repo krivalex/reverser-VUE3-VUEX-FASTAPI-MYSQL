@@ -8,12 +8,12 @@
     <div class="inputs">
       <!-- Клиент часть -->
       <div class="register-item">
-        <label for="name">Название заведения (MAX: 25 символов)</label>
+        <label for="name">Название заведения (MAX: 30 символов)</label>
         <my-input v-model="name" name="name" placeholder="Название заведения" @input="NameInput"></my-input>
         <div v-if="name == '' && all_validated" class="error">
           {{ toast_danger("Название", validation.name) }}
         </div>
-        <div v-else-if="name.length > 30" class="error">
+        <div v-else-if="name !== '' && !validation_options.name_valid" class="error">
           {{ toast_danger("Название", validation.name_length) }}
         </div>
       </div>
@@ -28,24 +28,34 @@
 
       <div class="register-item">
         <label for="TWOgis_url">2ГИС (Ссылка)</label>
-        <my-input type="url" v-model="TWOgis_url" name="TWOgis_url" placeholder="2ГИС" @input="TWOgisInput"></my-input>
-        <div v-if="TWOgis_url == '' && all_validated" class="error">{{ toast_danger("Cсылка на 2ГИС",
-          validation.TWOgis_url)
-        }}
+        <my-input type="url" v-model.lazy="TWOgis_url" name="TWOgis_url" placeholder="2ГИС"
+          @input="TWOgisInput"></my-input>
+        <div v-if="TWOgis_url == '' && all_validated" class="error">
+          {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url) }}
         </div>
         <div v-else-if="TWOgis_url.length > 0 && !TWOgis_url.includes('2gis.kz')" class="error">
           {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url_invalid) }}
         </div>
       </div>
       <div class="register-item">
-        <p class="required">*</p>
         <label for="address">Адрес Улицы (MAX: 25 символов)</label>
         <my-input v-model="address" name="address" placeholder="Адрес" @input="addressInput"></my-input>
+        <div v-if="address == '' && all_validated" class="error">
+          {{ toast_danger("Адрес", validation.address) }}
+        </div>
+        <div v-else-if="address.length > 25 && !validation_options.address_valid" class="error">
+          {{ toast_danger("Адрес", validation.address_length) }}
+        </div>
       </div>
       <div class="register-item">
-        <p class="required">*</p>
         <label for="phone">Whatsapp для клиентов (Номер)</label>
         <my-input type="tel" v-model="phone" name="phone" placeholder="Телефон" @input="phoneInput"></my-input>
+        <div v-if="phone == '' && all_validated" class="error">
+          {{ toast_danger("Номер телефона", validation.phone) }}
+        </div>
+        <div v-else-if="phone.length < 12 && !validation_options.phone_valid" class="error">
+          {{ toast_danger("Номер телефона", validation.phone_length) }}
+        </div>
       </div>
       <div class="register-item">
         <p class="required">*</p>
@@ -255,8 +265,7 @@ export default {
           transition: 'bounce',
           hideProgressBar: false,
           swipeClose: true,
-          onClose: null,
-          showIcon: true
+          onClose: null
         })
       },
       toast_success: function (title, description) {
@@ -328,21 +337,19 @@ export default {
     },
     TWOgisInput(event) {
       this.TWOgis_url = event.target.value;
-      if (typeof url !== 'string') {
-        return false;
-      }
-
-      const domain = "2gis.kz";
-
-      if (this.TWOgis_url.includes(domain)) {
-        this.validation_options.TWOgis_url_valid = true;
-      }
+      this.validation_options.TWOgis_url_valid = false;
     },
     addressInput(event) {
       this.address = event.target.value;
     },
     phoneInput(event) {
       this.phone = event.target.value;
+      if (this.phone.length < 12) {
+        this.validation_options.phone_valid = true;
+      }
+      else {
+        this.validation_options.phone_valid = false;
+      }
     },
     categoryInput(event) {
       this.category = event.target.value;
@@ -408,8 +415,6 @@ export default {
       if (this.areAllTrue(this.validation_options)) {
         this.all_validated = true;
       }
-
-
 
       const data = {
         place_id: id,
@@ -538,7 +543,34 @@ export default {
         tag3_valid: false,
         tag2_valid: false,
         tag1_valid: false,
-      }
+      },
+      snake_validators: {
+        name_valid: false,
+        city_name_valid: false,
+        TWOgis_url_valid: false,
+        address_valid: false,
+        instagram_link_valid: false,
+        phone_valid: false,
+        category_valid: false,
+        subcategory_valid: false,
+        short_description_valid: false,
+        long_description_valid: false,
+        start_work_time_valid: false,
+        end_work_time_valid: false,
+        images1_valid: false,
+        images2_valid: false,
+        images3_valid: false,
+        tag10_valid: false,
+        tag9_valid: false,
+        tag8_valid: false,
+        tag7_valid: false,
+        tag6_valid: false,
+        tag5_valid: false,
+        tag4_valid: false,
+        tag3_valid: false,
+        tag2_valid: false,
+        tag1_valid: false,
+      },
     }
   },
 }

@@ -430,7 +430,7 @@ export default {
 
 <style scoped>
 #registration {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   display: flex;
   flex-direction: column;
