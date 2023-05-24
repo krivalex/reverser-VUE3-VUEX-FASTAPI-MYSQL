@@ -49,51 +49,84 @@
       </div>
       <div class="register-item">
         <label for="phone">Whatsapp для клиентов (Номер)</label>
-        <my-input type="tel" v-model="phone" name="phone" placeholder="Телефон" @input="phoneInput"></my-input>
-        <div v-if="phone == '' && all_validated" class="error">
+        <my-input type="tel" placeholder="Whatsapp для клиентов" v-model.lazy="phone" name="phone"
+          @input="phoneInput"></my-input>
+        <div v-if="phone == '+7' && all_validated" class="error">
           {{ toast_danger("Номер телефона", validation.phone) }}
         </div>
-        <div v-else-if="phone.length < 12 && !validation_options.phone_valid" class="error">
+        <div v-else-if="phone !== '+7' && !validation_options.phone_valid" class="error">
           {{ toast_danger("Номер телефона", validation.phone_length) }}
         </div>
       </div>
       <div class="register-item">
-        <p class="required">*</p>
-        <label for="short_description">Короткое описание (MAX: 25 символов)</label>
+        <label for="short_description">Короткое описание (MAX: 30 символов)</label>
         <my-input v-model="short_description" name="short_description" placeholder="Короткое описание"
           @input="shortDescriptionInput"></my-input>
+        <div v-if="short_description == '' && all_validated" class="error">
+          {{ toast_danger("Короткое описание", validation.short_description) }}
+        </div>
+        <div v-else-if="short_description.length > 30 && !validation_options.short_description_valid" class="error">
+          {{ toast_danger("Короткое описание", validation.short_description_length) }}
+        </div>
       </div>
       <div class="register-item">
-        <p class="required">*</p>
         <label for="long_description">Длинное описание (MAX: 200 символов)</label>
         <my-input v-model="long_description" name="long_description" placeholder="Длинное описание"
           @input="longDescriptionInput"></my-input>
+        <div v-if="long_description == '' && all_validated" class="error">
+          {{ toast_danger("Длинное описание", validation.long_description) }}
+        </div>
+        <div v-else-if="long_description.length > 200 && !validation_options.long_description_valid" class="error">
+          {{ toast_danger("Длинное описание", validation.long_description_length) }}
+        </div>
       </div>
       <div class="register-item">
-        <p class="required">*</p>
         <label for="instagram_link">Instagram (Ссылка)</label>
         <my-input v-model="instagram_link" name="instagram_link" placeholder="Instagram"
           @input="instagramInput"></my-input>
+        <div v-if="instagram_link == '' && all_validated" class="error">
+          {{ toast_danger("Ссылка на Instagram", validation.instagram_link) }}
+        </div>
+        <div v-else-if="instagram_link.length > 0 && !instagram_link.includes('instagram.com')" class="error">
+          {{ toast_danger("Ссылка на Instagram", validation.instagram_link_invalid) }}
+        </div>
       </div>
       <div class="register-item">
-        <p class="required">*</p>
         <label for="category">Категория (MAX: 18 символов)</label>
         <my-input v-model="category" name="category" placeholder="Категория" @input="categoryInput"></my-input>
+        <div v-if="category == '' && all_validated" class="error">
+          {{ toast_danger("Категория", validation.category) }}
+        </div>
+        <div v-else-if="category.length > 18 && !validation_options.category_valid" class="error">
+          {{ toast_danger("Категория", validation.category_length) }}
+        </div>
       </div>
       <div class="register-item">
-        <p class="required">*</p>
         <label for="subcategory">Подкатегория (MAX: 18 символов)</label>
-        <my-input v-model="subcategory" name="subcategory" placeholder="Категория" @input="subcategoryInput"></my-input>
+        <my-input v-model="subcategory" name="subcategory" placeholder="Подкатегория"
+          @input="subcategoryInput"></my-input>
+        <div v-if="subcategory == '' && all_validated" class="error">
+          {{ toast_danger("Подкатегория", validation.subcategory) }}
+        </div>
+        <div v-else-if="subcategory.length > 18 && !validation_options.subcategory_valid" class="error">
+          {{ toast_danger("Подкатегория", validation.subcategory_length) }}
+        </div>
       </div>
       <div class="register-item">
         <label for="start-work-time">Начало работы (00:00:00)</label>
         <my-input type="time" v-model="start_work_time" name="start-work-time" placeholder="Время открытия"
           @input="startWorkTimeInput"></my-input>
+        <div v-if="start_work_time == '' && all_validated" class="error">
+          {{ toast_danger("Начало работы", validation.start_work_time) }}
+        </div>
       </div>
       <div class="register-item">
         <label for="end-work-time">Конец работы (00:00:00)</label>
         <my-input type="time" v-model="end_work_time" name="end-work-time" placeholder="Время закрытия"
           @input="endWorkTimeInput"></my-input>
+        <div v-if="end_work_time == '' && all_validated" class="error">
+          {{ toast_danger("Конец работы", validation.end_work_time) }}
+        </div>
       </div>
       <div class="register-label">
         <h3>Укажите 10 тегов, 10 - самый главный, 1 - самый неглавный</h3>
@@ -102,51 +135,81 @@
         <label for="tag10">ТЕГ (10 баллов)</label>
         <v-select v-model="tag10" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (10 баллов)" />
+        <div v-if="tag10 == '' && all_validated" class="error">
+          {{ toast_danger("Тег (10 баллов)", validation.tag10) }}
+        </div>
       </div>
       <div class="register-selected">
         <label for="tag9">ТЕГ (9 баллов)</label>
         <v-select v-model="tag9" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (9 баллов)" />
+        <div v-if="tag9 == '' && all_validated" class="error">
+          {{ toast_danger("Тег (9 баллов)", validation.tag9) }}
+        </div>
       </div>
       <div class="register-selected">
         <label for="tag8">ТЕГ (8 баллов)</label>
         <v-select v-model="tag8" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (8 баллов)" />
+        <div v-if="tag8 == '' && all_validated" class="error">
+          {{ toast_danger("Тег (8 баллов)", validation.tag8) }}
+        </div>
       </div>
       <div class="register-selected">
         <label for="tag7">ТЕГ (7 баллов)</label>
         <v-select v-model="tag7" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (7 баллов)" />
+        <div v-if="tag7 == '' && all_validated" class="error">
+          {{ toast_danger("Тег (7 баллов)", validation.tag7) }}
+        </div>
       </div>
       <div class="register-selected">
         <label for="tag6">ТЕГ (6 баллов)</label>
         <v-select v-model="tag6" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (6 баллов)" />
+        <div v-if="tag6 == '' && all_validated" class="error">
+          {{ toast_danger("Тег (6 баллов)", validation.tag6) }}
+        </div>
       </div>
       <div class="register-selected">
         <label for="tag5">ТЕГ (5 баллов)</label>
         <v-select v-model="tag5" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (5 баллов)" />
+        <div v-if="tag5 == '' && all_validated" class="error">
+          {{ toast_danger("Тег (5 баллов)", validation.tag5) }}
+        </div>
       </div>
       <div class="register-selected">
         <label for="tag4">ТЕГ (4 баллов)</label>
         <v-select v-model="tag4" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (4 баллов)" />
+        <div v-if="tag4 == '' && all_validated" class="error">
+          {{ toast_danger("Тег (4 баллов)", validation.tag4) }}
+        </div>
       </div>
       <div class="register-selected">
         <label for="tag3">ТЕГ (3 баллов)</label>
         <v-select v-model="tag3" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (3 баллов)" />
+        <div v-if="tag3 == '' && all_validated" class="error">
+          {{ toast_danger("Тег (3 баллов)", validation.tag3) }}
+        </div>
       </div>
       <div class="register-selected">
         <label for="tag2">ТЕГ (2 баллов)</label>
         <v-select v-model="tag2" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (2 баллов)" />
+        <div v-if="tag2 == '' && all_validated" class="error">
+          {{ toast_danger("Тег (2 баллов)", validation.tag2) }}
+        </div>
       </div>
       <div class="register-selected">
         <label for="tag1">ТЕГ (1 баллов)</label>
         <v-select v-model="tag1" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (1 баллов)" />
+        <div v-if="tag1 == '' && all_validated" class="error">
+          {{ toast_danger("Тег (1 баллов)", validation.tag1) }}
+        </div>
       </div>
     </div>
     <div class="register-photo">
@@ -154,6 +217,9 @@
       <form enctype="multipart/form-data">
         <my-input v-model="images1" name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
       </form>
+      <div v-if="images1 == '' && all_validated" class="error">
+        {{ toast_danger("Картинки 1 (JPG, PNG)", validation.images1) }}
+      </div>
     </div>
     <div class="register-photo">
       <label for="images">Картинки 2 (JPG, PNG)</label>
@@ -238,16 +304,17 @@ export default {
         "short_description_length": "Краткое описание не может быть длинее 30 символов",
         "long_description_length": "Полное описание не может быть длинее 200 символов",
         "address_length": "Адрес не может быть длинее 25 символов",
-        "phone_length": "Вы ввели неверный номер телефона",
-        "category_length": "Категория не может быть длинее 15 символов",
-        "subcategory_length": "Подкатегория не может быть длинее 15 символов",
+        "phone_length": "Номер телефона состоит из 11 цифр и начинается с '+7', а также не содержит БУКВ и СИМВОЛОВ",
+        "category_length": "Категория не может быть длинее 18 символов",
+        "subcategory_length": "Подкатегория не может быть длинее 18 символов",
         "tag_length": "Тег не может быть длинее 15 символов",
         "image_length": "Загрузите минимум 1 фотографию",
         "TWOgis_url_invalid": "Ваша ссылка не ведет на 2ГИС",
+        "instagram_link_invalid": "Ваша ссылка не ведет на INSTAGRAM",
 
       },
       validation_not_required: {
-        "instagram_link": "Укажите ссылку на инстаграм",
+        "instagram_link": "Укажите ссылку на ваш INSTAGRAM, и тогда он появится на странице вашего заведения",
         "whatsapp_link": "Укажите телефон на котором есть whatsapp, и тогда он появится на странице вашего заведения",
         "image_count": "Вы можете загрузить 3 фотографии",
         "tags_count": "Вы можете выбрать 10 тегов, чем больше тегов, тем выше шанс попасть в рекомендации",
@@ -343,13 +410,21 @@ export default {
       this.address = event.target.value;
     },
     phoneInput(event) {
-      this.phone = event.target.value;
-      if (this.phone.length < 12) {
-        this.validation_options.phone_valid = true;
+      if (Number(event.target.value) || event.target.value == '+7') {
+        this.phone = event.target.value;
+
+        if (this.phone.length < 13) {
+          this.validation_options.phone_valid = true;
+        }
+        else {
+          this.validation_options.phone_valid = false;
+        }
       }
       else {
         this.validation_options.phone_valid = false;
       }
+
+
     },
     categoryInput(event) {
       this.category = event.target.value;
@@ -446,42 +521,41 @@ export default {
         },
 
       }
-      postPlace(data).then((response) => {
-        console.log(response);
-        let image_pack = {
-          place_id: id,
-          file: this.images1,
-        }
-
-        this.all_validated = false;
-        replaceKeysWithFalse(this.validation_options)
-        this.succefully_added = true;
-
-        uploadImage(image_pack).then((response) => {
+      if (this.all_validated) {
+        postPlace(data).then((response) => {
           console.log(response);
+          let image_pack = {
+            place_id: id,
+            file: this.images1,
+          }
+
+          this.all_validated = false;
+          this.replaceKeysWithFalse(this.validation_options)
+          this.succefully_added = true;
+
+          uploadImage(image_pack).then((response) => {
+            console.log(response);
+          });
+
+          image_pack = {
+            place_id: id,
+            file: this.images2,
+          }
+
+          uploadImage(image_pack).then((response) => {
+            console.log(response);
+          });
+
+          image_pack = {
+            place_id: id,
+            file: this.images3,
+          }
+
+          uploadImage(image_pack).then((response) => {
+            console.log(response);
+          });
         });
-
-        image_pack = {
-          place_id: id,
-          file: this.images2,
-        }
-
-        uploadImage(image_pack).then((response) => {
-          console.log(response);
-        });
-
-        image_pack = {
-          place_id: id,
-          file: this.images3,
-        }
-
-        uploadImage(image_pack).then((response) => {
-          console.log(response);
-        });
-      });
-
-
-
+      }
     }
   },
   data() {
@@ -491,7 +565,7 @@ export default {
       TWOgis_url: "",
       address: "",
       instagram_link: "",
-      phone: "",
+      phone: "+7",
       category: "",
       subcategory: "",
       short_description: "",
@@ -543,34 +617,7 @@ export default {
         tag3_valid: false,
         tag2_valid: false,
         tag1_valid: false,
-      },
-      snake_validators: {
-        name_valid: false,
-        city_name_valid: false,
-        TWOgis_url_valid: false,
-        address_valid: false,
-        instagram_link_valid: false,
-        phone_valid: false,
-        category_valid: false,
-        subcategory_valid: false,
-        short_description_valid: false,
-        long_description_valid: false,
-        start_work_time_valid: false,
-        end_work_time_valid: false,
-        images1_valid: false,
-        images2_valid: false,
-        images3_valid: false,
-        tag10_valid: false,
-        tag9_valid: false,
-        tag8_valid: false,
-        tag7_valid: false,
-        tag6_valid: false,
-        tag5_valid: false,
-        tag4_valid: false,
-        tag3_valid: false,
-        tag2_valid: false,
-        tag1_valid: false,
-      },
+      }
     }
   },
 }
