@@ -8,20 +8,34 @@
     <div class="inputs">
       <!-- Клиент часть -->
       <div class="register-item">
-
         <label for="name">Название заведения (MAX: 25 символов)</label>
-        <p class="required">*</p>
         <my-input v-model="name" name="name" placeholder="Название заведения" @input="NameInput"></my-input>
+        <div v-if="name == '' && all_validated" class="error">
+          {{ toast_danger("Название", validation.name) }}
+        </div>
+        <div v-else-if="name.length > 30" class="error">
+          {{ toast_danger("Название", validation.name_length) }}
+        </div>
       </div>
+
       <div class="register-item">
-        <p class="required">*</p>
         <label for="city_name">Город</label>
         <my-input v-model="city_name" name="city_name" placeholder="Город" @input="cityInput"></my-input>
+        <div v-if="city_name == '' && all_validated" class="error">
+          {{ toast_danger("Город", validation.city_name) }}
+        </div>
       </div>
+
       <div class="register-item">
-        <p class="required">*</p>
         <label for="TWOgis_url">2ГИС (Ссылка)</label>
         <my-input type="url" v-model="TWOgis_url" name="TWOgis_url" placeholder="2ГИС" @input="TWOgisInput"></my-input>
+        <div v-if="TWOgis_url == '' && all_validated" class="error">{{ toast_danger("Cсылка на 2ГИС",
+          validation.TWOgis_url)
+        }}
+        </div>
+        <div v-else-if="TWOgis_url.length > 0 && !TWOgis_url.includes('2gis.kz')" class="error">
+          {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url_invalid) }}
+        </div>
       </div>
       <div class="register-item">
         <p class="required">*</p>
@@ -144,35 +158,7 @@
       </form>
     </div>
 
-    <!-- Валидационная часть -->
     <div class="validation">
-      <div class="validation-item" v-if="name == ''">
-        <p>{{ validation.name }}</p>
-      </div>
-      <div class="validation-item" v-if="city_name == ''">
-        <p>{{ validation.city_name }}</p>
-      </div>
-      <div class="validation-item" v-if="address == ''">
-        <p>{{ validation.address }}</p>
-      </div>
-      <div class="validation-item" v-if="phone == ''">
-        <p>{{ validation.phone }}</p>
-      </div>
-      <div class="validation-item" v-if="TWOgis_url == ''">
-        <p>{{ validation.TWOgis_url }}</p>
-      </div>
-      <div class="validation-item" v-if="start_work_time == ''">
-        <p>{{ validation.start_work_time }}</p>
-      </div>
-      <div class="validation-item" v-if="end_work_time == ''">
-        <p>{{ validation.end_work_time }}</p>
-      </div>
-      <div class="validation-item" v-if="category == ''">
-        <p>{{ validation.category }}</p>
-      </div>
-      <div class="validation-item" v-if="subcategory == ''">
-        <p>{{ validation.subcategory }}</p>
-      </div>
       <div class="validation-item">
         <button class="next_button" @click="addPlace">Добавить заведение</button>
       </div>
@@ -196,6 +182,9 @@ import { createID } from "@/api/cheeze";
 import { postPlace } from "@/api/methods";
 import { uploadImage } from "@/api/methods";
 
+import { createToast } from 'mosha-vue-toastify';
+import 'mosha-vue-toastify/dist/style.css';
+
 export default {
   name: 'admin',
   setup() {
@@ -204,13 +193,24 @@ export default {
         { label: "ресторан", value: "ресторан" },
         { label: "кафе", value: "кафе" },
         { label: "бар", value: "бар" },
-        { label: "музыка", value: "музыка" },
+        { label: "кафейня", value: "кафейня" },
+        { label: "кофе", value: "кофе" },
+        { label: "живая музыка", value: "живая музыка" },
         { label: "клуб", value: "клуб" },
         { label: "недорого", value: "недорого" },
         { label: "стейк", value: "стейк" },
         { label: "халал", value: "халал" },
         { label: "работаем ночью", value: "работаем ночью" },
-
+        { label: "большие столы", value: "большие столы" },
+        { label: "много розеток", value: "много розеток" },
+        { label: "бизнес-ланч", value: "бизнес-ланч" },
+        { label: "банкет", value: "банкет" },
+        { label: "детская комната", value: "детская комната" },
+        { label: "детское меню", value: "детское меню" },
+        { label: "детская площадка", value: "детская площадка" },
+        { label: "итальянская кухня", value: "итальянская кухня" },
+        { label: "грузинская кухня", value: "грузинская кухня" },
+        { label: "фаст-фуд", value: "фаст-фуд" },
       ],
       validation: {
         "name": "Укажите название заведения",
@@ -218,13 +218,93 @@ export default {
         "TWOgis_url": "Укажите ссылку на 2ГИС",
         "address": "Укажите адрес",
         "phone": "Укажите номер телефона",
-        "category": "Укажите категорию",
-        "subcategory": "Укажите подкатегорию",
         "short_description": "Укажите краткое описание",
         "long_description": "Укажите полное описание",
         "start_work_time": "Укажите время начала работы",
         "end_work_time": "Укажите время окончания работы",
-        "big_address": "Адрес длинее 25 символов",
+        "category": "Укажите категорию",
+        "subcategory": "Укажите подкатегорию",
+        "name_length": "Название не может быть длинее 30 символов",
+        "short_description_length": "Краткое описание не может быть длинее 30 символов",
+        "long_description_length": "Полное описание не может быть длинее 200 символов",
+        "address_length": "Адрес не может быть длинее 25 символов",
+        "phone_length": "Вы ввели неверный номер телефона",
+        "category_length": "Категория не может быть длинее 15 символов",
+        "subcategory_length": "Подкатегория не может быть длинее 15 символов",
+        "tag_length": "Тег не может быть длинее 15 символов",
+        "image_length": "Загрузите минимум 1 фотографию",
+        "TWOgis_url_invalid": "Ваша ссылка не ведет на 2ГИС",
+
+      },
+      validation_not_required: {
+        "instagram_link": "Укажите ссылку на инстаграм",
+        "whatsapp_link": "Укажите телефон на котором есть whatsapp, и тогда он появится на странице вашего заведения",
+        "image_count": "Вы можете загрузить 3 фотографии",
+        "tags_count": "Вы можете выбрать 10 тегов, чем больше тегов, тем выше шанс попасть в рекомендации",
+        "work_time": "Кажется с вашем рабочим временем что-то не так"
+      },
+      toast_danger: function (title, description) {
+        createToast({
+          title: title,
+          description: description
+        }, {
+          type: 'danger', // 'info', 'danger', 'warning', 'success', 'default'
+          timeout: 5000,
+          showCloseButton: true,
+          position: 'top-center', // 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'top-center', 'bottom-center'
+          transition: 'bounce',
+          hideProgressBar: false,
+          swipeClose: true,
+          onClose: null,
+          showIcon: true
+        })
+      },
+      toast_success: function (title, description) {
+        createToast({
+          title: title,
+          description: description
+        }, {
+          type: 'success', // 'info', 'danger', 'warning', 'success', 'default'
+          timeout: 5000,
+          showCloseButton: true,
+          position: 'top-center', // 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'top-center', 'bottom-center'
+          transition: 'bounce',
+          hideProgressBar: false,
+          swipeClose: true,
+          onClose: null
+        })
+      },
+      toast_warning: function (title, description) {
+        createToast({
+          title: title,
+          description: description
+        }, {
+          type: 'success', // 'info', 'danger', 'warning', 'success', 'default'
+          timeout: 5000,
+          showCloseButton: true,
+          position: 'top-center', // 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'top-center', 'bottom-center'
+          transition: 'bounce',
+          hideProgressBar: false,
+          swipeClose: true,
+          onClose: null
+        })
+      },
+      areAllTrue(obj) {
+        for (var key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            if (!obj[key]) {
+              return false;
+            }
+          }
+        }
+        return true;
+      },
+      replaceKeysWithFalse(obj) {
+        var newObj = {};
+        for (var key in obj) {
+          newObj[key] = false;
+        }
+        return newObj;
       }
     }
   },
@@ -236,12 +316,27 @@ export default {
   methods: {
     NameInput(event) {
       this.name = event.target.value;
+      if (this.name.length < 30) {
+        this.validation_options.name_valid = true;
+      }
+      else {
+        this.validation_options.name_valid = false;
+      }
     },
     cityInput(event) {
       this.city_name = event.target.value;
     },
     TWOgisInput(event) {
       this.TWOgis_url = event.target.value;
+      if (typeof url !== 'string') {
+        return false;
+      }
+
+      const domain = "2gis.kz";
+
+      if (this.TWOgis_url.includes(domain)) {
+        this.validation_options.TWOgis_url_valid = true;
+      }
     },
     addressInput(event) {
       this.address = event.target.value;
@@ -279,10 +374,6 @@ export default {
         reader.onload = () => {
           const binary = reader.result;
           this.images1 = binary;
-          // this.uploadImages.push(binary);
-
-          // var index = Object.keys(this.uploadImages).length;
-          // this.uploadImages[index] = binary;
         };
       }
     },
@@ -295,10 +386,6 @@ export default {
         reader.onload = () => {
           const binary = reader.result;
           this.images2 = binary;
-          // this.uploadImages.push(binary);
-
-          // var index = Object.keys(this.uploadImages).length;
-          // this.uploadImages[index] = binary;
         };
       }
     },
@@ -311,15 +398,19 @@ export default {
         reader.onload = () => {
           const binary = reader.result;
           this.images3 = binary;
-          // this.uploadImages.push(binary);
-
-          // var index = Object.keys(this.uploadImages).length;
-          // this.uploadImages[index] = binary;
         };
       }
     },
+
     addPlace() {
       const id = createID();
+      this.all_validated = true;
+      if (this.areAllTrue(this.validation_options)) {
+        this.all_validated = true;
+      }
+
+
+
       const data = {
         place_id: id,
         likes: 0,
@@ -356,6 +447,10 @@ export default {
           place_id: id,
           file: this.images1,
         }
+
+        this.all_validated = false;
+        replaceKeysWithFalse(this.validation_options)
+        this.succefully_added = true;
 
         uploadImage(image_pack).then((response) => {
           console.log(response);
@@ -411,7 +506,39 @@ export default {
       tag3: "",
       tag2: "",
       tag1: "",
-      uploadImages: [],
+
+
+      all_validated: false,
+
+      succefully_added: false,
+
+      validation_options: {
+        name_valid: false,
+        city_name_valid: false,
+        TWOgis_url_valid: false,
+        address_valid: false,
+        instagram_link_valid: false,
+        phone_valid: false,
+        category_valid: false,
+        subcategory_valid: false,
+        short_description_valid: false,
+        long_description_valid: false,
+        start_work_time_valid: false,
+        end_work_time_valid: false,
+        images1_valid: false,
+        images2_valid: false,
+        images3_valid: false,
+        tag10_valid: false,
+        tag9_valid: false,
+        tag8_valid: false,
+        tag7_valid: false,
+        tag6_valid: false,
+        tag5_valid: false,
+        tag4_valid: false,
+        tag3_valid: false,
+        tag2_valid: false,
+        tag1_valid: false,
+      }
     }
   },
 }
@@ -419,7 +546,7 @@ export default {
 
 <style scoped>
 #admin {
-  background-color: #DC143C;
+  background-color: var(--main-haki-color);
   display: flex;
   flex-direction: column;
   align-items: center;
