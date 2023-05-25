@@ -53,7 +53,7 @@
 
       <div class="status-container">
         <div class="status-label">
-          <p>{{ this.favourites.length }}</p>
+          <p>{{ this.likesCount }}</p>
           <i class="fa fa-heart" id="star"></i>
         </div>
         <div class="status-label">
@@ -91,32 +91,13 @@ export default {
       this.coins = res.data.coins;
       this.rewards = res.data.rewards;
       this.status = res.data.status;
-      this.favourites = res.data.favourites;
       this.places = [];
       this.email = res.data.email;
-
-
-      console.log(this.favourites);
-      this.favourites = this.favourites.split(",").slice(0, -1);
-
-      const promises = [];
-
-      for (const key in this.favourites) {
-        if (Object.hasOwnProperty.call(this.favourites, key)) {
-          const element = this.favourites[key];
-          promises.push(getPlaceByID(element));
-        }
-      }
-
-      Promise.all(promises)
-        .then((places) => {
-          this.places = places.map((place) => place.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
+      this.favourites = JSON.parse(res.data.favourites);
     });
+
+
+
 
     getReviewsCountByUserID(user_id).then((res) => {
       this.review_count = res;
@@ -177,7 +158,7 @@ export default {
       status: "client",
       avatar: "",
       avatar_new: "",
-      favourites: [],
+      favourites: {},
       places: [],
       review_count: 0,
       all_reviews: [],
@@ -186,6 +167,11 @@ export default {
       email: "",
     };
   },
+  computed: {
+    likesCount() {
+      return this.favourites.length;
+    },
+  }
 };
 </script>
 

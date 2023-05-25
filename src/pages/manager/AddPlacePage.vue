@@ -265,7 +265,7 @@ import { createToast, clearToasts } from 'mosha-vue-toastify';
 import 'mosha-vue-toastify/dist/style.css';
 
 export default {
-  name: 'admin',
+  name: 'add-place-page',
   setup() {
     return {
       all_tags: [

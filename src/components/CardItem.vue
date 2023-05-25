@@ -3,10 +3,10 @@
     <div class="place-image">
       <span>{{ place.short_description }}</span>
       <div class="place-marks">
-        <!-- <p class="like-red" @click="addToFavourite" v-if="InFavourites(place.place_id)">
+        <p class="like-red" @click="addToFavourites" v-if="ifInFavourite">
           <i class="fa fa-heart" aria-hidden="true"></i>
-        </p> -->
-        <p class="like" @click="addToFavourite">
+        </p>
+        <p class="like" @click="addToFavourites" v-else>
           <i class="fa fa-heart" aria-hidden="true"></i>
         </p>
       </div>
@@ -52,7 +52,7 @@ export default {
     this.image = this.image.slice(0, 1);
 
     const user = await getUserByID(Number(localStorage.getItem("user_id")));
-    this.favourites = user.data.favourites;
+    this.favourites = JSON.parse(user.data.favourites);
 
 
   },
@@ -60,26 +60,37 @@ export default {
     routeToPlace() {
       this.$router.push(`/place/${this.place.place_id}`);
     },
-    addToFavourite() {
+    addToFavourites() {
       const favorite_pack = {
         user_id: Number(localStorage.getItem("user_id")),
         place_id: this.place.place_id,
+      }
+
+      if (this.place.place_id in this.favourites) {
+        delete this.favourites[this.place.place_id];
+      }
+      else {
+        this.favourites[this.place.place_id] = this.place.place_id;
       }
 
       addToFavorite(favorite_pack).then((response) => {
         console.log(response);
       });
 
-      this.favourites = this.favourites.split(",");
-
-      if (this.place.place_id in this.favourites) {
-        delete this.favourites[this.place.place_id];
-      } else {
-        this.favourites[this.place.place_id] = true;
-      }
     },
     InFavourites(place_id) {
-      return Object.keys(this.favourites).includes(place_id);
+      if (this.favourites === "") {
+        console.log("favourites is empty");
+        return false;
+      }
+      if (place_id in this.favourites) {
+        console.log("place in favourites");
+        return true;
+      }
+      else {
+        console.log("place not in favourites");
+        return false;
+      }
     }
   },
   data() {
@@ -87,6 +98,22 @@ export default {
       image: "https://phonoteka.org/uploads/posts/2022-09/1663853186_2-phonoteka-org-p-znachok-zagruzki-bez-fona-instagram-2.png",
       favourites: "",
     };
+  },
+  computed: {
+    ifInFavourite() {
+      if (this.favourites === "") {
+        console.log("favourites is empty");
+        return false;
+      }
+      if (this.place.place_id in this.favourites) {
+        console.log("place in favourites");
+        return true;
+      }
+      else {
+        console.log("place not in favourites");
+        return false;
+      }
+    },
   },
 };
 </script>
