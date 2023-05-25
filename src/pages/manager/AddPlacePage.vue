@@ -9,7 +9,7 @@
       <!-- Клиент часть -->
       <div class="register-item">
         <label for="name">Название заведения (MAX: 30 символов)</label>
-        <my-input v-model="name" name="name" placeholder="Название заведения" @input="NameInput"></my-input>
+        <my-input v-model.lazy="name" name="name" placeholder="Название заведения" @input="NameInput"></my-input>
         <div v-if="name == '' && all_validated" class="error">
           {{ toast_danger("Название", validation.name) }}
         </div>
@@ -20,31 +20,51 @@
 
       <div class="register-item">
         <label for="city_name">Город</label>
-        <my-input v-model="city_name" name="city_name" placeholder="Город" @input="cityInput"></my-input>
+        <my-input v-model.lazy="city_name" name="city_name" placeholder="Город" @input="cityInput"></my-input>
         <div v-if="city_name == '' && all_validated" class="error">
           {{ toast_danger("Город", validation.city_name) }}
         </div>
       </div>
-
-      <div class="register-item">
-        <label for="TWOgis_url">2ГИС (Ссылка)</label>
-        <my-input type="url" v-model.lazy="TWOgis_url" name="TWOgis_url" placeholder="2ГИС"
-          @input="TWOgisInput"></my-input>
-        <div v-if="TWOgis_url == '' && all_validated" class="error">
-          {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url) }}
-        </div>
-        <div v-else-if="TWOgis_url.length > 0 && !TWOgis_url.includes('2gis.kz')" class="error">
-          {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url_invalid) }}
-        </div>
-      </div>
       <div class="register-item">
         <label for="address">Адрес Улицы (MAX: 25 символов)</label>
-        <my-input v-model="address" name="address" placeholder="Адрес" @input="addressInput"></my-input>
+        <my-input v-model.lazy="address" name="address" placeholder="Адрес" @input="addressInput"></my-input>
         <div v-if="address == '' && all_validated" class="error">
           {{ toast_danger("Адрес", validation.address) }}
         </div>
         <div v-else-if="address.length > 25 && !validation_options.address_valid" class="error">
           {{ toast_danger("Адрес", validation.address_length) }}
+        </div>
+      </div>
+      <div class="register-item">
+        <label for="short_description">Короткое описание (MAX: 30 символов)</label>
+        <my-input v-model.lazy="short_description" name="short_description" placeholder="Короткое описание"
+          @input="shortDescriptionInput"></my-input>
+        <div v-if="short_description == '' && all_validated" class="error">
+          {{ toast_danger("Короткое описание", validation.short_description) }}
+        </div>
+        <div v-else-if="short_description.length > 30 && !validation_options.short_description_valid" class="error">
+          {{ toast_danger("Короткое описание", validation.short_description_length) }}
+        </div>
+      </div>
+      <div class="register-item">
+        <label for="long_description">Длинное описание (MAX: 200 символов)</label>
+        <my-text-area v-model.lazy="long_description" name="long_description" placeholder="Длинное описание"
+          @input="longDescriptionInput"></my-text-area>
+        <div v-if="long_description == '' && all_validated" class="error">
+          {{ toast_danger("Длинное описание", validation.long_description) }}
+        </div>
+        <div v-else-if="long_description.length > 200 && !validation_options.long_description_valid" class="error">
+          {{ toast_danger("Длинное описание", validation.long_description_length) }}
+        </div>
+      </div>
+      <div class="register-item">
+        <label for="TWOgis_url">2ГИС (Ссылка)</label>
+        <my-input type="url" v-model="TWOgis_url" name="TWOgis_url" placeholder="2ГИС" @input="TWOgisInput"></my-input>
+        <div v-if="TWOgis_url == '' && all_validated" class="error">
+          {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url) }}
+        </div>
+        <div v-else-if="TWOgis_url.length > 0 && !TWOgis_url.includes('2gis.kz')" class="error">
+          {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url_invalid) }}
         </div>
       </div>
       <div class="register-item">
@@ -59,41 +79,16 @@
         </div>
       </div>
       <div class="register-item">
-        <label for="short_description">Короткое описание (MAX: 30 символов)</label>
-        <my-input v-model="short_description" name="short_description" placeholder="Короткое описание"
-          @input="shortDescriptionInput"></my-input>
-        <div v-if="short_description == '' && all_validated" class="error">
-          {{ toast_danger("Короткое описание", validation.short_description) }}
-        </div>
-        <div v-else-if="short_description.length > 30 && !validation_options.short_description_valid" class="error">
-          {{ toast_danger("Короткое описание", validation.short_description_length) }}
-        </div>
-      </div>
-      <div class="register-item">
-        <label for="long_description">Длинное описание (MAX: 200 символов)</label>
-        <my-input v-model="long_description" name="long_description" placeholder="Длинное описание"
-          @input="longDescriptionInput"></my-input>
-        <div v-if="long_description == '' && all_validated" class="error">
-          {{ toast_danger("Длинное описание", validation.long_description) }}
-        </div>
-        <div v-else-if="long_description.length > 200 && !validation_options.long_description_valid" class="error">
-          {{ toast_danger("Длинное описание", validation.long_description_length) }}
-        </div>
-      </div>
-      <div class="register-item">
         <label for="instagram_link">Instagram (Ссылка)</label>
-        <my-input v-model="instagram_link" name="instagram_link" placeholder="Instagram"
+        <my-input v-model.lazy="instagram_link" name="instagram_link" placeholder="Instagram"
           @input="instagramInput"></my-input>
-        <div v-if="instagram_link == '' && all_validated" class="error">
-          {{ toast_danger("Ссылка на Instagram", validation.instagram_link) }}
-        </div>
-        <div v-else-if="instagram_link.length > 0 && !instagram_link.includes('instagram.com')" class="error">
+        <div v-if="instagram_link.length > 0 && !instagram_link.includes('instagram.com')" class="error">
           {{ toast_danger("Ссылка на Instagram", validation.instagram_link_invalid) }}
         </div>
       </div>
       <div class="register-item">
         <label for="category">Категория (MAX: 18 символов)</label>
-        <my-input v-model="category" name="category" placeholder="Категория" @input="categoryInput"></my-input>
+        <my-input v-model.lazy="category" name="category" placeholder="Категория" @input="categoryInput"></my-input>
         <div v-if="category == '' && all_validated" class="error">
           {{ toast_danger("Категория", validation.category) }}
         </div>
@@ -103,7 +98,7 @@
       </div>
       <div class="register-item">
         <label for="subcategory">Подкатегория (MAX: 18 символов)</label>
-        <my-input v-model="subcategory" name="subcategory" placeholder="Подкатегория"
+        <my-input v-model.lazy="subcategory" name="subcategory" placeholder="Подкатегория"
           @input="subcategoryInput"></my-input>
         <div v-if="subcategory == '' && all_validated" class="error">
           {{ toast_danger("Подкатегория", validation.subcategory) }}
@@ -114,18 +109,23 @@
       </div>
       <div class="register-item">
         <label for="start-work-time">Начало работы (00:00:00)</label>
-        <my-input type="time" v-model="start_work_time" name="start-work-time" placeholder="Время открытия"
-          @input="startWorkTimeInput"></my-input>
+        <my-input type="time" v-model.lazy="start_work_time" name="start-work-time" placeholder="Время открытия"
+          @input.once="startWorkTimeInput"></my-input>
         <div v-if="start_work_time == '' && all_validated" class="error">
           {{ toast_danger("Начало работы", validation.start_work_time) }}
         </div>
       </div>
       <div class="register-item">
         <label for="end-work-time">Конец работы (00:00:00)</label>
-        <my-input type="time" v-model="end_work_time" name="end-work-time" placeholder="Время закрытия"
-          @input="endWorkTimeInput"></my-input>
+        <my-input type="time" v-model.lazy="end_work_time" name="end-work-time" placeholder="Время закрытия"
+          @input.once="endWorkTimeInput"></my-input>
         <div v-if="end_work_time == '' && all_validated" class="error">
           {{ toast_danger("Конец работы", validation.end_work_time) }}
+        </div>
+        <div
+          v-else-if="end_work_time < start_work_time && validation_options.end_work_time_valid && validation_options.start_work_time_valid"
+          class="error">
+          {{ toast_danger("Время работы", validation_not_required.work_time) }}
         </div>
       </div>
       <div class="register-label">
@@ -178,37 +178,31 @@
         <div v-if="tag5 == '' && all_validated" class="error">
           {{ toast_danger("Тег (5 баллов)", validation.tag5) }}
         </div>
+        <div v-if="youCanAddMoreThanFive" class="error">
+          {{ toast_warning("Теги", validation_not_required.tags_count) }}
+        </div>
       </div>
       <div class="register-selected">
         <label for="tag4">ТЕГ (4 баллов)</label>
         <v-select v-model="tag4" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (4 баллов)" />
-        <div v-if="tag4 == '' && all_validated" class="error">
-          {{ toast_danger("Тег (4 баллов)", validation.tag4) }}
-        </div>
       </div>
       <div class="register-selected">
         <label for="tag3">ТЕГ (3 баллов)</label>
         <v-select v-model="tag3" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (3 баллов)" />
-        <div v-if="tag3 == '' && all_validated" class="error">
-          {{ toast_danger("Тег (3 баллов)", validation.tag3) }}
-        </div>
       </div>
       <div class="register-selected">
         <label for="tag2">ТЕГ (2 баллов)</label>
         <v-select v-model="tag2" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (2 баллов)" />
-        <div v-if="tag2 == '' && all_validated" class="error">
-          {{ toast_danger("Тег (2 баллов)", validation.tag2) }}
-        </div>
       </div>
       <div class="register-selected">
         <label for="tag1">ТЕГ (1 баллов)</label>
         <v-select v-model="tag1" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (1 баллов)" />
-        <div v-if="tag1 == '' && all_validated" class="error">
-          {{ toast_danger("Тег (1 баллов)", validation.tag1) }}
+        <div v-if="checkDuplicates" class="error">
+          {{ toast_warning("Теги", validation_not_required.tags_same) }}
         </div>
       </div>
     </div>
@@ -218,7 +212,10 @@
         <my-input v-model="images1" name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
       </form>
       <div v-if="images1 == '' && all_validated" class="error">
-        {{ toast_danger("Картинки 1 (JPG, PNG)", validation.images1) }}
+        {{ toast_danger("Картинки", validation.images1) }}
+      </div>
+      <div v-if="images1 !== '' && images2 == ''" class="error">
+        {{ toast_warning("Картинки", validation_not_required.image_count) }}
       </div>
     </div>
     <div class="register-photo">
@@ -240,6 +237,11 @@
       </div>
     </div>
 
+    <div v-if="succefully_added" class="error">
+      {{ toast_success("Вы успешно добавили заведение") }}
+    </div>
+
+
 
 
     <div class="zaglushka"></div>
@@ -250,6 +252,7 @@
 <script>
 import MyInput from "@/components/UI/MyInput.vue";
 import MyButton from "@/components/UI/MyButton.vue";
+import MyTextArea from "@/components/UI/MyTextArea.vue";
 
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
@@ -258,7 +261,7 @@ import { createID } from "@/api/cheeze";
 import { postPlace } from "@/api/methods";
 import { uploadImage } from "@/api/methods";
 
-import { createToast } from 'mosha-vue-toastify';
+import { createToast, clearToasts } from 'mosha-vue-toastify';
 import 'mosha-vue-toastify/dist/style.css';
 
 export default {
@@ -317,8 +320,10 @@ export default {
         "instagram_link": "Укажите ссылку на ваш INSTAGRAM, и тогда он появится на странице вашего заведения",
         "whatsapp_link": "Укажите телефон на котором есть whatsapp, и тогда он появится на странице вашего заведения",
         "image_count": "Вы можете загрузить 3 фотографии",
-        "tags_count": "Вы можете выбрать 10 тегов, чем больше тегов, тем выше шанс попасть в рекомендации",
-        "work_time": "Кажется с вашем рабочим временем что-то не так"
+        "tags_count": "Вы можете выбрать/создать 10 тегов, чем больше тегов и чем они узнонаправленее, тем выше шанс попасть в рекомендации",
+        "work_time": "Ваше время работы явно ошибочное",
+        "image_same": "Вы загрузили одинаковые фотографии",
+        "tags_same": "Выбор одинаковых тегов не имеет смысла",
       },
       toast_danger: function (title, description) {
         createToast({
@@ -332,7 +337,8 @@ export default {
           transition: 'bounce',
           hideProgressBar: false,
           swipeClose: true,
-          onClose: null
+          onClose: null,
+          showIcon: true
         })
       },
       toast_success: function (title, description) {
@@ -341,13 +347,14 @@ export default {
           description: description
         }, {
           type: 'success', // 'info', 'danger', 'warning', 'success', 'default'
-          timeout: 5000,
+          timeout: 10000,
           showCloseButton: true,
           position: 'top-center', // 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'top-center', 'bottom-center'
           transition: 'bounce',
           hideProgressBar: false,
           swipeClose: true,
-          onClose: null
+          onClose: null,
+          showIcon: true
         })
       },
       toast_warning: function (title, description) {
@@ -355,14 +362,15 @@ export default {
           title: title,
           description: description
         }, {
-          type: 'success', // 'info', 'danger', 'warning', 'success', 'default'
+          type: 'info', // 'info', 'danger', 'warning', 'success', 'default'
           timeout: 5000,
           showCloseButton: true,
           position: 'top-center', // 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'top-center', 'bottom-center'
           transition: 'bounce',
           hideProgressBar: false,
           swipeClose: true,
-          onClose: null
+          onClose: null,
+          showIcon: true
         })
       },
       areAllTrue(obj) {
@@ -381,13 +389,41 @@ export default {
           newObj[key] = false;
         }
         return newObj;
-      }
+      },
+      clearAllInputsData() {
+        this.name = "";
+        this.city_name = "";
+        this.TWOgis_url = "";
+        this.address = "";
+        this.instagram_link = "";
+        this.phone = "+7";
+        this.category = "";
+        this.subcategory = "";
+        this.short_description = "";
+        this.long_description = "";
+        this.start_work_time = "";
+        this.end_work_time = "";
+        this.images1 = "";
+        this.images2 = "";
+        this.images3 = "";
+        this.tag10 = "";
+        this.tag9 = "";
+        this.tag8 = "";
+        this.tag7 = "";
+        this.tag6 = "";
+        this.tag5 = "";
+        this.tag4 = "";
+        this.tag3 = "";
+        this.tag2 = "";
+        this.tag1 = "";
+      },
     }
   },
   components: {
     MyInput,
     MyButton,
     vSelect,
+    MyTextArea,
   },
   methods: {
     NameInput(event) {
@@ -397,27 +433,50 @@ export default {
       }
       else {
         this.validation_options.name_valid = false;
+        clearToasts();
       }
+
     },
     cityInput(event) {
       this.city_name = event.target.value;
+      this.validation_options.city_name_valid = true;
     },
     TWOgisInput(event) {
       this.TWOgis_url = event.target.value;
-      this.validation_options.TWOgis_url_valid = false;
+      if (this.TWOgis_url.includes('2gis.kz')) {
+        this.validation_options.TWOgis_url_valid = true;
+      }
+      else {
+        this.validation_options.TWOgis_url_valid = false;
+        clearToasts();
+      }
     },
     addressInput(event) {
       this.address = event.target.value;
+      if (this.address.length < 25) {
+        this.validation_options.address_valid = true;
+      }
+      else {
+        this.validation_options.address_valid = false;
+        clearToasts();
+      }
+
     },
     phoneInput(event) {
-      if (Number(event.target.value) || event.target.value == '+7') {
+      if (Number(event.target.value.slice(1, -1)) || event.target.value == '+7') {
         this.phone = event.target.value;
 
-        if (this.phone.length < 13) {
+        if (this.phone.length === 12) {
           this.validation_options.phone_valid = true;
+        }
+        else if (this.phone.length < 13) {
+          // ssory for this
+          // but it's like true but not true
+          this.validation_options.phone_valid = "krivalex";
         }
         else {
           this.validation_options.phone_valid = false;
+          clearToasts();
         }
       }
       else {
@@ -428,24 +487,61 @@ export default {
     },
     categoryInput(event) {
       this.category = event.target.value;
+      if (this.category.length < 18) {
+        this.validation_options.category_valid = true;
+      }
+      else {
+        this.validation_options.category_valid = false;
+        clearToasts();
+      }
     },
     subcategoryInput(event) {
       this.subcategory = event.target.value;
+      if (this.subcategory.length < 18) {
+        this.validation_options.subcategory_valid = true;
+      }
+      else {
+        this.validation_options.subcategory_valid = false;
+        clearToasts();
+      }
     },
     instagramInput(event) {
       this.instagram_link = event.target.value;
+      if (this.instagram_link.length > 0 && this.instagram_link.includes('instagram.com')) {
+        this.validation_options.instagram_link_valid = true;
+      }
+      else {
+        this.validation_options.instagram_link_valid = false;
+        clearToasts();
+      }
     },
     shortDescriptionInput(event) {
       this.short_description = event.target.value;
+      if (this.short_description.length < 30) {
+        this.validation_options.short_description_valid = true;
+      }
+      else {
+        this.validation_options.short_description_valid = false;
+        clearToasts();
+      }
     },
     longDescriptionInput(event) {
       this.long_description = event.target.value;
+      if (this.long_description.length < 200) {
+        this.validation_options.long_description_valid = true;
+      }
+      else {
+        this.validation_options.long_description_valid = false;
+        clearToasts();
+      }
     },
     startWorkTimeInput(event) {
       this.start_work_time = event.target.value;
+      this.validation_options.start_work_time_valid = true;
     },
     endWorkTimeInput(event) {
       this.end_work_time = event.target.value;
+      this.validation_options.end_work_time_valid = true;
     },
     imagesInput1(event) {
       const files = event.target.files;
@@ -456,6 +552,7 @@ export default {
         reader.onload = () => {
           const binary = reader.result;
           this.images1 = binary;
+          this.validation_options.images1_valid = true;
         };
       }
     },
@@ -488,7 +585,7 @@ export default {
       const id = createID();
       this.all_validated = true;
       if (this.areAllTrue(this.validation_options)) {
-        this.all_validated = true;
+        this.all_validated = "krivalex";
       }
 
       const data = {
@@ -521,7 +618,7 @@ export default {
         },
 
       }
-      if (this.all_validated) {
+      if (this.all_validated === "krivalex") {
         postPlace(data).then((response) => {
           console.log(response);
           let image_pack = {
@@ -532,6 +629,7 @@ export default {
           this.all_validated = false;
           this.replaceKeysWithFalse(this.validation_options)
           this.succefully_added = true;
+          this.clearAllInputsData();
 
           uploadImage(image_pack).then((response) => {
             console.log(response);
@@ -585,18 +683,16 @@ export default {
       tag3: "",
       tag2: "",
       tag1: "",
-
-
       all_validated: false,
-
       succefully_added: false,
+      once: true,
 
       validation_options: {
         name_valid: false,
         city_name_valid: false,
         TWOgis_url_valid: false,
         address_valid: false,
-        instagram_link_valid: false,
+        instagram_link_valid: true,
         phone_valid: false,
         category_valid: false,
         subcategory_valid: false,
@@ -605,21 +701,51 @@ export default {
         start_work_time_valid: false,
         end_work_time_valid: false,
         images1_valid: false,
-        images2_valid: false,
-        images3_valid: false,
-        tag10_valid: false,
-        tag9_valid: false,
-        tag8_valid: false,
-        tag7_valid: false,
-        tag6_valid: false,
-        tag5_valid: false,
-        tag4_valid: false,
-        tag3_valid: false,
-        tag2_valid: false,
-        tag1_valid: false,
+        images2_valid: true,
+        images3_valid: true,
+        tag10_valid: true,
+        tag9_valid: true,
+        tag8_valid: true,
+        tag7_valid: true,
+        tag6_valid: true,
+        tag5_valid: true,
+        tag4_valid: true,
+        tag3_valid: true,
+        tag2_valid: true,
+        tag1_valid: true,
       }
     }
   },
+  computed: {
+    checkDuplicates() {
+      const all_tags = [this.tag10, this.tag9, this.tag8, this.tag7, this.tag6, this.tag5, this.tag4, this.tag3, this.tag2, this.tag1]
+
+      let duplicates = false;
+      for (let i = 0; i < all_tags.length; i++) {
+        for (let j = 0; j < all_tags.length; j++) {
+          if (all_tags[i] == all_tags[j] && i != j && all_tags[i] !== "") {
+            duplicates = true;
+          }
+        }
+      }
+      return duplicates;
+    },
+    youCanAddMoreThanFive() {
+      const all_tags = [this.tag10, this.tag9, this.tag8, this.tag7, this.tag6, this.tag5, this.tag4, this.tag3, this.tag2, this.tag1]
+      let counter = 0;
+      for (let i = 0; i < all_tags.length; i++) {
+        if (all_tags[i] !== "") {
+          counter++;
+        }
+      }
+      if (counter === 5) {
+        clearToasts();
+        return true;
+      } else {
+        return false;
+      }
+    },
+  }
 }
 </script>
 
