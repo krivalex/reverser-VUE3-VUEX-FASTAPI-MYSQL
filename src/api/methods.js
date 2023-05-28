@@ -206,20 +206,33 @@ const getReviewsCountByUserID = async (user_id) => {
   }
 }
 
+const postReviewLike = async (review_id, user_id) => {
+  try {
+    const response = await axios.put(`${base_url}/reviews/${user_id}/${review_id}/like`)
+    const data = response.data
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const postReviewDislike = async (review_id, user_id) => {
+  try {
+    const response = await axios.put(`${base_url}/reviews/${user_id}/${review_id}/dislike`)
+    const data = response.data
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export {
   getPlaces,
-  getReviewsByUserID,
-  getReviewsCountByUserID,
-  uploadReviewImageByID,
-  getAvatarByID,
-  uploadAvatarByID,
-  addToFavorite,
-  getImageReviewByID,
-  getImageByID,
   getPlaceByID,
   postPlace,
   getUsers,
   getUserByID,
+  checkUser,
   postUser,
   putUserByID,
   getReviewsByID,
@@ -228,5 +241,14 @@ export {
   postReview,
   allTags,
   uploadImage,
-  checkUser,
+  getImageByID,
+  uploadReviewImageByID,
+  getImageReviewByID,
+  addToFavorite,
+  uploadAvatarByID,
+  getAvatarByID,
+  getReviewsByUserID,
+  getReviewsCountByUserID,
+  postReviewLike,
+  postReviewDislike,
 }

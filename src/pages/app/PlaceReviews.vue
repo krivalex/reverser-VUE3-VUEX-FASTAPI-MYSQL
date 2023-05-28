@@ -131,6 +131,17 @@
             <p>{{ review.date.slice(11) }}</p>
           </div>
 
+          <div class="reviews-like-dislike">
+            <div class="reviews-like-dislike-item" @click="plusLikeToReview(review.review_id)">
+              <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+              <p>{{ review.likes }}</p>
+            </div>
+            <div class="reviews-like-dislike-item" @click="plusDislikeToReview(review.review_id)">
+              <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+              <p>{{ review.dislikes }}</p>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -174,6 +185,7 @@ export default {
     reviews() {
       return this.$store.state.review_item_info;
     },
+
   },
 
 
@@ -247,6 +259,20 @@ export default {
     },
     InstagramRedirect() {
       window.open(this.place.instagram_link, '_blank')
+    },
+    async plusLikeToReview(review_id) {
+      const data = {
+        review_id: review_id,
+        user_id: Number(localStorage.getItem('user_id')),
+      }
+      await this.$store.dispatch('fetchLikes', data);
+    },
+    async plusDislikeToReview(review_id) {
+      const data = {
+        review_id: review_id,
+        user_id: Number(localStorage.getItem('user_id')),
+      }
+      await this.$store.dispatch('fetchDislikes', data);
     },
     async addReview() {
       const id = createID();
@@ -519,6 +545,7 @@ input[type="file" i] {
 
 .reviews-item {
   margin-top: 15px;
+  position: relative;
 }
 
 .reviews-item-text p {
@@ -1118,6 +1145,28 @@ input[type="file" i] {
 .fa-map-marker {
   color: #5c8aed;
   font-size: 30px;
+}
+
+.fa-thumbs-up {
+  color: #19de2a;
+  font-size: 30px;
+}
+
+.fa-thumbs-down {
+  color: #de1919;
+  font-size: 30px;
+}
+
+.reviews-like-dislike {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .reviews-item-image img {
