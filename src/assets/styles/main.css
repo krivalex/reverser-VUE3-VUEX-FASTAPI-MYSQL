@@ -18,6 +18,9 @@
   --main-grey-color: #D9C5C9;
   --main-red-color: #DC143C;
 
+  --main-done-color: #7fda78;
+  --main-false-color: #e69e9e;
+
   padding: 0px;
   background-color: rgb(255, 255, 255);
   /* padding: 20px; */

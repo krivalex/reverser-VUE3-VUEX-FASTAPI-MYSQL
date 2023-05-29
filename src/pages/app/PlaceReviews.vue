@@ -101,47 +101,7 @@
     <div class="all-reviews">
       <div class="reviews-list">
         <div v-for="review in reviews" :key="review.review_id" class="reviews-item">
-
-          <div class="reviews-item-header">
-            <div class="reviews-image-h1">
-              <img :src="review.avatar" alt="загрузка">
-              <h1>{{ review.login }}</h1>
-            </div>
-            <div class="reviews-item-header-mark">
-              <div class="marks" v-for="mark in review.mark">
-                <i class="fa fa-star highlight" aria-hidden="true"></i>
-              </div>
-              <div class="marks" v-for="mark in 10 - review.mark">
-                <i class="fa fa-star" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="reviews-item-image" v-if="review.image !== null">
-            <img :src="review.image" alt="image">
-          </div>
-
-          <div class="reviews-item-text">
-            <p>{{ review.text }}</p>
-          </div>
-
-          <div class="reviews-item-date">
-            <p>{{ review.date.slice(0, 10) }}</p>
-            <p>/</p>
-            <p>{{ review.date.slice(11) }}</p>
-          </div>
-
-          <div class="reviews-like-dislike">
-            <div class="reviews-like-dislike-item" @click="plusLikeToReview(review.review_id)">
-              <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-              <p>{{ review.likes }}</p>
-            </div>
-            <div class="reviews-like-dislike-item" @click="plusDislikeToReview(review.review_id)">
-              <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-              <p>{{ review.dislikes }}</p>
-            </div>
-          </div>
-
+          <review-item :review="review"></review-item>
         </div>
       </div>
     </div>
@@ -159,6 +119,8 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import "swiper/css/bundle";
 import MyModal from "@/components/UI/MyModal.vue";
 import { createID } from "@/api/cheeze";
+import ReviewItem from "@/components/ReviewItem.vue";
+
 export default {
   name: "place-id-reviews",
   components: {
@@ -166,6 +128,7 @@ export default {
     Swiper,
     SwiperSlide,
     MyModal,
+    ReviewItem
   },
   async beforeMount() {
     const route = useRoute();
@@ -215,12 +178,6 @@ export default {
     showModel() {
       this.model = !this.model;
     },
-    redirectPlace() {
-      this.$router.push(`/place/${this.place.place_id}`)
-    },
-    redirectReviews() {
-      this.$router.push(`/reviews/${this.place.place_id}`)
-    },
     imagesInput(event) {
       const files = event.target.files;
       for (let i = 0; i < files.length; i++) {
@@ -259,20 +216,6 @@ export default {
     },
     InstagramRedirect() {
       window.open(this.place.instagram_link, '_blank')
-    },
-    async plusLikeToReview(review_id) {
-      const data = {
-        review_id: review_id,
-        user_id: Number(localStorage.getItem('user_id')),
-      }
-      await this.$store.dispatch('fetchLikes', data);
-    },
-    async plusDislikeToReview(review_id) {
-      const data = {
-        review_id: review_id,
-        user_id: Number(localStorage.getItem('user_id')),
-      }
-      await this.$store.dispatch('fetchDislikes', data);
     },
     async addReview() {
       const id = createID();
@@ -345,35 +288,6 @@ export default {
   color: rgb(255, 247, 0);
 }
 
-
-.place-front {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-end;
-}
-
-.place-front h2 {
-  font-size: 24px;
-  font-weight: 600;
-  margin: 0;
-  padding: 0;
-}
-
-.place-front p {
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 2px;
-  color: gray;
-}
-
-.place-front i {
-  font-size: 18px;
-  margin-bottom: 2px;
-  color: gray;
-}
-
-
 .place-image-slider {
   width: 100%;
   height: 200px;
@@ -395,24 +309,6 @@ export default {
   color: white;
   padding: 7px;
   font-size: larger;
-}
-
-.place-button-rewiew {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.place-button-rewiew button {
-  background-color: #DC143C;
-  color: white;
-  border: none;
-  padding: 10px 30px;
-  font-size: 25px;
-  cursor: pointer;
-  border-radius: 15px;
 }
 
 .add_reviews {
@@ -476,159 +372,13 @@ input[type="file" i] {
   margin-top: 30px;
 }
 
-#mark {
-  margin-bottom: 10px;
-}
-
-.reviews-item-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.reviews-item-header img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.reviews-item-header-mark {
-  display: flex;
-  flex-direction: row;
-  width: 160px;
-}
-
-.marks i {
-  font-size: 15px;
-}
-
-.marks {
-  display: flex;
-  align-items: flex-end;
-}
-
-.reviews-image-h1 {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 8px;
-}
-
-.reviews-image-h1 h1 {
-  max-width: 50px;
-}
-
-.reviews-image-h1 img {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 7px;
-}
-
-.reviews-item-text {
-  margin-top: 10px;
-  font-style: italic;
-  margin-bottom: 5px;
-}
-
-.reviews-item-date {
-  font-size: 12px;
-  color: gray;
-  font-style: italic;
-  display: flex;
-  justify-content: flex-end;
-}
-
 .reviews-item {
   margin-top: 15px;
   position: relative;
-}
-
-.reviews-item-text p {
-  max-width: 80%;
-}
-
-.reviews-item {
   background-color: white;
-  padding: 30px;
+  padding: 10px 20px;
   border-radius: 20px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-}
-
-@media screen and (min-width: 768px) {
-  .place-full {
-    padding: 30px 100px;
-  }
-
-  .no-background {
-    padding: 50px
-  }
-
-  .place-front h2 {
-    font-size: 40px;
-  }
-
-  .place-front p {
-    font-size: 30px;
-  }
-
-  .place-front i {
-    font-size: 30px;
-    margin-bottom: 4px;
-  }
-
-  .place-image-slider {
-    height: 500px;
-  }
-
-
-  .place-image {
-    height: 500px;
-  }
-
-  .place-button-rewiew {
-    transform: scale(1.3);
-    margin-top: 40px;
-    margin-bottom: 40px;
-  }
-
-  .place-number-of-photo {
-    font-size: 50px;
-  }
-
-  .marks i {
-    font-size: 22px;
-  }
-
-  .reviews-image-h1 h1 {
-    font-size: 22px;
-    margin-left: 15px;
-  }
-
-  .reviews-image-h1 img {
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-  }
-
-  .reviews-item-date p {
-    font-size: 15px;
-  }
-
-  .place-full {
-    overflow: hidden;
-  }
-
-  .reviews-item {
-    width: 70%;
-    margin: 30px auto;
-  }
-
-  .reviews-item-date {
-    margin-top: 20px;
-  }
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
 }
 
 .place-full {
@@ -662,24 +412,6 @@ input[type="file" i] {
   color: gray;
 }
 
-.place-rating {
-  position: absolute;
-  bottom: 0;
-  max-width: 100vw;
-  width: 95%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 20px;
-}
-
-.place-mark {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
 
 .fa-heart {
   color: #DC143C;
@@ -692,13 +424,6 @@ input[type="file" i] {
   margin-right: 3px;
   font-size: 20px;
   -webkit-text-stroke: #000000 0.5px;
-}
-
-.place-mark p {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0;
-  padding: 0;
 }
 
 .place-image-slider {
@@ -728,106 +453,6 @@ input[type="file" i] {
   margin-right: 15px;
 }
 
-.place-short-description {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.button-nav {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  width: 200px;
-  height: 30px;
-}
-
-.button-nav button {
-  background-color: lightgray;
-  border: none;
-  color: black;
-  padding: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  border: 3px solid white;
-  width: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-.place-nav-like {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  height: 40px;
-}
-
-#info {
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-}
-
-#review {
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-
-.like {
-  position: absolute;
-  right: 0;
-}
-
-.like i {
-  font-size: 35px;
-  color: black;
-}
-
-.like i:hover {
-  color: red;
-}
-
-.place-info {
-  margin-top: 40px;
-  position: relative;
-}
-
-.place-options {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin-left: 10px;
-}
-
-.place-option {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.place-option i {
-  font-size: 20px;
-  margin-right: 15px;
-  width: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: gray;
-}
-
-.place-option p {
-  font-size: 18px;
-  font-weight: 400;
-}
-
 .place-social-media {
   position: absolute;
   top: 0;
@@ -840,38 +465,12 @@ input[type="file" i] {
   padding: 10px;
 }
 
-
-.social-logo {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-  object-fit: cover;
-  border-radius: 15px;
-}
-
-.place-long-description {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 18px;
-  font-weight: 400;
-}
-
-
-.place-review-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-  margin-top: 5px;
-}
-
 .place-button-rewiew {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .place-button-rewiew button {
@@ -882,46 +481,11 @@ input[type="file" i] {
   font-size: 25px;
   cursor: pointer;
   border-radius: 15px;
-  margin-top: 15px;
-}
-
-.clist {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-  overflow: hidden;
-  margin-top: 80px;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.citem {
-  padding: 5px 10px;
-  border-radius: 1rem;
-  cursor: pointer;
-  font-size: 15px;
-  font-family: 'Unbounded', cursive;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  background-color: #908f8f;
-  color: white
-}
-
-.place-tags {
-  display: flex;
-  flex-direction: colsumn;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-  margin-top: 20px;
-  font-size: 30px;
 }
 
 .no-background {
   background-color: white;
-  padding: 30px 10px;
+  padding: 7px 10px;
   border-radius: 25px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   z-index: 30;
@@ -969,10 +533,6 @@ input[type="file" i] {
   margin: 0 auto;
 }
 
-input[type="file" i] {
-  margin: 0 auto;
-}
-
 .skip_button {
   width: 100%;
   height: 30px;
@@ -988,10 +548,6 @@ input[type="file" i] {
 
 .add_photo {
   margin-top: 30px;
-}
-
-#mark {
-  margin-bottom: 10px;
 }
 
 .all-reviews-marks-item {
@@ -1036,49 +592,7 @@ input[type="file" i] {
   color: black;
 }
 
-@media screen and (min-width: 768px) {
-  .place-full {
-    padding: 30px 100px;
-    overflow: hidden;
 
-  }
-
-  .no-background {
-    padding: 50px
-  }
-
-  .place-front h2 {
-    font-size: 40px;
-  }
-
-  .place-front p {
-    font-size: 30px;
-  }
-
-  .place-front i {
-    font-size: 30px;
-    margin-bottom: 4px;
-  }
-
-
-
-  .place-image-slider {
-    height: 500px;
-  }
-
-
-  .place-image {
-    height: 500px;
-  }
-
-  .place-button-rewiew {
-    transform: scale(1.3);
-  }
-
-  .place-number-of-photo {
-    font-size: 50px;
-  }
-}
 
 .icon-button i {
   -webkit-text-stroke: 2px #000000;
@@ -1147,33 +661,53 @@ input[type="file" i] {
   font-size: 30px;
 }
 
-.fa-thumbs-up {
-  color: #19de2a;
-  font-size: 30px;
-}
+@media screen and (min-width: 768px) {
+  .place-full {
+    padding: 30px 100px;
+  }
 
-.fa-thumbs-down {
-  color: #de1919;
-  font-size: 30px;
-}
+  .no-background {
+    padding: 50px
+  }
 
-.reviews-like-dislike {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 1000;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
+  .place-front h2 {
+    font-size: 40px;
+  }
 
-.reviews-item-image img {
-  width: 100%;
-  height: 100%;
-  max-width: 720px;
-  max-height: 720px;
-  object-fit: cover;
+  .place-front p {
+    font-size: 30px;
+  }
+
+  .place-front i {
+    font-size: 30px;
+    margin-bottom: 4px;
+  }
+
+  .place-image-slider {
+    height: 500px;
+  }
+
+  .place-image {
+    height: 500px;
+  }
+
+  .place-button-rewiew {
+    transform: scale(1.3);
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .place-number-of-photo {
+    font-size: 50px;
+  }
+
+  .place-full {
+    overflow: hidden;
+  }
+
+  .reviews-item {
+    width: 70%;
+    margin: 30px auto;
+  }
 }
 </style>
