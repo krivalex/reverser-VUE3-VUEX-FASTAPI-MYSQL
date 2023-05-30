@@ -54,58 +54,16 @@
       <button @click="showModel">Оставить отзыв</button>
     </div>
 
-    <my-modal v-model:show="model">
-      <div class="add_reviews">
-        <img class="close-button" src="@/assets/close.png" @click="showModel" alt="close" />
-
-        <div class="reviews">
-
-          <div class="reviews_text">
-            <h1 class="review-desc">Текст отзыва</h1>
-            <my-text-area class="text-area" v-model="reviews_text" name="text_reviews" placeholder="Текст"
-              @input="textInput"></my-text-area>
-          </div>
-
-          <div class="reviews_marks">
-            <h1 class="review-desc" id="mark">Оценка</h1>
-            <div class="all-reviews-marks-item">
-              <div class="reviews_marks_item" v-for="mark in marks" :key="mark" :id="mark">
-                <div v-if="mark <= Number(selected) && selected !== 0">
-                  <input type="radio" class="star" name="rating" :value=mark @click="ratioClick" checked />
-                  <i class="fa fa-star highlight"></i>
-                </div>
-                <div v-else>
-                  <input type="radio" class="star" name="rating" :value=mark @click="ratioClick" />
-                  <i class="non-highlight fa fa-star "></i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <form class="add_photo" enctype="multipart/form-data">
-            <my-input v-model="upload_image" name="images" type="file" accept=".jpg, .png"
-              @input="imagesInput"></my-input>
-          </form>
-
-          <div class="add_action">
-            <button @click="addReview" class="skip_button">Добавить отзыв</button>
-          </div>
-
-        </div>
-
-      </div>
-
-    </my-modal>
-
+    <add-review-modal v-if="model" v-model=model :model="model" :place_id="this.place.place_id" @update:model="showModel">
+    </add-review-modal>
 
     <div class="all-reviews">
       <div class="reviews-list">
-        <div v-for="review in reviews" :key="review.review_id" class="reviews-item">
+        <div v-for="review in reviews" :key="review.review_id">
           <review-item :review="review"></review-item>
         </div>
       </div>
     </div>
-
 
 
   </div>
@@ -114,21 +72,18 @@
 
 <script>
 import { useRoute } from "vue-router";
-import MyTextArea from "@/components/UI/MyTextArea.vue";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import "swiper/css/bundle";
-import MyModal from "@/components/UI/MyModal.vue";
-import { createID } from "@/api/cheeze";
 import ReviewItem from "@/components/ReviewItem.vue";
+import AddReviewModal from "@/components/AddReviewModal.vue";
 
 export default {
   name: "place-id-reviews",
   components: {
-    'my-text-area': MyTextArea,
     Swiper,
     SwiperSlide,
-    MyModal,
-    ReviewItem
+    ReviewItem,
+    AddReviewModal
   },
   async beforeMount() {
     const route = useRoute();
@@ -146,12 +101,16 @@ export default {
       return this.$store.state.place_page_info;
     },
     reviews() {
-      return this.$store.state.review_item_info;
+      let sorted_reviews = [...this.$store.state.review_item_info];
+
+      sorted_reviews.sort((a, b) => {
+        // Сравниваем значения полей "date" в обратном порядке
+        return new Date(b.date) - new Date(a.date);
+      });
+
+      return sorted_reviews;
     },
-
   },
-
-
   data() {
     return {
       selected: 0,
@@ -169,14 +128,9 @@ export default {
     };
   },
   methods: {
-    textInput(event) {
-      this.reviews_text = event.target.value;
-    },
-    ratioClick(event) {
-      this.selected = event.target.value;
-    },
     showModel() {
       this.model = !this.model;
+      this.$emit("update:model", this.model);
     },
     imagesInput(event) {
       const files = event.target.files;
@@ -217,77 +171,11 @@ export default {
     InstagramRedirect() {
       window.open(this.place.instagram_link, '_blank')
     },
-    async addReview() {
-      const id = createID();
-      const data = {
-        review_id: id,
-        place_id: this.place.place_id,
-        user_id: localStorage.getItem('user_id'),
-        date: new Date(),
-        text: this.reviews_text,
-        mark: this.selected,
-      }
-
-      const review_pack = {
-        review_id: id,
-        file: this.upload_image
-      }
-      this.model = !this.model;
-
-      await this.$store.dispatch('addReview', data);
-      await this.$store.dispatch('addReviewImage', review_pack);
-
-    },
   },
 };
 </script>
 
 <style scoped>
-.all-reviews-marks-item {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  margin: 0 auto;
-}
-
-.reviews_marks_item {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  width: 80vw;
-}
-
-.reviews_marks_item i {
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: #000000;
-  z-index: 1;
-  font-size: 20px;
-  margin-right: 10px;
-}
-
-.reviews_marks_item input {
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  z-index: 2;
-  cursor: pointer;
-  margin-right: 10px;
-  width: 20px;
-}
-
-
-.highlight::before {
-  content: "\f005";
-  font-family: FontAwesome;
-  color: rgb(255, 247, 0);
-}
-
 .place-image-slider {
   width: 100%;
   height: 200px;
@@ -309,67 +197,6 @@ export default {
   color: white;
   padding: 7px;
   font-size: larger;
-}
-
-.add_reviews {
-  background-color: #DC143C;
-  color: white;
-  position: relative;
-  max-width: 60vw;
-}
-
-.close-button {
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  bottom: 105%;
-  right: -30%;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.text-area {
-  width: 100%;
-  height: 150px;
-  border: none;
-  border-radius: 10px;
-  padding: 10px;
-  font-size: 15px;
-}
-
-.review-desc {
-  font-size: 30px;
-  text-align: center;
-}
-
-.add_action {
-  margin: 0 auto;
-  margin-top: 30px;
-}
-
-.add_action input {
-  margin: 0 auto;
-}
-
-input[type="file" i] {
-  margin: 0 auto;
-}
-
-.skip_button {
-  width: 100%;
-  height: 30px;
-  border-radius: 30px;
-  font-size: 20px;
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
-  text-decoration: none;
-  border: 0px;
-  background-color: gray;
-}
-
-.add_photo {
-  margin-top: 30px;
 }
 
 .reviews-item {
@@ -412,18 +239,10 @@ input[type="file" i] {
   color: gray;
 }
 
-
 .fa-heart {
   color: #DC143C;
   margin-right: 3px;
   font-size: 20px;
-}
-
-.fa-star {
-  color: #f6ff00;
-  margin-right: 3px;
-  font-size: 20px;
-  -webkit-text-stroke: #000000 0.5px;
 }
 
 .place-image-slider {
@@ -492,107 +311,6 @@ input[type="file" i] {
   position: relative;
 
 }
-
-.add_reviews {
-  background-color: #908f8f;
-  color: white;
-  position: relative;
-  max-width: 60vw;
-}
-
-.close-button {
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  bottom: 105%;
-  right: -30%;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.text-area {
-  width: 100%;
-  height: 150px;
-  border: none;
-  border-radius: 10px;
-  padding: 10px;
-  font-size: 15px;
-}
-
-.review-desc {
-  font-size: 30px;
-  text-align: center;
-}
-
-.add_action {
-  margin: 0 auto;
-  margin-top: 30px;
-}
-
-.add_action input {
-  margin: 0 auto;
-}
-
-.skip_button {
-  width: 100%;
-  height: 30px;
-  border-radius: 30px;
-  font-size: 20px;
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
-  text-decoration: none;
-  border: 0px;
-  background-color: gray;
-}
-
-.add_photo {
-  margin-top: 30px;
-}
-
-.all-reviews-marks-item {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  margin: 0 auto;
-}
-
-.reviews_marks_item {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  width: 80vw;
-}
-
-.reviews_marks_item i {
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: #000000;
-  z-index: 1;
-  font-size: 20px;
-  margin-right: 10px;
-}
-
-.reviews_marks_item input {
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  z-index: 2;
-  cursor: pointer;
-  margin-right: 10px;
-  width: 20px;
-}
-
-.fa-star {
-  color: black;
-}
-
-
 
 .icon-button i {
   -webkit-text-stroke: 2px #000000;

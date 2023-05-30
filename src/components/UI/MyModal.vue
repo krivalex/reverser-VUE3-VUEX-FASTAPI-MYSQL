@@ -21,7 +21,6 @@ export default {
       this.$emit("update: show", false);
     },
   },
-
 }
 
 </script>
@@ -41,7 +40,7 @@ export default {
 .dialog-content {
   background-color: #908f8f;
   margin: auto;
-  padding: 30px;
+  padding: 17px 30px;
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   min-width: 50px;
