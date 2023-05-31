@@ -1,45 +1,7 @@
 <template>
   <div class="place-full">
 
-    <div class="place-image-slider">
-
-      <swiper :options="swiperOptions" v-if="this.place_images !== null && this.place_images !== 'null'">
-        <swiper-slide v-for="(slide, index) in this.place_images" :key="index">
-          <img class="place-image" :src="slide" alt="place" />
-          <span class="place-number-of-photo">{{ index + 1 }} / {{ this.place_images.length }}</span>
-        </swiper-slide>
-      </swiper>
-
-      <div class="place-image" v-else>
-        <img class="place-image" src="@/assets/no-image.jpg" alt="place" />
-      </div>
-
-      <div class="icon-button">
-        <i class="fa fa-heart" aria-hidden="true"></i>
-        <i class="fa fa-share" aria-hidden="true" @click="share"></i>
-      </div>
-
-      <div class="place-name">
-        <h2>{{ place.short_description }}</h2>
-      </div>
-
-      <div class="place-social-media">
-
-        <div class="place-social-media-item" v-if="place.two_gis_url" @click="TwoGISRedirect">
-          <i class="fa fa-map-marker" aria-hidden="true"></i>
-        </div>
-
-        <div class="place-social-media-item" v-if="place.instagram_link" @click="InstagramRedirect">
-          <i class="fa fa-instagram" aria-hidden="true"></i>
-        </div>
-
-        <div class="place-social-media-item" v-if="place.phone" @click="WhatsappRedirect">
-          <i class="fa fa-whatsapp" aria-hidden="true"></i>
-        </div>
-
-      </div>
-
-    </div>
+    <swiper-image :place="place" />
 
     <div class="no-background">
       <div class="place-front">
@@ -47,15 +9,6 @@
         <p>, Almaty</p>
         <i class="fa fa-home" aria-hidden="true"></i>
       </div>
-
-
-
-      <!-- <div class="place-nav-like">
-        <div class="button-nav">
-          <button @click="redirectPlace" id="info" class="place-info">Инфо</button>
-          <button @click="redirectReviews" id="review" class="place-rewiew">Отзывы</button>
-        </div>
-      </div> -->
 
 
       <div class="place-info">
@@ -102,53 +55,14 @@
         <h2>Были здесь?</h2>
       </div>
 
-
       <div class="place-button-rewiew">
         <button @click="showModel">Оставить отзыв</button>
       </div>
 
-      <my-modal v-model:show="model">
-        <div class="add_reviews">
-          <img class="close-button" src="@/assets/close.png" @click="showModel" alt="close" />
+      <add-review-modal v-if="model" v-model=model :model="model" :place_id="this.place.place_id"
+        @update:model="showModel">
+      </add-review-modal>
 
-          <div class="reviews">
-
-            <div class="reviews_text">
-              <h1 class="review-desc">Текст отзыва</h1>
-              <my-text-area class="text-area" v-model="reviews_text" name="text_reviews" placeholder="Текст"
-                @input="textInput"></my-text-area>
-            </div>
-
-            <div class="reviews_marks">
-              <h1 class="review-desc" id="mark">Оценка</h1>
-              <div class="all-reviews-marks-item">
-                <div class="reviews_marks_item" v-for="mark in marks" :key="mark" :id="mark">
-                  <div v-if="mark <= Number(selected) && selected !== 0">
-                    <input type="radio" class="star" name="rating" :value=mark @click="ratioClick" checked />
-                    <i class="fa fa-star highlight"></i>
-                  </div>
-                  <div v-else>
-                    <input type="radio" class="star" name="rating" :value=mark @click="ratioClick" />
-                    <i class="non-highlight fa fa-star "></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <form class="add_photo" enctype="multipart/form-data">
-              <my-input v-model="upload_image" name="images" type="file" accept=".jpg, .png"
-                @input="imagesInput"></my-input>
-            </form>
-
-            <div class="add_action">
-              <button @click="addReview" class="skip_button">Добавить отзыв</button>
-            </div>
-
-          </div>
-
-        </div>
-
-      </my-modal>
 
       <div class="place-rating">
         <div class="place-mark">
@@ -182,18 +96,13 @@
       </div>
     </div>
 
-
-    <div class="zaglushka"></div>
   </div>
 </template>
 
 <script>
 import { useRoute } from "vue-router";
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import "swiper/css/bundle";
-import MyModal from "@/components/UI/MyModal.vue";
-import { createID } from "@/api/cheeze";
-
+import SwiperImage from "@/components/SwiperImage.vue";
+import AddReviewModal from "@/components/AddReviewModal.vue";
 
 
 export default {
@@ -216,94 +125,18 @@ export default {
   },
   data() {
     return {
-      swiperOptions: {
-        loop: true,
-        autoplay: {
-          delay: 3000,
-        },
-      },
       model: false,
-      selected: 0,
-      marks: [1, 2, 3, 4, 5, 7, 8, 9, 10],
-      reviews_text: "",
-      upload_image: null,
     };
   },
   methods: {
-    TwoGISRedirect() {
-      window.open(this.place.two_gis_url, '_blank')
-    },
-    WhatsappRedirect() {
-      window.open(`https://wa.me/${this.place.phone}`, '_blank')
-    },
-    InstagramRedirect() {
-      window.open(this.place.instagram_link, '_blank')
-    },
     showModel() {
       this.model = !this.model;
+      this.$emit("update:model", this.model);
     },
-    ratioClick(event) {
-      this.selected = event.target.value;
-    },
-    textInput(event) {
-      this.reviews_text = event.target.value;
-    },
-    imagesInput(event) {
-      const files = event.target.files;
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onload = () => {
-          const binary = reader.result;
-          this.upload_image = binary;
-        };
-      }
-    },
-    async addReview() {
-      const id = createID();
-      const data = {
-        review_id: id,
-        place_id: this.place.place_id,
-        user_id: localStorage.getItem('user_id'),
-        date: new Date(),
-        text: this.reviews_text,
-        mark: this.selected,
-      }
-
-      const review_pack = {
-        review_id: id,
-        file: this.upload_image
-      }
-      this.model = !this.model;
-
-      await this.$store.dispatch('addReview', data);
-      await this.$store.dispatch('addReviewImage', review_pack);
-
-    },
-    share() {
-      const dummyInput = document.createElement('input');
-      dummyInput.value = window.location.href;
-      document.body.appendChild(dummyInput);
-      dummyInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(dummyInput);
-
-      if (navigator.share) {
-        navigator.share({
-          url: window.location.href
-        })
-          .then(() => console.log('Ссылка успешно поделена'))
-          .catch((error) => console.log('Ошибка при попытке поделиться:', error));
-      } else {
-        console.log('Браузер не поддерживает функцию поделиться');
-      }
-    }
   },
   components: {
-    Swiper,
-    SwiperSlide,
-    MyModal,
+    SwiperImage,
+    AddReviewModal
   },
 
 };  

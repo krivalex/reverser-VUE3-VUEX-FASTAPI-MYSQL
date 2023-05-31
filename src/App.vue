@@ -22,6 +22,7 @@
     <div v-else>
       <main-navbar />
     </div>
+    <div class="zaglushka"></div>
   </div>
 </template>
 
@@ -63,10 +64,6 @@ export default {
 
 .main {
   flex: 1;
-}
-
-.footer {
-  flex-shrink: 0;
 }
 
 .fade-enter-active,

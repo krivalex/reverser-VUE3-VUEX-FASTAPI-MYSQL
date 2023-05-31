@@ -67,6 +67,11 @@ export default {
       this.reviewBackgroundColor = '#f4b6b6';
     }
   },
+  data() {
+    return {
+      reviewBackgroundColor: 'white',
+    };
+  },
   methods: {
     async plusLikeToReview(review) {
       if (review.liked) {

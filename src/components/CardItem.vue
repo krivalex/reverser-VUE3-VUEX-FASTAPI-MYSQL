@@ -3,12 +3,7 @@
     <div class="place-image">
       <span>{{ place.short_description }}</span>
       <div class="place-marks">
-        <p class="like-red" @click="addToFavourites" v-if="ifInFavourite">
-          <i class="fa fa-heart" aria-hidden="true"></i>
-        </p>
-        <p class="like" @click="addToFavourites" v-else>
-          <i class="fa fa-heart" aria-hidden="true"></i>
-        </p>
+        <favourite-button :place="place"></favourite-button>
       </div>
       <img :src="image" alt="place" @click="routeToPlace" />
     </div>
@@ -35,85 +30,33 @@
 
       </div>
 
-
-
     </div>
   </div>
 </template>
 
 <script>
-import { getImageByID, addToFavorite, getUserByID } from '@/api/methods';
+import { getImageByID, getUserByID } from '@/api/methods';
+import FavouriteButton from '@/components/FavouriteButton.vue';
 
 export default {
   name: "card-item",
   props: ["place"],
+  components: {
+    FavouriteButton,
+  },
   async mounted() {
     this.image = await getImageByID(this.place.place_id);
     this.image = this.image.slice(0, 1);
-
-    const user = await getUserByID(Number(localStorage.getItem("user_id")));
-    this.favourites = JSON.parse(user.data.favourites);
-
-
   },
   methods: {
     routeToPlace() {
       this.$router.push(`/place/${this.place.place_id}`);
     },
-    addToFavourites() {
-      const favorite_pack = {
-        user_id: Number(localStorage.getItem("user_id")),
-        place_id: this.place.place_id,
-      }
-
-      if (this.place.place_id in this.favourites) {
-        delete this.favourites[this.place.place_id];
-      }
-      else {
-        this.favourites[this.place.place_id] = this.place.place_id;
-      }
-
-      addToFavorite(favorite_pack).then((response) => {
-        console.log(response);
-      });
-
-    },
-    InFavourites(place_id) {
-      if (this.favourites === "") {
-        console.log("favourites is empty");
-        return false;
-      }
-      if (place_id in this.favourites) {
-        console.log("place in favourites");
-        return true;
-      }
-      else {
-        console.log("place not in favourites");
-        return false;
-      }
-    }
   },
   data() {
     return {
       image: "https://phonoteka.org/uploads/posts/2022-09/1663853186_2-phonoteka-org-p-znachok-zagruzki-bez-fona-instagram-2.png",
-      favourites: "",
     };
-  },
-  computed: {
-    ifInFavourite() {
-      if (this.favourites === "") {
-        console.log("favourites is empty");
-        return false;
-      }
-      if (this.place.place_id in this.favourites) {
-        console.log("place in favourites");
-        return true;
-      }
-      else {
-        console.log("place not in favourites");
-        return false;
-      }
-    },
   },
 };
 </script>
@@ -134,6 +77,12 @@ export default {
   background-repeat: repeat;
 }
 
+.place-marks {
+  position: absolute;
+  top: 5%;
+  right: 2%;
+}
+
 .place img {
   width: 100%;
   height: 200px;
@@ -141,18 +90,6 @@ export default {
   border-radius: 20px;
   border: 0px solid rgb(0, 0, 0);
 }
-
-.like i {
-  color: rgba(255, 255, 255, 0.494);
-  -webkit-text-stroke: 2px #000000;
-  padding-right: 5px;
-}
-
-.like:hover {
-  color: #DC143C;
-  margin-bottom: 5px;
-}
-
 
 .place-info {
   display: flex;
@@ -200,16 +137,6 @@ export default {
   font-size: 20px;
 }
 
-.like i {
-  margin-top: 5px;
-  font-size: 30px;
-}
-
-.like-red i {
-  margin-top: 5px;
-  font-size: 30px;
-  color: #DC143C;
-}
 
 .place-name {
   display: flex;
@@ -243,12 +170,6 @@ export default {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   border-radius: 55px;
   padding: 5px 10px;
-}
-
-.place-marks {
-  position: absolute;
-  top: 5%;
-  right: 2%;
 }
 
 @media screen and (min-width: 768px) {

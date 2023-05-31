@@ -54,6 +54,7 @@ import MyTextArea from "@/components/UI/MyTextArea.vue";
 import MyModal from "@/components/UI/MyModal.vue";
 import MyInput from "@/components/UI/MyInput.vue";
 import { createID } from "@/api/cheeze";
+import { useRoute } from "vue-router";
 
 export default {
   name: "add-review-modal",
@@ -108,6 +109,8 @@ export default {
     },
     async addReview() {
       const id = createID();
+      const route = useRoute();
+
       const data = {
         review_id: id,
         place_id: this.place_id,
@@ -125,8 +128,10 @@ export default {
       this.$emit("update:model", false);
 
       await this.$store.dispatch('addReview', data);
-      await this.$store.dispatch('addReviewImage', review_pack);
-
+      await this.$store.dispatch('addReviewImage', review_pack).then(() => {
+        this.$store.dispatch("fetchPlaceInfo", route.params.id);
+        this.$store.dispatch("fetchReviewItemInfo", route.params.id);
+      });
     },
   },
 };
