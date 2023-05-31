@@ -7,7 +7,9 @@
 
         <div class="reviews_text">
           <h1 class="review-label">Ваш логин:</h1>
-          <h1 class="review-desc"><strong>{{ user.login }}</strong></h1>
+          <h1 class="review-desc"><strong>{{ user_login }}</strong></h1>
+          <edit-data-input :edit_var="user.login"></edit-data-input>
+
         </div>
 
         <div class="reviews_text">
@@ -51,7 +53,7 @@
 import MyInput from "@/components/UI/MyInput.vue";
 import MyTextArea from "@/components/UI/MyTextArea.vue";
 import MyModal from "@/components/UI/MyModal.vue";
-import { uploadAvatarByID, getAvatarByID, getReviewsCountByUserID } from "@/api/methods";
+import EditDataInput from "./EditDataInput.vue";
 
 export default {
   name: "edit-client-modal",
@@ -59,6 +61,7 @@ export default {
     MyInput,
     MyTextArea,
     MyModal,
+    EditDataInput,
   },
   emits: ['update:model'],
   props: {
@@ -76,6 +79,8 @@ export default {
     return {
       model: this.model,
       avatar_new: null,
+      new_login: '',
+      edit_var: undefined,
     }
   },
   methods: {
@@ -105,6 +110,12 @@ export default {
       });
 
       this.$emit("update:model", false);
+    }
+  },
+  computed: {
+    user_login() {
+      console.log(this.edit_var);
+      return this.edit_var !== undefined ? this.edit_var : this.user.login;
     }
   },
 
