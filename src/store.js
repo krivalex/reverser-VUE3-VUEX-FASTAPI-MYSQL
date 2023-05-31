@@ -10,11 +10,11 @@ const store = createStore({
     added_reviews: null,
     added_review_images: null,
     user_info_reviews: [],
-    user_info: [],
+    user_info: null,
     avatar: null,
     all_tags: null,
     all_places: null,
-    user_id: null,
+    user_id: Number(localStorage.getItem('user_id')) ? Number(localStorage.getItem('user_id')) : null,
     manager_id: null,
     review_likes: null,
     review_dislikes: null,
@@ -47,13 +47,17 @@ const store = createStore({
     },
     setAvatar(state, user_id) {
       api.getAvatarByID(user_id).then((response) => {
+        state.avatar = response
+      })
+    },
+    addAvatar(state, avatar_pack) {
+      api.uploadAvatarByID(avatar_pack).then((response) => {
         state.avatar = response.data
       })
     },
     setUserInfo(state, user_id) {
-      state.user_info = []
       api.getUserByID(user_id).then((response) => {
-        state.user_info.push(response.data)
+        state.user_info = response.data
       })
     },
     setAllTags(state) {
@@ -101,6 +105,9 @@ const store = createStore({
     fetchAvatar({ commit }, user_id) {
       commit('setAvatar', user_id)
     },
+    addAvatar({ commit }, avatar_pack) {
+      commit('addAvatar', avatar_pack)
+    },
     fetchUserInfo({ commit }, user_id) {
       commit('setUserInfo', user_id)
     },
@@ -122,6 +129,9 @@ const store = createStore({
     fetchDislikes({ commit }, data) {
       commit('setReviewDislikes', data)
     },
+    setUserId(state) {
+      state.user_id = Number(localStorage.getItem('user_id'))
+    },
   },
   getters: {
     getUserInfoReviews: (state) => {
@@ -132,6 +142,9 @@ const store = createStore({
     },
     getReviewItemInfo: (state) => {
       return state.review_item_info
+    },
+    getUserInfo: (state) => {
+      return state.user_info
     },
   },
 })

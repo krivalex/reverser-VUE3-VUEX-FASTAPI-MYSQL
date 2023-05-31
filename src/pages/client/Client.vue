@@ -5,181 +5,115 @@
       <i class="fa fa-edit" @click="showModel"></i>
     </div>
 
-    <my-modal v-model:show="model">
-      <div class="add_reviews">
-        <img class="close-button" src="@/assets/close.png" @click="showModel" alt="close" />
-
-        <div class="reviews">
-
-          <div class="reviews_text">
-            <h1 class="review-desc">Ваш email:</h1>
-            <h1 class="review-desc"><strong>{{ this.email }}</strong></h1>
-          </div>
-
-
-          <div class="reviews_text">
-            <h1 class="review-desc">Загрузить аватар:</h1>
-          </div>
-
-          <form enctype="multipart/form-data">
-            <my-input v-model="avatar_new" name="file" type="file" accept=".jpg, .png" @input="imagesInput"></my-input>
-          </form>
-
-          <div class="add_action">
-            <button @click="uploadImage" class="skip_button">Обновить профиль</button>
-          </div>
-
-        </div>
-
-      </div>
-
-    </my-modal>
+    <edit-client-modal-vue v-if="model" v-model="model" :model="model" :user="user"
+      @update:model="showModel"></edit-client-modal-vue>
 
     <div class="profile-header">
       <div class="image-status">
         <div class="profile-image">
           <div class="image-label">
-            <img :src="this.avatar" alt="profile_img" />
+            <img :src="avatar" alt="profile_img" />
           </div>
         </div>
-
-
-
         <div class="profile-status">
-          <h1>{{ this.username }}</h1>
-          <h2>{{ this.status }}</h2>
+          <h1>{{ user.login }}</h1>
+          <h2>Пользователь</h2>
         </div>
       </div>
+    </div>
 
-      <div class="status-container">
-        <div class="status-label">
-          <p>{{ this.likesCount }}</p>
-          <i class="fa fa-heart" id="star"></i>
-        </div>
-        <div class="status-label">
-          <p>{{ this.review_count }}</p>
-          <i class="fa fa-check" id="check"></i>
-        </div>
-        <div class="status-label">
-          <p>{{ this.rewards }}</p>
-          <i class="fa fa-trophy" id="trophy"></i>
-        </div>
-        <div class="status-label">
-          <p>{{ this.coins }}</p>
-          <i class="fa fa-dollar" id="dollar"></i>
-        </div>
+    <div class="status-container">
+      <div class="status-label">
+        <p>{{ this.likesCount }}</p>
+        <i class="fa fa-heart" id="star"></i>
       </div>
+      <div class="status-label">
+        <p>{{ this.reviewCount }}</p>
+        <i class="fa fa-comments" id="check"></i>
+      </div>
+      <div class="status-label">
+        <p>1</p>
+        <i class="fa fa-trophy" id="trophy"></i>
+      </div>
+    </div>
+
+    <div class="all-rewards">
+      <beta-tester></beta-tester>
     </div>
 
   </section>
 </template>
 
 <script>
+import BetaTester from "./rewards/BetaTester.vue";
+import EditClientModalVue from "@/components/EditClientModal.vue";
+
 import MyInput from "@/components/UI/MyInput.vue";
 import MyTextArea from "@/components/UI/MyTextArea.vue";
 import MyModal from "@/components/UI/MyModal.vue";
-import CardItem from "@/components/CardItem.vue";
-import { getUserByID, getPlaceByID, uploadAvatarByID, getAvatarByID, getReviewsByUserID, getReviewsCountByUserID, getImageReviewByID, getImageByID } from "@/api/methods";
+import { uploadAvatarByID, getAvatarByID, getReviewsCountByUserID } from "@/api/methods";
 export default {
-  created() {
-    let user_id = Number(localStorage.getItem("user_id"));
-    console.log(user_id);
-    getUserByID(user_id).then((res) => {
-      console.log(res);
-      this.username = res.data.login;
-      this.phone_number = res.data.phone;
-      this.coins = res.data.coins;
-      this.rewards = res.data.rewards;
-      this.status = res.data.status;
-      this.places = [];
-      this.email = res.data.email;
-      this.favourites = JSON.parse(res.data.favourites);
-    });
-
-
-
-
-    getReviewsCountByUserID(user_id).then((res) => {
-      this.review_count = res;
-    });
-
-    console.log(user_id);
-    getAvatarByID(user_id).then((res) => {
-      if (res != "Image not found") {
-        this.avatar = res;
-      }
-    });
-
-
-  },
-
-  name: "Profile",
-  methods: {
-    showModel() {
-      this.model = !this.model;
-    },
-    imagesInput(event) {
-      const files = event.target.files;
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onload = () => {
-          const binary = reader.result;
-          this.avatar_new = binary;
-        };
-      }
-    },
-    uploadImage() {
-      const avatar_pack = {
-        user_id: Number(localStorage.getItem("user_id")),
-        file: this.avatar_new,
-      }
-
-      uploadAvatarByID(avatar_pack).then((res) => {
-        console.log(res);
-      });
-
-      this.showModel()
-    }
-  },
+  name: "client-profile",
   components: {
-    CardItem,
     MyInput,
     MyTextArea,
     MyModal,
+    BetaTester,
+    EditClientModalVue
   },
+  async beforeMount() {
+    const user_id = Number(localStorage.getItem("user_id"));
+    await this.$store.dispatch("fetchUserInfo", user_id);
+
+    getReviewsCountByUserID(this.$store.state.user_id).then((res) => {
+      this.review_count = res;
+    });
+
+    await this.$store.dispatch("fetchAvatar", this.$store.state.user_id);
+  },
+
+
+  methods: {
+    showModel() {
+      this.model = !this.model;
+      this.$emit("update:model", this.model);
+    }
+  },
+
   data() {
     return {
-      username: "",
-      phone_number: "",
-      coins: 0,
-      rewards: [],
-      status: "client",
-      avatar: "",
-      avatar_new: "",
-      favourites: {},
-      places: [],
       review_count: 0,
-      all_reviews: [],
-      all_reviews_image: [],
       model: false,
-      email: "",
     };
   },
   computed: {
     likesCount() {
-      return this.favourites.length;
+      return Object.keys(this.favourites).length;
     },
+    reviewCount() {
+      return this.review_count;
+    },
+    user() {
+      return this.$store.state.user_info;
+    },
+    favourites() {
+      return JSON.parse(this.$store.state.user_info.favourites);
+    },
+    avatar() {
+      if (this.$store.state.avatar === null) {
+        return require("@/assets/default-avatar.png");
+      }
+      return this.$store.state.avatar;
+    }
   }
 };
 </script>
 
 <style scoped>
 #profile {
-  width: 100%;
-  margin: 10px;
-  margin: 0 auto;
+  width: 100vw;
+  height: calc(100% + 60px);
+  margin: auto auto;
 }
 
 .profile-label {
@@ -196,7 +130,7 @@ export default {
   padding: 5px 20px;
   margin: 0;
   margin-right: 10px;
-  background-color: #DC143C;
+  background-color: var(--main-haki-color);
   color: white;
   border-radius: 10px;
 }
@@ -255,22 +189,18 @@ export default {
   align-items: center;
   margin: 0 auto;
   padding: 10px 10px;
-  background-color: #ffffff;
-  border-radius: 10px;
 }
 
 .status-container {
-  position: absolute;
-  top: 40%;
-  right: 0;
-  transform: translate(0, -50%);
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0;
 }
 
 .status-label p {
-  font-size: 20px;
+  font-size: 30px;
   margin: 0;
   margin-right: 5px;
 }
@@ -280,7 +210,7 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 20px;
+  font-size: 30px;
   margin: 0;
   text-shadow: 1px 1px 1px #000;
   margin-bottom: 5px;
@@ -311,7 +241,7 @@ export default {
   width: 100%;
   margin: 0 auto;
   text-align: center;
-  height: 400px;
+  height: 350px;
   position: relative;
 }
 
@@ -398,5 +328,6 @@ input[type="file" i] {
 
 .fa-edit {
   z-index: 1000;
+  color: black;
 }
 </style>
