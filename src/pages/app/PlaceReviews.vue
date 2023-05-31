@@ -59,12 +59,17 @@ export default {
       return this.$store.state.place_page_info;
     },
     reviews() {
-      let sorted_reviews = [...this.$store.state.review_item_info];
-      sorted_reviews.sort((a, b) => {
-        // Сравниваем значения полей "date" в обратном порядке
-        return new Date(b.date) - new Date(a.date);
-      });
-      return sorted_reviews;
+      if (!this.$store.state.review_item_info) {
+        return [];
+      }
+      else {
+        let sorted_reviews = [...this.$store.state.review_item_info];
+        sorted_reviews.sort((a, b) => {
+          // Сравниваем значения полей "date" в обратном порядке
+          return new Date(b.date) - new Date(a.date);
+        });
+        return sorted_reviews;
+      }
     },
   },
   data() {

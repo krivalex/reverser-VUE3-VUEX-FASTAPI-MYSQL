@@ -1,5 +1,5 @@
 <template>
-  <section id="profile">
+  <section id="profile" v-if="user">
     <div class="profile-label">
       <h1>Мой профиль</h1>
       <i class="fa fa-edit" @click="showModel"></i>
@@ -42,24 +42,22 @@
     </div>
 
   </section>
+  <div v-else>
+    <my-loader></my-loader>
+  </div>
 </template>
 
 <script>
 import BetaTester from "./rewards/BetaTester.vue";
 import EditClientModalVue from "@/components/EditClientModal.vue";
-
-import MyInput from "@/components/UI/MyInput.vue";
-import MyTextArea from "@/components/UI/MyTextArea.vue";
-import MyModal from "@/components/UI/MyModal.vue";
-import { uploadAvatarByID, getAvatarByID, getReviewsCountByUserID } from "@/api/methods";
+import MyLoader from "@/components/UI/MyLoader.vue";
+import { getReviewsCountByUserID } from "@/api/methods";
 export default {
   name: "client-profile",
   components: {
-    MyInput,
-    MyTextArea,
-    MyModal,
     BetaTester,
-    EditClientModalVue
+    EditClientModalVue,
+    MyLoader,
   },
   async beforeMount() {
     const user_id = Number(localStorage.getItem("user_id"));
@@ -97,7 +95,12 @@ export default {
       return this.$store.state.user_info;
     },
     favourites() {
-      return JSON.parse(this.$store.state.user_info.favourites);
+      if (Object.keys(this.$store.state.user_info.favourites).length === 0) {
+        return 0;
+      }
+      else {
+        return JSON.parse(this.$store.state.user_info.favourites);
+      }
     },
     avatar() {
       if (this.$store.state.avatar === null) {

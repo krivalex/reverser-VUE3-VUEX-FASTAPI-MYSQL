@@ -2,7 +2,9 @@
   <div class="wrapper">
     <main class="main">
       <transition name="fade">
-        <router-view />
+        <router-view v-slot="{ Component }">
+          <component :is="Component" />
+        </router-view>
       </transition>
     </main>
     <div v-if="this.for_place.includes($route.name)">

@@ -1,7 +1,9 @@
 <template>
-  <i class="fa fa-edit" @click="editData"></i>
-  <i class="fa fa-trash" @click="deleteData"></i>
-  <input v-model="edit_var" @input="editValue">
+  <div>
+    <i class="fa fa-edit" @click="editData"></i>
+    <i class="fa fa-trash" @click="deleteData"></i>
+    <my-input v-model.lazy="this.new_edit_var" @:update:edit_var="editValue" />
+  </div>
 </template>
 
 <script>
@@ -18,9 +20,14 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      new_edit_var: this.edit_var,
+    }
+  },
   methods: {
-    editValue(event) {
-      this.$emit("update:edit_var", event.target.value);
+    editValue() {
+      this.$emit("update:edit_var", this.new_edit_var);
     },
   },
 };

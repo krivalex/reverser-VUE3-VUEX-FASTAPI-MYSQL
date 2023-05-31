@@ -8,7 +8,7 @@
         <div class="reviews_text">
           <h1 class="review-label">Ваш логин:</h1>
           <h1 class="review-desc"><strong>{{ user_login }}</strong></h1>
-          <edit-data-input :edit_var="user.login"></edit-data-input>
+          <edit-data-input v-model:edit_var="edit_var" :edit_var="edit_var" @update:edit_var="editVar"></edit-data-input>
 
         </div>
 
@@ -63,7 +63,7 @@ export default {
     MyModal,
     EditDataInput,
   },
-  emits: ['update:model'],
+  emits: ['update:model', 'update:edit_var'],
   props: {
     user: {
       type: Object,
@@ -77,7 +77,6 @@ export default {
   },
   data() {
     return {
-      model: this.model,
       avatar_new: null,
       new_login: '',
       edit_var: undefined,
@@ -99,6 +98,10 @@ export default {
         };
       }
     },
+    editVar(value) {
+      this.new_edit_var = value;
+      this.$emit("update:edit_var", this.new_edit_var);
+    },
     async uploadImage() {
       const avatar_pack = {
         user_id: this.$store.state.user_id,
@@ -109,6 +112,10 @@ export default {
         this.$store.dispatch("fetchAvatar", this.$store.state.user_id);
       });
 
+      this.$emit("update:model", false);
+    },
+    async saveFullEdit() {
+      await this.uploadImage();
       this.$emit("update:model", false);
     }
   },

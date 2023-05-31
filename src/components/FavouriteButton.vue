@@ -9,8 +9,13 @@ export default {
   name: "favourite-button",
   props: ["place"],
   async mounted() {
-    const user = await getUserByID(Number(localStorage.getItem("user_id")));
-    this.favourites = JSON.parse(user.data.favourites);
+    await getUserByID(Number(localStorage.getItem("user_id"))).then((response) => {
+      const user = response
+      if (Object.keys(user.data.favourites).length === 0) {
+        this.favourites = { "0": 0 };
+      }
+      this.favourites = JSON.parse(user.data.favourites);
+    })
   },
   data() {
     return {
