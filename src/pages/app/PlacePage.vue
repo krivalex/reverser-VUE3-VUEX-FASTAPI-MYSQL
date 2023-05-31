@@ -1,5 +1,5 @@
 <template>
-  <div class="place-full">
+  <div class="place-full" v-if="place">
 
     <swiper-image :place="place" />
 
@@ -97,12 +97,16 @@
     </div>
 
   </div>
+  <div v-else>
+    <my-loader />
+  </div>
 </template>
 
 <script>
 import { useRoute } from "vue-router";
 import SwiperImage from "@/components/SwiperImage.vue";
 import AddReviewModal from "@/components/AddReviewModal.vue";
+import MyLoader from "@/components/UI/MyLoader.vue";
 
 
 export default {
@@ -136,7 +140,8 @@ export default {
   },
   components: {
     SwiperImage,
-    AddReviewModal
+    AddReviewModal,
+    MyLoader
   },
 
 };  

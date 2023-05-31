@@ -1,5 +1,5 @@
 <template>
-  <div class="place-full">
+  <div class="place-full" v-if="place">
 
     <swiper-image :place="place"></swiper-image>
 
@@ -28,6 +28,9 @@
 
     </div>
   </div>
+  <div v-else>
+    <my-loader />
+  </div>
 </template>
 
 <script>
@@ -35,6 +38,7 @@ import { useRoute } from "vue-router";
 import ReviewItem from "@/components/ReviewItem.vue";
 import AddReviewModal from "@/components/AddReviewModal.vue";
 import SwiperImage from "@/components/SwiperImage.vue";
+import MyLoader from "@/components/UI/MyLoader.vue";
 
 export default {
   name: "place-id-reviews",
@@ -42,6 +46,7 @@ export default {
     ReviewItem,
     AddReviewModal,
     SwiperImage,
+    MyLoader,
   },
   async beforeMount() {
     const route = useRoute();
