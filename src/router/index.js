@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const PlacePage = () => import('@/pages/app/PlacePage.vue')
 const PlaceReviews = () => import('@/pages/app/PlaceReviews.vue')
+const PlaceMenu = () => import('@/pages/app/PlaceMenu.vue')
+const PlaceMap = () => import('@/pages/app/PlaceMap.vue')
 const NotFound = () => import('@/pages/app/NotFound.vue')
-const QuitPage = () => import('@/pages/app/QuitPage.vue')
 
 const Home = () => import('@/pages/app/Home.vue')
 const TrendPage = () => import('@/pages/app/TrendPage.vue')
@@ -21,6 +22,8 @@ const AnswerToReviews = () => import('@/pages/manager/AnswerToReviews.vue')
 const EnterRegistaration = () => import('@/pages/registration/RegistrationEnter.vue')
 const ClientRegistration = () => import('@/pages/registration/ClientRegistration.vue')
 const ManagerRegistration = () => import('@/pages/registration/ManagerRegistration.vue')
+
+const QuitPage = () => import('@/pages/app/QuitPage.vue')
 
 const Login = () => import('@/pages/registration/Login.vue')
 const Enter = () => import('@/pages/registration/Enter.vue')
@@ -44,6 +47,18 @@ const routes = [
     path: '/reviews/:id',
     name: 'reviews',
     component: PlaceReviews,
+    meta: { isAuth: true, trasition: 'fade' },
+  },
+  {
+    path: '/menu/:id',
+    name: 'menu',
+    component: PlaceMenu,
+    meta: { isAuth: true, trasition: 'fade' },
+  },
+  {
+    path: '/map/:id',
+    name: 'map',
+    component: PlaceMap,
     meta: { isAuth: true, trasition: 'fade' },
   },
   {

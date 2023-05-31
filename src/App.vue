@@ -45,7 +45,7 @@ export default {
   setup() {
     return {
       for_registration: ['registration', 'login', 'enter', 'client_registration', 'manager_registration'],
-      for_place: ['place', 'reviews'],
+      for_place: ['place', 'reviews', 'menu', 'map'],
       for_app: ['home', 'trend', 'fullmap', 'client'],
       for_client: ['client', 'client_favourites', 'client_reviews'],
       for_manager: ['manager', 'add_place', 'edit_place', 'answer_to_reviews']

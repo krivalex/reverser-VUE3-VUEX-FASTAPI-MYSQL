@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: "answer-to-reviews-page",
+  name: "place-map",
 };
 
 </script>
