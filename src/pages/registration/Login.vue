@@ -95,6 +95,7 @@ export default {
         }
         else {
           localStorage.setItem("user_id", response.data.user_id);
+          this.$store.commit("setUserId", response.data.user_id);
           this.validation = "Вы успешно авторизовались";
           this.$router.push("/");
         }

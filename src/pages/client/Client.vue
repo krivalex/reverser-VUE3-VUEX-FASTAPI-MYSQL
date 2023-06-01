@@ -3,6 +3,7 @@
     <div class="profile-label">
       <h1>Мой профиль</h1>
       <i class="fa fa-edit" @click="showModel"></i>
+      <i class="fa fa-sign-out" @click="redirectQuit"></i>
     </div>
 
     <edit-client-modal-vue v-if="model" v-model="model" :model="model" :user="user"
@@ -148,7 +149,9 @@ export default {
 
 .profile-label i {
   font-size: 30px;
-  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .image-label img {
@@ -340,5 +343,12 @@ input[type="file" i] {
 .fa-edit {
   z-index: 1000;
   color: black;
+  margin-right: 10px;
+}
+
+.fa-sign-out {
+  z-index: 1000;
+  color: black;
+  margin-bottom: 2px;
 }
 </style>
