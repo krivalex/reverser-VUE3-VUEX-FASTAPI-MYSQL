@@ -209,7 +209,7 @@
     <div class="register-photo">
       <label for="images">Картинки 1 (JPG, PNG)</label>
       <form enctype="multipart/form-data">
-        <my-input v-model="images1" name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
+        <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
       </form>
       <div v-if="images1 == '' && all_validated" class="error">
         {{ toast_danger("Картинки", validation.images1) }}
@@ -221,13 +221,13 @@
     <div class="register-photo">
       <label for="images">Картинки 2 (JPG, PNG)</label>
       <form enctype="multipart/form-data">
-        <my-input v-model="images2" name="file" type="file" accept=".jpg, .png" @input="imagesInput2"></my-input>
+        <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput2"></my-input>
       </form>
     </div>
     <div class="register-photo">
       <label for="images">Картинки 3 (JPG, PNG)</label>
       <form enctype="multipart/form-data">
-        <my-input v-model="images3" name="file" type="file" accept=".jpg, .png" @input="imagesInput3"></my-input>
+        <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput3"></my-input>
       </form>
     </div>
 
@@ -621,37 +621,35 @@ export default {
       if (this.all_validated === "krivalex") {
         postPlace(data).then((response) => {
           console.log(response);
-          let image_pack = {
+          const image_pack1 = {
             place_id: id,
             file: this.images1,
           }
+
+          const image_pack2 = {
+            place_id: id,
+            file: this.images2,
+          }
+
+          const image_pack3 = {
+            place_id: id,
+            file: this.images3,
+          }
+
+          uploadImage(image_pack1).then((response) => {
+            console.log(response);
+            uploadImage(image_pack2).then((response) => {
+              console.log(response);
+              uploadImage(image_pack3).then((response) => {
+                console.log(response);
+              });
+            });
+          });
 
           this.all_validated = false;
           this.replaceKeysWithFalse(this.validation_options)
           this.succefully_added = true;
           this.clearAllInputsData();
-
-          uploadImage(image_pack).then((response) => {
-            console.log(response);
-          });
-
-          image_pack = {
-            place_id: id,
-            file: this.images2,
-          }
-
-          uploadImage(image_pack).then((response) => {
-            console.log(response);
-          });
-
-          image_pack = {
-            place_id: id,
-            file: this.images3,
-          }
-
-          uploadImage(image_pack).then((response) => {
-            console.log(response);
-          });
         });
       }
     }
@@ -673,6 +671,7 @@ export default {
       images1: "",
       images2: "",
       images3: "",
+      final_images1: "",
       tag10: "",
       tag9: "",
       tag8: "",
