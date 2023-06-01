@@ -59,7 +59,7 @@ export default {
     EditClientModalVue,
     MyLoader,
   },
-  async beforeMount() {
+  async mounted() {
     const user_id = Number(localStorage.getItem("user_id"));
     await this.$store.dispatch("fetchUserInfo", user_id);
 
@@ -92,6 +92,7 @@ export default {
       return this.review_count;
     },
     user() {
+      this.$store.dispatch("fetchUserInfo", this.$store.state.user_id);
       return this.$store.state.user_info;
     },
     favourites() {

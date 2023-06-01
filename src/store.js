@@ -60,6 +60,11 @@ const store = createStore({
         state.user_info = response.data
       })
     },
+    putUserInfo(state, user_id) {
+      api.putUserByID(user_id).then((response) => {
+        state.user_info = response.data
+      })
+    },
     setAllTags(state) {
       api.allTags().then((response) => {
         state.all_tags = response.data
@@ -131,6 +136,9 @@ const store = createStore({
     },
     setUserId(state) {
       state.user_id = Number(localStorage.getItem('user_id'))
+    },
+    putUserByID({ commit }, user_id) {
+      commit('putUserInfo', user_id)
     },
   },
   getters: {

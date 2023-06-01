@@ -61,7 +61,7 @@ const postUser = (user) => {
 
 const putUserByID = (user) => {
   try {
-    return axios.put(`${base_url}/users/${user.id}`, user)
+    return axios.put(`${base_url}/user/${user.user_id}`, user)
   } catch (error) {
     console.log(error)
   }
