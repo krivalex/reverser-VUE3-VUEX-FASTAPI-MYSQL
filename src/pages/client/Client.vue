@@ -70,6 +70,10 @@ export default {
     await this.$store.dispatch("fetchAvatar", this.$store.state.user_id);
   },
 
+  async updated() {
+    await this.$store.dispatch("fetchUserInfo", this.$store.state.user_id);
+  },
+
 
   methods: {
     showModel() {
@@ -92,16 +96,19 @@ export default {
       return this.review_count;
     },
     user() {
-      this.$store.dispatch("fetchUserInfo", this.$store.state.user_id);
       return this.$store.state.user_info;
     },
     favourites() {
-      if (Object.keys(this.$store.state.user_info.favourites).length === 0) {
+      if (this.$store.state.user_info.favourites == null) {
         return 0;
       }
-      else {
-        return JSON.parse(this.$store.state.user_info.favourites);
-      }
+      else
+        if (Object.keys(this.$store.state.user_info.favourites).length === 0) {
+          return 0;
+        }
+        else {
+          return JSON.parse(this.$store.state.user_info.favourites);
+        }
     },
     avatar() {
       if (this.$store.state.avatar === null) {
