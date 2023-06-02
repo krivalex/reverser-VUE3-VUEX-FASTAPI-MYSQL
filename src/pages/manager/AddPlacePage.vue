@@ -10,11 +10,13 @@
       <div class="register-item">
         <label for="name">Название заведения (MAX: 30 символов)</label>
 
-        <my-input v-model="name" name="name" placeholder="Название заведения" @input="NameInput"></my-input>
+        <div class="register-input">
+          <my-input v-model="name" name="name" placeholder="Название заведения" @input="NameInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('name')"></i>
-        <i v-if="validation_options.name_valid" class="green fa fa-check" @click="checkValue('name')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('name')"></i>
+          <i class="fa fa-trash" @click="deleteValue('name')"></i>
+          <i v-if="validation_options.name_valid" class="green fa fa-check" @click="checkValue('name')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('name')"></i>
+        </div>
 
         <div v-if="name == '' && all_validated" class="error">
           {{ toast_danger("Название", validation.name) }}
@@ -27,11 +29,14 @@
       <div class="register-item">
         <label for="city_name">Город</label>
 
-        <my-input v-model.lazy="city_name" name="city_name" placeholder="Город" @input="cityInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('city_name')"></i>
-        <i v-if="validation_options.city_name_valid" class="green fa fa-check" @click="checkValue('city_name')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('city_name')"></i>
+        <div class="register-input">
+          <my-input v-model.lazy="city_name" name="city_name" placeholder="Город" @input="cityInput"></my-input>
+
+          <i class="fa fa-trash" @click="deleteValue('city_name')"></i>
+          <i v-if="validation_options.city_name_valid" class="green fa fa-check" @click="checkValue('city_name')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('city_name')"></i>
+        </div>
 
         <div v-if="city_name == '' && all_validated" class="error">
           {{ toast_danger("Город", validation.city_name) }}
@@ -41,11 +46,13 @@
       <div class="register-item">
         <label for="address">Адрес Улицы (MAX: 25 символов)</label>
 
-        <my-input v-model.lazy="address" name="address" placeholder="Адрес" @input="addressInput"></my-input>
+        <div class="register-input">
+          <my-input v-model.lazy="address" name="address" placeholder="Адрес" @input="addressInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('address')"></i>
-        <i v-if="validation_options.address_valid" class="green fa fa-check" @click="checkValue('address')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('address')"></i>
+          <i class="fa fa-trash" @click="deleteValue('address')"></i>
+          <i v-if="validation_options.address_valid" class="green fa fa-check" @click="checkValue('address')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('address')"></i>
+        </div>
 
         <div v-if="address == '' && all_validated" class="error">
           {{ toast_danger("Адрес", validation.address) }}
@@ -58,13 +65,15 @@
       <div class="register-item">
         <label for="short_description">Короткое описание (MAX: 30 символов)</label>
 
-        <my-input v-model.lazy="short_description" name="short_description" placeholder="Короткое описание"
-          @input="shortDescriptionInput"></my-input>
+        <div class="register-input">
+          <my-input v-model.lazy="short_description" name="short_description" placeholder="Короткое описание"
+            @input="shortDescriptionInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('short_description')"></i>
-        <i v-if="validation_options.short_description_valid" class="green fa fa-check"
-          @click="checkValue('short_description')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('short_description')"></i>
+          <i class="fa fa-trash" @click="deleteValue('short_description')"></i>
+          <i v-if="validation_options.short_description_valid" class="green fa fa-check"
+            @click="checkValue('short_description')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('short_description')"></i>
+        </div>
 
         <div v-if="short_description == '' && all_validated" class="error">
           {{ toast_danger("Короткое описание", validation.short_description) }}
@@ -77,13 +86,15 @@
       <div class="register-item">
         <label for="long_description">Длинное описание (MAX: 200 символов)</label>
 
-        <my-text-area v-model.lazy="long_description" name="long_description" placeholder="Длинное описание"
-          @input="longDescriptionInput"></my-text-area>
+        <div class="long register-input">
+          <my-text-area v-model.lazy="long_description" name="long_description" placeholder="Длинное описание"
+            @input="longDescriptionInput"></my-text-area>
 
-        <i class="fa fa-trash" @click="deleteValue('long_description')"></i>
-        <i v-if="validation_options.long_description_valid" class="green fa fa-check"
-          @click="checkValue('long_description')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('long_description')"></i>
+          <i class="fa fa-trash" @click="deleteValue('long_description')"></i>
+          <i v-if="validation_options.long_description_valid" class="green fa fa-check"
+            @click="checkValue('long_description')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('long_description')"></i>
+        </div>
 
         <div v-if="long_description == '' && all_validated" class="error">
           {{ toast_danger("Длинное описание", validation.long_description) }}
@@ -96,11 +107,13 @@
       <div class="register-item">
         <label for="TWOgis_url">2ГИС (Ссылка)</label>
 
-        <my-input type="url" v-model="TWOgis_url" name="TWOgis_url" placeholder="2ГИС" @input="TWOgisInput"></my-input>
+        <div class="register-input">
+          <my-input type="url" v-model="TWOgis_url" name="TWOgis_url" placeholder="2ГИС" @input="TWOgisInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('TWOgis_url')"></i>
-        <i v-if="validation_options.TWOgis_url_valid" class="green fa fa-check" @click="checkValue('TWOgis_url')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('TWOgis_url')"></i>
+          <i class="fa fa-trash" @click="deleteValue('TWOgis_url')"></i>
+          <i v-if="validation_options.TWOgis_url_valid" class="green fa fa-check" @click="checkValue('TWOgis_url')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('TWOgis_url')"></i>
+        </div>
 
         <div v-if="TWOgis_url == '' && all_validated" class="error">
           {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url) }}
@@ -113,12 +126,14 @@
       <div class="register-item">
         <label for="phone">Whatsapp для клиентов (Номер)</label>
 
-        <my-input type="tel" placeholder="Whatsapp для клиентов" v-model.lazy="phone" name="phone"
-          @input="phoneInput"></my-input>
+        <div class="register-input">
+          <my-input type="tel" placeholder="Whatsapp для клиентов" v-model.lazy="phone" name="phone"
+            @input="phoneInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('phone')"></i>
-        <i v-if="validation_options.phone_valid" class="green fa fa-check" @click="checkValue('phone')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('phone')"></i>
+          <i class="fa fa-trash" @click="deleteValue('phone')"></i>
+          <i v-if="validation_options.phone_valid" class="green fa fa-check" @click="checkValue('phone')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('phone')"></i>
+        </div>
 
         <div v-if="phone == '+7' && all_validated" class="error">
           {{ toast_danger("Номер телефона", validation.phone) }}
@@ -131,13 +146,15 @@
       <div class="register-item">
         <label for="instagram_link">Instagram (Ссылка)</label>
 
-        <my-input v-model.lazy="instagram_link" name="instagram_link" placeholder="Instagram"
-          @input="instagramInput"></my-input>
+        <div class="register-input">
+          <my-input v-model.lazy="instagram_link" name="instagram_link" placeholder="Instagram"
+            @input="instagramInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('instagram_link')"></i>
-        <i v-if="validation_options.instagram_link_valid" class="green fa fa-check"
-          @click="checkValue('instagram_link')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('instagram_link')"></i>
+          <i class="fa fa-trash" @click="deleteValue('instagram_link')"></i>
+          <i v-if="validation_options.instagram_link_valid" class="green fa fa-check"
+            @click="checkValue('instagram_link')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('instagram_link')"></i>
+        </div>
 
         <div v-if="instagram_link.length > 0 && !instagram_link.includes('instagram.com')" class="error">
           {{ toast_danger("Ссылка на Instagram", validation.instagram_link_invalid) }}
@@ -147,11 +164,13 @@
       <div class="register-item">
         <label for="category">Категория (MAX: 18 символов)</label>
 
-        <my-input v-model.lazy="category" name="category" placeholder="Категория" @input="categoryInput"></my-input>
+        <div class="register-input">
+          <my-input v-model.lazy="category" name="category" placeholder="Категория" @input="categoryInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('category')"></i>
-        <i v-if="validation_options.category_valid" class="green fa fa-check" @click="checkValue('category')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('category')"></i>
+          <i class="fa fa-trash" @click="deleteValue('category')"></i>
+          <i v-if="validation_options.category_valid" class="green fa fa-check" @click="checkValue('category')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('category')"></i>
+        </div>
 
         <div v-if="category == '' && all_validated" class="error">
           {{ toast_danger("Категория", validation.category) }}
@@ -164,12 +183,14 @@
       <div class="register-item">
         <label for="subcategory">Подкатегория (MAX: 18 символов)</label>
 
-        <my-input v-model.lazy="subcategory" name="subcategory" placeholder="Подкатегория"
-          @input="subcategoryInput"></my-input>
+        <div class="register-input">
+          <my-input v-model.lazy="subcategory" name="subcategory" placeholder="Подкатегория"
+            @input="subcategoryInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('subcategory')"></i>
-        <i v-if="validation_options.subcategory_valid" class="green fa fa-check" @click="checkValue('subcategory')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('subcategory')"></i>
+          <i class="fa fa-trash" @click="deleteValue('subcategory')"></i>
+          <i v-if="validation_options.subcategory_valid" class="green fa fa-check" @click="checkValue('subcategory')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('subcategory')"></i>
+        </div>
 
         <div v-if="subcategory == '' && all_validated" class="error">
           {{ toast_danger("Подкатегория", validation.subcategory) }}
@@ -182,28 +203,33 @@
       <div class="time register-item">
         <label for="start-work-time">Начало работы (00:00)</label>
 
-        <my-input type="time" v-model.lazy="start_work_time" name="start-work-time" placeholder="Время открытия"
-          @input.once="startWorkTimeInput"></my-input>
+        <div class="register-input">
+          <my-input type="time" v-model.lazy="start_work_time" name="start-work-time" placeholder="Время открытия"
+            @input.once="startWorkTimeInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('start_work_time')"></i>
-        <i v-if="validation_options.start_work_time_valid" class="fa fa-check" @click="checkValue('start_work_time')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('start_work_time')"></i>
+          <i class="fa fa-trash" @click="deleteValue('start_work_time')"></i>
+          <i v-if="validation_options.start_work_time_valid" class="fa fa-check"
+            @click="checkValue('start_work_time')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('start_work_time')"></i>
+        </div>
 
         <div v-if="start_work_time == '' && all_validated" class="error">
           {{ toast_danger("Начало работы", validation.start_work_time) }}
         </div>
       </div>
 
-      <div class="time register-item">
+      <div class="register-item">
         <label for="end-work-time">Конец работы (00:00)</label>
 
-        <my-input type="time" v-model.lazy="end_work_time" name="end-work-time" placeholder="Время закрытия"
-          @input.once="endWorkTimeInput"></my-input>
+        <div class="time register-input">
+          <my-input type="time" v-model.lazy="end_work_time" name="end-work-time" placeholder="Время закрытия"
+            @input.once="endWorkTimeInput"></my-input>
 
-        <i class="fa fa-trash" @click="deleteValue('end_work_time')"></i>
-        <i v-if="validation_options.end_work_time_valid" class="green fa fa-check"
-          @click="checkValue('end_work_time')"></i>
-        <i v-else class="red fa fa-times" @click="checkValue('end_work_time')"></i>
+          <i class="fa fa-trash" @click="deleteValue('end_work_time')"></i>
+          <i v-if="validation_options.end_work_time_valid" class="green fa fa-check"
+            @click="checkValue('end_work_time')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('end_work_time')"></i>
+        </div>
 
         <div v-if="end_work_time == '' && all_validated" class="error">
           {{ toast_danger("Конец работы", validation.end_work_time) }}
@@ -960,11 +986,15 @@ export default {
 }
 
 .register-item {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 5px 15px;
+}
+
+.register-input {
+  position: relative;
+  width: 100%;
 }
 
 .register-photo {
@@ -979,6 +1009,7 @@ export default {
 .register-photo input {
   height: 50px;
   border: none;
+  width: 100%;
   font-size: 20px;
   display: flex;
   justify-content: center;
@@ -997,52 +1028,52 @@ export default {
 
 
 
-.register-item .fa-trash {
+.register-input .fa-trash {
   position: absolute;
   right: 3%;
-  top: 47%;
+  top: 25%;
   color: #000000;
   font-size: 20px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.register-item .fa-trash:hover {
+.register-input .fa-trash:hover {
   color: #D9C5C9;
 }
 
-.register-item .fa-check {
+.register-input .fa-check {
   position: absolute;
   right: 8%;
-  top: 47%;
+  top: 25%;
   color: #008000;
   font-size: 20px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.register-item .fa-check:hover {
+.register-input .fa-check:hover {
   color: #D9C5C9;
 }
 
-.register-item .fa-times {
+.register-input .fa-times {
   position: absolute;
   right: 8%;
-  top: 47%;
+  top: 25%;
   color: #DC143C;
   font-size: 20px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.register-item .fa-times:hover {
+.register-input .fa-times:hover {
   color: #D9C5C9;
 }
 
 .time .fa-trash {
   position: absolute;
-  right: 10%;
-  top: 47%;
+  right: 11%;
+  top: 23%;
   color: #000000;
   font-size: 20px;
   cursor: pointer;
@@ -1052,7 +1083,7 @@ export default {
 .time .fa-check {
   position: absolute;
   right: 15%;
-  top: 47%;
+  top: 25%;
   color: #008000;
   font-size: 20px;
   cursor: pointer;
@@ -1061,19 +1092,61 @@ export default {
 
 .time .fa-times {
   position: absolute;
-  right: 15%;
-  top: 47%;
+  right: 16.5%;
+  top: 23%;
   color: #DC143C;
   font-size: 20px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.register-item input {
+.long .fa-trash {
+  position: absolute;
+  right: 6%;
+  top: 80%;
+  color: #000000;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.long .fa-check {
+  position: absolute;
+  right: 11%;
+  top: 80%;
+  color: #008000;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.long .fa-times {
+  position: absolute;
+  right: 11%;
+  top: 80%;
+  color: #DC143C;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-input input {
   max-width: 100%;
   height: 50px;
   border: none;
   border-radius: 50px;
+  background-color: #ffffff;
+  font-size: 20px;
+  margin-bottom: 15px;
+  position: relative;
+  margin-top: 0px;
+}
+
+.register-input textarea {
+  max-width: 100%;
+  height: 200px;
+  border: none;
+  border-radius: 30px;
   background-color: #ffffff;
   font-size: 20px;
   margin-bottom: 15px;
@@ -1100,11 +1173,6 @@ export default {
   font-weight: bold;
   text-decoration: none;
   border: 0px;
-}
-
-.zaglushka {
-  height: 64px;
-  background-color: #DC143C;
 }
 
 
@@ -1161,18 +1229,6 @@ export default {
   align-items: center;
 }
 
-.required {
-  position: absolute;
-  bottom: 1vh;
-  right: 3vw;
-  color: blue;
-  font-size: 50px;
-  z-index: 10;
-}
-
-.input-req {
-  position: relative;
-}
 
 .next_button {
   width: 80%;
