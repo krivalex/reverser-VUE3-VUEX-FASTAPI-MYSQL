@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     quit() {
-      localStorage.removeItem("user_id");
+      localStorage.clear();
       this.$router.push("/login");
     },
     cancel() {
