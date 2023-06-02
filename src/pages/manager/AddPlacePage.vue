@@ -17,7 +17,7 @@
         <label for="name">Название заведения (MAX: 30 символов)</label>
 
         <div class="register-input">
-          <my-input v-model="name" name="name" placeholder="Название заведения" @input="NameInput"></my-input>
+          <my-input v-model="name" name="name" placeholder="Название заведения" @input="nameInput"></my-input>
 
           <i class="fa fa-trash" @click="deleteValue('name')"></i>
           <i v-if="validation_options.name_valid" class="green fa fa-check" @click="checkValue('name')"></i>
@@ -26,9 +26,6 @@
 
         <div v-if="name == '' && all_validated" class="error">
           {{ toast_danger("Название", validation.name) }}
-        </div>
-        <div v-else-if="name !== '' && !validation_options.name_valid" class="error">
-          {{ toast_danger("Название", validation.name_length) }}
         </div>
       </div>
 
@@ -256,10 +253,11 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag10" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
-          taggable push-tags :options="all_tags" placeholder="Тег (10 баллов)" />
+        <v-select v-model="tag10" @mouseout="checkTag('tag10')" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (10 баллов)" />
 
-        <i v-if="validation_options.tag10_valid" class="green fa fa-check" @click="checkValue('tag10')"></i>
+        <i v-if="validation_options.tag10_valid" class="green fa fa-check" @click="checkValue('tag10', tag10)"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag10')"></i>
 
         <div v-if="tag10 == '' && all_validated" class="error">
@@ -269,8 +267,9 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag9" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
-          taggable push-tags :options="all_tags" placeholder="Тег (9 баллов)" />
+        <v-select v-model="tag9" @mouseout="checkTag('tag9')" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (9 баллов)" />
 
         <i v-if="validation_options.tag9_valid" class="green fa fa-check" @click="checkValue('tag9')"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag9')"></i>
@@ -282,8 +281,9 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag8" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
-          taggable push-tags :options="all_tags" placeholder="Тег (8 баллов)" />
+        <v-select v-model="tag8" @mouseout="checkTag('tag8')" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (8 баллов)" />
 
         <i v-if="validation_options.tag8_valid" class="green fa fa-check" @click="checkValue('tag8')"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag8')"></i>
@@ -295,8 +295,9 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag7" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
-          taggable push-tags :options="all_tags" placeholder="Тег (7 баллов)" />
+        <v-select v-model="tag7" @mouseout="checkTag('tag7')" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (7 баллов)" />
 
         <i v-if="validation_options.tag7_valid" class="green fa fa-check" @click="checkValue('tag7')"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag7')"></i>
@@ -308,8 +309,9 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag6" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
-          taggable push-tags :options="all_tags" placeholder="Тег (6 баллов)" />
+        <v-select v-model="tag6" @mouseout="checkTag('tag6')" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (6 баллов)" />
 
         <i v-if="validation_options.tag6_valid" class="green fa fa-check" @click="checkValue('tag6')"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag6')"></i>
@@ -321,8 +323,9 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag5" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
-          taggable push-tags :options="all_tags" placeholder="Тег (5 баллов)" />
+        <v-select v-model="tag5" @mouseout="checkTag('tag5')" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (5 баллов)" />
 
         <i v-if="validation_options.tag5_valid" class="green fa fa-check" @click="checkValue('tag5')"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag5')"></i>
@@ -337,8 +340,9 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag4" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
-          taggable push-tags :options="all_tags" placeholder="Тег (4 баллов)" />
+        <v-select v-model="tag4" @mouseout="checkTag('tag4')" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (4 баллов)" />
 
         <i v-if="validation_options.tag4_valid" class="green fa fa-check" @click="checkValue('tag4')"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag4')"></i>
@@ -347,8 +351,9 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag3" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
-          taggable push-tags :options="all_tags" placeholder="Тег (3 баллов)" />
+        <v-select v-model="tag3" @mouseout="checkTag('tag3')" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (3 баллов)" />
 
         <i v-if="validation_options.tag3_valid" class="green fa fa-check" @click="checkValue('tag3')"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag3')"></i>
@@ -356,8 +361,9 @@
       </div>
       <div class="register-selected">
 
-        <v-select v-model="tag2" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
-          taggable push-tags :options="all_tags" placeholder="Тег (2 баллов)" />
+        <v-select v-model="tag2" @mouseout="checkTag('tag2')" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (2 баллов)" />
 
         <i v-if="validation_options.tag2_valid" class="green fa fa-check" @click="checkValue('tag2')"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag2')"></i>
@@ -366,8 +372,9 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag1" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
-          taggable push-tags :options="all_tags" placeholder="Тег (1 баллов)" />
+        <v-select v-model="tag1" @mouseout="checkTag('tag1')" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (1 баллов)" />
 
         <i v-if="validation_options.tag1_valid" class="green fa fa-check" @click="checkValue('tag1')"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag1')"></i>
@@ -384,9 +391,16 @@
 
       <div class="register-photo">
         <label for="images">Картинка 1 (JPG, PNG)</label>
-        <form enctype="multipart/form-data">
+
+        <form class="image-validator" enctype="multipart/form-data">
           <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
+
+          <i class="fa fa-trash" @click="deleteValue('images1')"></i>
+          <i v-if="validation_options.images1_valid" class="green fa fa-check" @click="checkValue('images1')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('images1')"></i>
+
         </form>
+
         <div v-if="images1 == '' && all_validated" class="error">
           {{ toast_danger("Картинки", validation.images1) }}
         </div>
@@ -394,17 +408,32 @@
           {{ toast_warning("Картинки", validation_not_required.image_count) }}
         </div>
       </div>
+
       <div class="register-photo">
         <label for="images">Картинка 2 (JPG, PNG)</label>
-        <form enctype="multipart/form-data">
+
+        <form class="image-validator" enctype="multipart/form-data">
           <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput2"></my-input>
+
+          <i class="fa fa-trash" @click="deleteValue('images2')"></i>
+          <i v-if="validation_options.images2_valid" class="green fa fa-check" @click="checkValue('images2')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('images2')"></i>
+
         </form>
+
       </div>
+
       <div class="register-photo">
         <label for="images">Картинка 3 (JPG, PNG)</label>
-        <form enctype="multipart/form-data">
+
+        <form class="image-validator" enctype="multipart/form-data">
           <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput3"></my-input>
+
+          <i class="fa fa-trash" @click="deleteValue('images3')"></i>
+          <i v-if="validation_options.images3_valid" class="green fa fa-check" @click="checkValue('images3')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('images3')"></i>
         </form>
+
       </div>
 
     </div>
@@ -629,25 +658,48 @@ export default {
         }
       }
     },
-    NameInput(event) {
+    checkTag(property) {
+      clearToasts();
+      const valid_property = property + '_valid';
+      if (this.$data.validation_options.hasOwnProperty(valid_property)) {
+        if (this[property].length < 3) {
+          this.validation_options[valid_property] = false;
+        }
+        else if (this[property].length > 18) {
+          this.validation_options[valid_property] = false;
+          this.toast_danger(this[property], 'Тег не может быть длинее 17 символов, и короче 3 символов');
+        }
+        else {
+          this.validation_options[valid_property] = true;
+        }
+      }
+    },
+    nameInput(event) {
       clearToasts();
       this.name = event.target.value;
 
+
       if (this.name.length < 5) {
-        this.validation_options.name_valid = "krivalex";
+        this.validation_options.name_valid = false;
       }
       else if (this.name.length < 30) {
         this.validation_options.name_valid = true;
       }
       else {
         this.validation_options.name_valid = false;
+        this.toast_danger('Название', this.validation.name_length);
       }
 
     },
     cityInput(event) {
       clearToasts();
       this.city_name = event.target.value;
-      this.validation_options.city_name_valid = true;
+      if (this.city_name.length < 3) {
+        this.validation_options.city_name_valid = false;
+      }
+      else {
+        this.validation_options.city_name_valid = true;
+      }
     },
     TWOgisInput(event) {
       clearToasts();
@@ -662,7 +714,10 @@ export default {
     addressInput(event) {
       clearToasts();
       this.address = event.target.value;
-      if (this.address.length < 25) {
+      if (this.address.length < 5) {
+        this.validation_options.address_valid = false;
+      }
+      else if (this.address.length < 25) {
         this.validation_options.address_valid = true;
       }
       else {
@@ -696,7 +751,11 @@ export default {
     categoryInput(event) {
       clearToasts();
       this.category = event.target.value;
-      if (this.category.length < 18) {
+
+      if (this.category.length < 5) {
+        this.validation_options.category_valid = false;
+      }
+      else if (this.category.length < 18) {
         this.validation_options.category_valid = true;
       }
       else {
@@ -706,7 +765,11 @@ export default {
     subcategoryInput(event) {
       clearToasts();
       this.subcategory = event.target.value;
-      if (this.subcategory.length < 18) {
+
+      if (this.subcategory.length < 5) {
+        this.validation_options.subcategory_valid = false;
+      }
+      else if (this.subcategory.length < 18) {
         this.validation_options.subcategory_valid = true;
       }
       else {
@@ -719,6 +782,9 @@ export default {
       if (this.instagram_link.length > 0 && this.instagram_link.includes('instagram.com')) {
         this.validation_options.instagram_link_valid = true;
       }
+      else if (this.instagram_link.length === 0) {
+        this.validation_options.instagram_link_valid = true;
+      }
       else {
         this.validation_options.instagram_link_valid = false;
       }
@@ -726,7 +792,11 @@ export default {
     shortDescriptionInput(event) {
       clearToasts();
       this.short_description = event.target.value;
-      if (this.short_description.length < 30) {
+
+      if (this.short_description.length < 10) {
+        this.validation_options.short_description_valid = false;
+      }
+      else if (this.short_description.length < 30) {
         this.validation_options.short_description_valid = true;
       }
       else {
@@ -736,7 +806,11 @@ export default {
     longDescriptionInput(event) {
       clearToasts();
       this.long_description = event.target.value;
-      if (this.long_description.length < 200) {
+
+      if (this.long_description.length < 50) {
+        this.validation_options.long_description_valid = false;
+      }
+      else if (this.long_description.length < 200) {
         this.validation_options.long_description_valid = true;
       }
       else {
@@ -881,7 +955,6 @@ export default {
       images1: "",
       images2: "",
       images3: "",
-      final_images1: "",
       tag10: "",
       tag9: "",
       tag8: "",
@@ -912,16 +985,16 @@ export default {
         images1_valid: false,
         images2_valid: true,
         images3_valid: true,
-        tag10_valid: true,
-        tag9_valid: true,
-        tag8_valid: true,
-        tag7_valid: true,
-        tag6_valid: true,
-        tag5_valid: true,
-        tag4_valid: true,
-        tag3_valid: true,
-        tag2_valid: true,
-        tag1_valid: true,
+        tag10_valid: false,
+        tag9_valid: false,
+        tag8_valid: false,
+        tag7_valid: false,
+        tag6_valid: false,
+        tag5_valid: false,
+        tag4_valid: false,
+        tag3_valid: false,
+        tag2_valid: false,
+        tag1_valid: false,
       }
     }
   },
@@ -1095,8 +1168,8 @@ export default {
 
 .time .fa-check {
   position: absolute;
-  right: 15%;
-  top: 25%;
+  right: 16.5%;
+  top: 23%;
   color: #008000;
   font-size: 20px;
   cursor: pointer;
@@ -1138,6 +1211,40 @@ export default {
   right: 11%;
   top: 80%;
   color: #DC143C;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.image-validator {
+  position: relative;
+}
+
+.image-validator .fa-check {
+  position: absolute;
+  right: -2%;
+  top: 26%;
+  color: #008000;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.image-validator .fa-times {
+  position: absolute;
+  right: -2%;
+  top: 26%;
+  color: #DC143C;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.image-validator .fa-trash {
+  position: absolute;
+  right: -8%;
+  top: 26%;
+  color: #000000;
   font-size: 20px;
   cursor: pointer;
   transition: 0.3s;
