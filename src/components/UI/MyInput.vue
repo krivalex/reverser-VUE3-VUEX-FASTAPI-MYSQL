@@ -3,6 +3,8 @@
 </template>
   
 <script>
+import { createToast, clearToasts } from 'mosha-vue-toastify';
+import 'mosha-vue-toastify/dist/style.css';
 export default {
     name: 'my-input',
     props: {
@@ -11,6 +13,7 @@ export default {
     methods: {
         updateInput(event) {
             this.$emit('update:modelValue', event.target.value)
+            clearToasts();
         }
     }
 }

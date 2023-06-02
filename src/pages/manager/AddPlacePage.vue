@@ -6,10 +6,9 @@
     </div>
 
     <div class="inputs">
-      <!-- Клиент часть -->
       <div class="register-item">
         <label for="name">Название заведения (MAX: 30 символов)</label>
-        <my-input v-model.lazy="name" name="name" placeholder="Название заведения" @input="NameInput"></my-input>
+        <my-input v-model="name" name="name" placeholder="Название заведения" @input="NameInput"></my-input>
         <div v-if="name == '' && all_validated" class="error">
           {{ toast_danger("Название", validation.name) }}
         </div>
@@ -31,9 +30,9 @@
         <div v-if="address == '' && all_validated" class="error">
           {{ toast_danger("Адрес", validation.address) }}
         </div>
-        <div v-else-if="address.length > 25 && !validation_options.address_valid" class="error">
+        <!-- <div v-else-if="address.length > 25 && !validation_options.address_valid" class="error">
           {{ toast_danger("Адрес", validation.address_length) }}
-        </div>
+        </div> -->
       </div>
       <div class="register-item">
         <label for="short_description">Короткое описание (MAX: 30 символов)</label>
@@ -121,11 +120,6 @@
           @input.once="endWorkTimeInput"></my-input>
         <div v-if="end_work_time == '' && all_validated" class="error">
           {{ toast_danger("Конец работы", validation.end_work_time) }}
-        </div>
-        <div
-          v-else-if="end_work_time < start_work_time && validation_options.end_work_time_valid && validation_options.start_work_time_valid"
-          class="error">
-          {{ toast_danger("Время работы", validation_not_required.work_time) }}
         </div>
       </div>
       <div class="register-label">
@@ -237,15 +231,6 @@
       </div>
     </div>
 
-    <div v-if="succefully_added" class="error">
-      {{ toast_success("Вы успешно добавили заведение") }}
-    </div>
-
-
-
-
-    <div class="zaglushka"></div>
-
   </section>
 </template>
 
@@ -331,10 +316,10 @@ export default {
           description: description
         }, {
           type: 'danger', // 'info', 'danger', 'warning', 'success', 'default'
-          timeout: 5000,
+          timeout: 3000,
           showCloseButton: true,
           position: 'top-center', // 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'top-center', 'bottom-center'
-          transition: 'bounce',
+          transition: 'slide',
           hideProgressBar: false,
           swipeClose: true,
           onClose: null,
@@ -427,42 +412,45 @@ export default {
   },
   methods: {
     NameInput(event) {
+      clearToasts();
       this.name = event.target.value;
       if (this.name.length < 30) {
         this.validation_options.name_valid = true;
       }
       else {
         this.validation_options.name_valid = false;
-        clearToasts();
       }
 
     },
     cityInput(event) {
+      clearToasts();
       this.city_name = event.target.value;
       this.validation_options.city_name_valid = true;
     },
     TWOgisInput(event) {
+      clearToasts();
       this.TWOgis_url = event.target.value;
       if (this.TWOgis_url.includes('2gis.kz')) {
         this.validation_options.TWOgis_url_valid = true;
       }
       else {
         this.validation_options.TWOgis_url_valid = false;
-        clearToasts();
       }
     },
     addressInput(event) {
+      clearToasts();
       this.address = event.target.value;
       if (this.address.length < 25) {
         this.validation_options.address_valid = true;
       }
       else {
         this.validation_options.address_valid = false;
-        clearToasts();
+        this.toast_danger("Адрес", "Адрес должен быть короче 25 символов");
       }
 
     },
     phoneInput(event) {
+      clearToasts();
       if (Number(event.target.value.slice(1, -1)) || event.target.value == '+7') {
         this.phone = event.target.value;
 
@@ -476,7 +464,6 @@ export default {
         }
         else {
           this.validation_options.phone_valid = false;
-          clearToasts();
         }
       }
       else {
@@ -486,60 +473,62 @@ export default {
 
     },
     categoryInput(event) {
+      clearToasts();
       this.category = event.target.value;
       if (this.category.length < 18) {
         this.validation_options.category_valid = true;
       }
       else {
         this.validation_options.category_valid = false;
-        clearToasts();
       }
     },
     subcategoryInput(event) {
+      clearToasts();
       this.subcategory = event.target.value;
       if (this.subcategory.length < 18) {
         this.validation_options.subcategory_valid = true;
       }
       else {
         this.validation_options.subcategory_valid = false;
-        clearToasts();
       }
     },
     instagramInput(event) {
+      clearToasts();
       this.instagram_link = event.target.value;
       if (this.instagram_link.length > 0 && this.instagram_link.includes('instagram.com')) {
         this.validation_options.instagram_link_valid = true;
       }
       else {
         this.validation_options.instagram_link_valid = false;
-        clearToasts();
       }
     },
     shortDescriptionInput(event) {
+      clearToasts();
       this.short_description = event.target.value;
       if (this.short_description.length < 30) {
         this.validation_options.short_description_valid = true;
       }
       else {
         this.validation_options.short_description_valid = false;
-        clearToasts();
       }
     },
     longDescriptionInput(event) {
+      clearToasts();
       this.long_description = event.target.value;
       if (this.long_description.length < 200) {
         this.validation_options.long_description_valid = true;
       }
       else {
         this.validation_options.long_description_valid = false;
-        clearToasts();
       }
     },
     startWorkTimeInput(event) {
+      clearToasts();
       this.start_work_time = event.target.value;
       this.validation_options.start_work_time_valid = true;
     },
     endWorkTimeInput(event) {
+      clearToasts();
       this.end_work_time = event.target.value;
       this.validation_options.end_work_time_valid = true;
     },
@@ -881,16 +870,18 @@ export default {
   --vs-controls-color: black;
 
   --vs-dropdown-bg: #ffffff;
-  --vs-dropdown-color: #DC143C;
-  --vs-dropdown-option-color: #DC143C;
+  --vs-dropdown-color: white;
+  --vs-dropdown-option-color: var(--main-haki-color);
 
   --vs-selected-bg: #000000;
   --vs-selected-color: #000000;
 
   --vs-search-input-color: gray;
 
-  --vs-dropdown-option--active-bg: #DC143C;
+  --vs-dropdown-option--active-bg: #ffffff;
   --vs-dropdown-option--active-color: #DC143C;
+
+  border: 1px solid #000000;
 }
 
 #photo-input {
