@@ -6,9 +6,16 @@
     </div>
 
     <div class="inputs">
+
       <div class="register-item">
         <label for="name">Название заведения (MAX: 30 символов)</label>
+
         <my-input v-model="name" name="name" placeholder="Название заведения" @input="NameInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('name')"></i>
+        <i v-if="validation_options.name_valid" class="green fa fa-check" @click="checkValue('name')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('name')"></i>
+
         <div v-if="name == '' && all_validated" class="error">
           {{ toast_danger("Название", validation.name) }}
         </div>
@@ -19,25 +26,46 @@
 
       <div class="register-item">
         <label for="city_name">Город</label>
+
         <my-input v-model.lazy="city_name" name="city_name" placeholder="Город" @input="cityInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('city_name')"></i>
+        <i v-if="validation_options.city_name_valid" class="green fa fa-check" @click="checkValue('city_name')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('city_name')"></i>
+
         <div v-if="city_name == '' && all_validated" class="error">
           {{ toast_danger("Город", validation.city_name) }}
         </div>
       </div>
+
       <div class="register-item">
         <label for="address">Адрес Улицы (MAX: 25 символов)</label>
+
         <my-input v-model.lazy="address" name="address" placeholder="Адрес" @input="addressInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('address')"></i>
+        <i v-if="validation_options.address_valid" class="green fa fa-check" @click="checkValue('address')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('address')"></i>
+
         <div v-if="address == '' && all_validated" class="error">
           {{ toast_danger("Адрес", validation.address) }}
         </div>
-        <!-- <div v-else-if="address.length > 25 && !validation_options.address_valid" class="error">
+        <div v-else-if="address.length > 25 && !validation_options.address_valid" class="error">
           {{ toast_danger("Адрес", validation.address_length) }}
-        </div> -->
+        </div>
       </div>
+
       <div class="register-item">
         <label for="short_description">Короткое описание (MAX: 30 символов)</label>
+
         <my-input v-model.lazy="short_description" name="short_description" placeholder="Короткое описание"
           @input="shortDescriptionInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('short_description')"></i>
+        <i v-if="validation_options.short_description_valid" class="green fa fa-check"
+          @click="checkValue('short_description')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('short_description')"></i>
+
         <div v-if="short_description == '' && all_validated" class="error">
           {{ toast_danger("Короткое описание", validation.short_description) }}
         </div>
@@ -45,10 +73,18 @@
           {{ toast_danger("Короткое описание", validation.short_description_length) }}
         </div>
       </div>
+
       <div class="register-item">
         <label for="long_description">Длинное описание (MAX: 200 символов)</label>
+
         <my-text-area v-model.lazy="long_description" name="long_description" placeholder="Длинное описание"
           @input="longDescriptionInput"></my-text-area>
+
+        <i class="fa fa-trash" @click="deleteValue('long_description')"></i>
+        <i v-if="validation_options.long_description_valid" class="green fa fa-check"
+          @click="checkValue('long_description')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('long_description')"></i>
+
         <div v-if="long_description == '' && all_validated" class="error">
           {{ toast_danger("Длинное описание", validation.long_description) }}
         </div>
@@ -56,9 +92,16 @@
           {{ toast_danger("Длинное описание", validation.long_description_length) }}
         </div>
       </div>
+
       <div class="register-item">
         <label for="TWOgis_url">2ГИС (Ссылка)</label>
+
         <my-input type="url" v-model="TWOgis_url" name="TWOgis_url" placeholder="2ГИС" @input="TWOgisInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('TWOgis_url')"></i>
+        <i v-if="validation_options.TWOgis_url_valid" class="green fa fa-check" @click="checkValue('TWOgis_url')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('TWOgis_url')"></i>
+
         <div v-if="TWOgis_url == '' && all_validated" class="error">
           {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url) }}
         </div>
@@ -66,10 +109,17 @@
           {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url_invalid) }}
         </div>
       </div>
+
       <div class="register-item">
         <label for="phone">Whatsapp для клиентов (Номер)</label>
+
         <my-input type="tel" placeholder="Whatsapp для клиентов" v-model.lazy="phone" name="phone"
           @input="phoneInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('phone')"></i>
+        <i v-if="validation_options.phone_valid" class="green fa fa-check" @click="checkValue('phone')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('phone')"></i>
+
         <div v-if="phone == '+7' && all_validated" class="error">
           {{ toast_danger("Номер телефона", validation.phone) }}
         </div>
@@ -77,17 +127,32 @@
           {{ toast_danger("Номер телефона", validation.phone_length) }}
         </div>
       </div>
+
       <div class="register-item">
         <label for="instagram_link">Instagram (Ссылка)</label>
+
         <my-input v-model.lazy="instagram_link" name="instagram_link" placeholder="Instagram"
           @input="instagramInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('instagram_link')"></i>
+        <i v-if="validation_options.instagram_link_valid" class="green fa fa-check"
+          @click="checkValue('instagram_link')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('instagram_link')"></i>
+
         <div v-if="instagram_link.length > 0 && !instagram_link.includes('instagram.com')" class="error">
           {{ toast_danger("Ссылка на Instagram", validation.instagram_link_invalid) }}
         </div>
       </div>
+
       <div class="register-item">
         <label for="category">Категория (MAX: 18 символов)</label>
+
         <my-input v-model.lazy="category" name="category" placeholder="Категория" @input="categoryInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('category')"></i>
+        <i v-if="validation_options.category_valid" class="green fa fa-check" @click="checkValue('category')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('category')"></i>
+
         <div v-if="category == '' && all_validated" class="error">
           {{ toast_danger("Категория", validation.category) }}
         </div>
@@ -95,10 +160,17 @@
           {{ toast_danger("Категория", validation.category_length) }}
         </div>
       </div>
+
       <div class="register-item">
         <label for="subcategory">Подкатегория (MAX: 18 символов)</label>
+
         <my-input v-model.lazy="subcategory" name="subcategory" placeholder="Подкатегория"
           @input="subcategoryInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('subcategory')"></i>
+        <i v-if="validation_options.subcategory_valid" class="green fa fa-check" @click="checkValue('subcategory')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('subcategory')"></i>
+
         <div v-if="subcategory == '' && all_validated" class="error">
           {{ toast_danger("Подкатегория", validation.subcategory) }}
         </div>
@@ -106,69 +178,121 @@
           {{ toast_danger("Подкатегория", validation.subcategory_length) }}
         </div>
       </div>
-      <div class="register-item">
-        <label for="start-work-time">Начало работы (00:00:00)</label>
+
+      <div class="time register-item">
+        <label for="start-work-time">Начало работы (00:00)</label>
+
         <my-input type="time" v-model.lazy="start_work_time" name="start-work-time" placeholder="Время открытия"
           @input.once="startWorkTimeInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('start_work_time')"></i>
+        <i v-if="validation_options.start_work_time_valid" class="fa fa-check" @click="checkValue('start_work_time')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('start_work_time')"></i>
+
         <div v-if="start_work_time == '' && all_validated" class="error">
           {{ toast_danger("Начало работы", validation.start_work_time) }}
         </div>
       </div>
-      <div class="register-item">
-        <label for="end-work-time">Конец работы (00:00:00)</label>
+
+      <div class="time register-item">
+        <label for="end-work-time">Конец работы (00:00)</label>
+
         <my-input type="time" v-model.lazy="end_work_time" name="end-work-time" placeholder="Время закрытия"
           @input.once="endWorkTimeInput"></my-input>
+
+        <i class="fa fa-trash" @click="deleteValue('end_work_time')"></i>
+        <i v-if="validation_options.end_work_time_valid" class="green fa fa-check"
+          @click="checkValue('end_work_time')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('end_work_time')"></i>
+
         <div v-if="end_work_time == '' && all_validated" class="error">
           {{ toast_danger("Конец работы", validation.end_work_time) }}
         </div>
       </div>
+
       <div class="register-label">
         <h3>Укажите 10 тегов, 10 - самый главный, 1 - самый неглавный</h3>
       </div>
+
       <div class="register-selected">
         <label for="tag10">ТЕГ (10 баллов)</label>
+
         <v-select v-model="tag10" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (10 баллов)" />
+
+        <i v-if="validation_options.tag10_valid" class="green fa fa-check" @click="checkValue('tag10')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('tag10')"></i>
+
         <div v-if="tag10 == '' && all_validated" class="error">
           {{ toast_danger("Тег (10 баллов)", validation.tag10) }}
         </div>
       </div>
+
       <div class="register-selected">
         <label for="tag9">ТЕГ (9 баллов)</label>
+
         <v-select v-model="tag9" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (9 баллов)" />
+
+        <i v-if="validation_options.tag9_valid" class="green fa fa-check" @click="checkValue('tag9')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('tag9')"></i>
+
         <div v-if="tag9 == '' && all_validated" class="error">
           {{ toast_danger("Тег (9 баллов)", validation.tag9) }}
         </div>
       </div>
+
       <div class="register-selected">
         <label for="tag8">ТЕГ (8 баллов)</label>
+
         <v-select v-model="tag8" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (8 баллов)" />
+
+        <i v-if="validation_options.tag8_valid" class="green fa fa-check" @click="checkValue('tag8')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('tag8')"></i>
+
         <div v-if="tag8 == '' && all_validated" class="error">
           {{ toast_danger("Тег (8 баллов)", validation.tag8) }}
         </div>
       </div>
+
       <div class="register-selected">
         <label for="tag7">ТЕГ (7 баллов)</label>
+
         <v-select v-model="tag7" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (7 баллов)" />
+
+        <i v-if="validation_options.tag7_valid" class="green fa fa-check" @click="checkValue('tag7')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('tag7')"></i>
+
         <div v-if="tag7 == '' && all_validated" class="error">
           {{ toast_danger("Тег (7 баллов)", validation.tag7) }}
         </div>
       </div>
+
       <div class="register-selected">
         <label for="tag6">ТЕГ (6 баллов)</label>
+
         <v-select v-model="tag6" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (6 баллов)" />
+
+        <i v-if="validation_options.tag6_valid" class="green fa fa-check" @click="checkValue('tag6')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('tag6')"></i>
+
         <div v-if="tag6 == '' && all_validated" class="error">
           {{ toast_danger("Тег (6 баллов)", validation.tag6) }}
         </div>
       </div>
+
       <div class="register-selected">
         <label for="tag5">ТЕГ (5 баллов)</label>
+
         <v-select v-model="tag5" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (5 баллов)" />
+
+        <i v-if="validation_options.tag5_valid" class="green fa fa-check" @click="checkValue('tag5')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('tag5')"></i>
+
         <div v-if="tag5 == '' && all_validated" class="error">
           {{ toast_danger("Тег (5 баллов)", validation.tag5) }}
         </div>
@@ -176,32 +300,57 @@
           {{ toast_warning("Теги", validation_not_required.tags_count) }}
         </div>
       </div>
+
       <div class="register-selected">
         <label for="tag4">ТЕГ (4 баллов)</label>
+
         <v-select v-model="tag4" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (4 баллов)" />
+
+        <i v-if="validation_options.tag4_valid" class="green fa fa-check" @click="checkValue('tag4')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('tag4')"></i>
+
       </div>
+
       <div class="register-selected">
         <label for="tag3">ТЕГ (3 баллов)</label>
+
         <v-select v-model="tag3" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (3 баллов)" />
+
+        <i v-if="validation_options.tag3_valid" class="green fa fa-check" @click="checkValue('tag3')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('tag3')"></i>
+
       </div>
       <div class="register-selected">
         <label for="tag2">ТЕГ (2 баллов)</label>
+
         <v-select v-model="tag2" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (2 баллов)" />
+
+        <i v-if="validation_options.tag2_valid" class="green fa fa-check" @click="checkValue('tag2')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('tag2')"></i>
+
       </div>
+
       <div class="register-selected">
         <label for="tag1">ТЕГ (1 баллов)</label>
+
         <v-select v-model="tag1" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (1 баллов)" />
+
+        <i v-if="validation_options.tag1_valid" class="green fa fa-check" @click="checkValue('tag1')"></i>
+        <i v-else class="red fa fa-times" @click="checkValue('tag1')"></i>
+
         <div v-if="checkDuplicates" class="error">
           {{ toast_warning("Теги", validation_not_required.tags_same) }}
         </div>
       </div>
+
     </div>
+
     <div class="register-photo">
-      <label for="images">Картинки 1 (JPG, PNG)</label>
+      <label for="images">Картинка 1 (JPG, PNG)</label>
       <form enctype="multipart/form-data">
         <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
       </form>
@@ -213,13 +362,13 @@
       </div>
     </div>
     <div class="register-photo">
-      <label for="images">Картинки 2 (JPG, PNG)</label>
+      <label for="images">Картинка 2 (JPG, PNG)</label>
       <form enctype="multipart/form-data">
         <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput2"></my-input>
       </form>
     </div>
     <div class="register-photo">
-      <label for="images">Картинки 3 (JPG, PNG)</label>
+      <label for="images">Картинка 3 (JPG, PNG)</label>
       <form enctype="multipart/form-data">
         <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput3"></my-input>
       </form>
@@ -288,7 +437,7 @@ export default {
         "end_work_time": "Укажите время окончания работы",
         "category": "Укажите категорию",
         "subcategory": "Укажите подкатегорию",
-        "name_length": "Название не может быть длинее 30 символов",
+        "name_length": "Название не может быть длинее 30 символов, и короче 5",
         "short_description_length": "Краткое описание не может быть длинее 30 символов",
         "long_description_length": "Полное описание не может быть длинее 200 символов",
         "address_length": "Адрес не может быть длинее 25 символов",
@@ -333,6 +482,22 @@ export default {
         }, {
           type: 'success', // 'info', 'danger', 'warning', 'success', 'default'
           timeout: 10000,
+          showCloseButton: true,
+          position: 'top-center', // 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'top-center', 'bottom-center'
+          transition: 'bounce',
+          hideProgressBar: false,
+          swipeClose: true,
+          onClose: null,
+          showIcon: true
+        })
+      },
+      toast_success_fast: function (title, description) {
+        createToast({
+          title: title,
+          description: description
+        }, {
+          type: 'success', // 'info', 'danger', 'warning', 'success', 'default'
+          timeout: 2000,
           showCloseButton: true,
           position: 'top-center', // 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'top-center', 'bottom-center'
           transition: 'bounce',
@@ -411,10 +576,30 @@ export default {
     MyTextArea,
   },
   methods: {
+    deleteValue(property) {
+      if (this.$data.hasOwnProperty(property)) {
+        this[property] = '';
+      }
+    },
+    checkValue(property) {
+      const valid_property = property + '_valid';
+      if (this.$data.validation_options.hasOwnProperty(valid_property)) {
+        if (this.validation_options[valid_property] === true) {
+          this.toast_success_fast('Успешно', 'Ваше поле ' + property + ' заполнено верно');
+        }
+        else {
+          this.toast_danger('Неправильно', 'Ваше поле ' + property + ' заполнено неверно');
+        }
+      }
+    },
     NameInput(event) {
       clearToasts();
       this.name = event.target.value;
-      if (this.name.length < 30) {
+
+      if (this.name.length < 5) {
+        this.validation_options.name_valid = "krivalex";
+      }
+      else if (this.name.length < 30) {
         this.validation_options.name_valid = true;
       }
       else {
@@ -445,7 +630,6 @@ export default {
       }
       else {
         this.validation_options.address_valid = false;
-        this.toast_danger("Адрес", "Адрес должен быть короче 25 символов");
       }
 
     },
@@ -780,7 +964,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 15px;
+  margin: 5px 15px;
 }
 
 .register-photo {
@@ -805,9 +989,84 @@ export default {
 }
 
 .register-item label {
-  font-size: 17px;
+  font-size: 20px;
   max-width: 90%;
   color: lightgray;
+  margin-bottom: 7px;
+}
+
+
+
+.register-item .fa-trash {
+  position: absolute;
+  right: 3%;
+  top: 47%;
+  color: #000000;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-item .fa-trash:hover {
+  color: #D9C5C9;
+}
+
+.register-item .fa-check {
+  position: absolute;
+  right: 8%;
+  top: 47%;
+  color: #008000;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-item .fa-check:hover {
+  color: #D9C5C9;
+}
+
+.register-item .fa-times {
+  position: absolute;
+  right: 8%;
+  top: 47%;
+  color: #DC143C;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-item .fa-times:hover {
+  color: #D9C5C9;
+}
+
+.time .fa-trash {
+  position: absolute;
+  right: 10%;
+  top: 47%;
+  color: #000000;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.time .fa-check {
+  position: absolute;
+  right: 15%;
+  top: 47%;
+  color: #008000;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.time .fa-times {
+  position: absolute;
+  right: 15%;
+  top: 47%;
+  color: #DC143C;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .register-item input {
@@ -864,7 +1123,19 @@ export default {
   padding: 0 5px;
   padding-top: 5px;
   padding-bottom: 20px;
+  position: relative;
 }
+
+.register-selected .fa-check {
+  position: absolute;
+  right: 14%;
+  top: 38%;
+  color: #008000;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
 
 .register-selected {
   --vs-controls-color: black;
