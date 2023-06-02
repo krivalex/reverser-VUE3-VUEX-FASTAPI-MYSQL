@@ -253,9 +253,9 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag10" @mouseout="checkTag('tag10')" :reduce="(option) => option.value"
-          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
-          placeholder="Тег (10 баллов)" />
+        <v-select v-model="tag10" @mouseout="checkTag('tag10')" @mouseover="checkTag('tag10')"
+          :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })" taggable push-tags
+          :options="all_tags" placeholder="Тег (10 баллов)" />
 
         <i v-if="validation_options.tag10_valid" class="green fa fa-check" @click="checkValue('tag10', tag10)"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag10')"></i>
