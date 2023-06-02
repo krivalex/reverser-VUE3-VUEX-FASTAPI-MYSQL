@@ -26,8 +26,6 @@
 
 
 
-
-
     <!-- Валидационная часть -->
     <div class="validation" v-if="this.email_or_phone == ''">
       <p>Укажите почту</p>
@@ -119,7 +117,8 @@ export default {
 <style scoped>
 #login {
   background: var(--main-haki-color);
-  height: calc(100vh - 60px);
+  min-height: 100vh;
+  height: 100%;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -135,6 +134,7 @@ export default {
   font-size: 15px;
   margin: 0 auto;
   margin-top: 50px;
+  margin-bottom: 100px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -190,18 +190,15 @@ export default {
   width: 80%;
   height: 50px;
   border-radius: 50px;
-  background-color: #D9C5C9;
-  color: black;
+  background-color: black;
+  color: white;
   font-size: 20px;
   font-weight: bold;
   text-decoration: none;
   border: 0px;
+  margin-top: 20px;
 }
 
-.zaglushka {
-  height: 64px;
-  background-color: #DC143C;
-}
 
 .skip_button {
   width: 40%;

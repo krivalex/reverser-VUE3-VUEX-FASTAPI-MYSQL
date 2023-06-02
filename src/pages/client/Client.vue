@@ -80,7 +80,10 @@ export default {
     showModel() {
       this.model = !this.model;
       this.$emit("update:model", this.model);
-    }
+    },
+    redirectQuit() {
+      this.$router.push("/quit");
+    },
   },
 
   data() {
