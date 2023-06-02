@@ -221,9 +221,9 @@
         <div v-if="phone == '+7' && all_validated" class="error">
           {{ toast_danger("Номер телефона", validation.phone) }}
         </div>
-        <div v-else-if="phone !== '+7' && !validation_options.phone_valid" class="error">
+        <!-- <div v-else-if="phone !== '+7' && !validation_options.phone_valid" class="error">
           {{ toast_danger("Номер телефона", validation.phone_length) }}
-        </div>
+        </div> -->
       </div>
 
       <div class="register-item">
@@ -253,9 +253,9 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag10" @mouseout="checkTag('tag10')" @mouseover="checkTag('tag10')"
-          :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })" taggable push-tags
-          :options="all_tags" placeholder="Тег (10 баллов)" />
+        <v-select v-model="tag10_valid" :reduce="(option) => option.value"
+          :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
+          placeholder="Тег (10 баллов)" />
 
         <i v-if="validation_options.tag10_valid" class="green fa fa-check" @click="checkValue('tag10', tag10)"></i>
         <i v-else class="red fa fa-times" @click="checkValue('tag10')"></i>
@@ -267,7 +267,7 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag9" @mouseout="checkTag('tag9')" :reduce="(option) => option.value"
+        <v-select v-model="tag9_valid" :reduce="(option) => option.value"
           :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
           placeholder="Тег (9 баллов)" />
 
@@ -281,7 +281,7 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag8" @mouseout="checkTag('tag8')" :reduce="(option) => option.value"
+        <v-select v-model="tag8_valid" :reduce="(option) => option.value"
           :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
           placeholder="Тег (8 баллов)" />
 
@@ -295,7 +295,7 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag7" @mouseout="checkTag('tag7')" :reduce="(option) => option.value"
+        <v-select v-model="tag7_valid" :reduce="(option) => option.value"
           :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
           placeholder="Тег (7 баллов)" />
 
@@ -309,7 +309,7 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag6" @mouseout="checkTag('tag6')" :reduce="(option) => option.value"
+        <v-select v-model="tag6_valid" :reduce="(option) => option.value"
           :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
           placeholder="Тег (6 баллов)" />
 
@@ -323,7 +323,7 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag5" @mouseout="checkTag('tag5')" :reduce="(option) => option.value"
+        <v-select v-model="tag5_valid" :reduce="(option) => option.value"
           :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
           placeholder="Тег (5 баллов)" />
 
@@ -340,7 +340,7 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag4" @mouseout="checkTag('tag4')" :reduce="(option) => option.value"
+        <v-select v-model="tag4_valid" :reduce="(option) => option.value"
           :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
           placeholder="Тег (4 баллов)" />
 
@@ -351,7 +351,7 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag3" @mouseout="checkTag('tag3')" :reduce="(option) => option.value"
+        <v-select v-model="tag3_valid" :reduce="(option) => option.value"
           :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
           placeholder="Тег (3 баллов)" />
 
@@ -361,7 +361,7 @@
       </div>
       <div class="register-selected">
 
-        <v-select v-model="tag2" @mouseout="checkTag('tag2')" :reduce="(option) => option.value"
+        <v-select v-model="tag2_valid" :reduce="(option) => option.value"
           :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
           placeholder="Тег (2 баллов)" />
 
@@ -372,7 +372,7 @@
 
       <div class="register-selected">
 
-        <v-select v-model="tag1" @mouseout="checkTag('tag1')" :reduce="(option) => option.value"
+        <v-select v-model="tag1_valid" :reduce="(option) => option.value"
           :create-option="tag => ({ label: tag, value: tag })" taggable push-tags :options="all_tags"
           placeholder="Тег (1 баллов)" />
 
@@ -632,6 +632,8 @@ export default {
         this.tag3 = "";
         this.tag2 = "";
         this.tag1 = "";
+        localStorage.clear();
+        localStorage.setItem('user_id', this.$store.state.user_id);
       },
     }
   },
@@ -658,22 +660,6 @@ export default {
         }
       }
     },
-    checkTag(property) {
-      clearToasts();
-      const valid_property = property + '_valid';
-      if (this.$data.validation_options.hasOwnProperty(valid_property)) {
-        if (this[property].length < 3) {
-          this.validation_options[valid_property] = false;
-        }
-        else if (this[property].length > 18) {
-          this.validation_options[valid_property] = false;
-          this.toast_danger(this[property], 'Тег не может быть длинее 17 символов, и короче 3 символов');
-        }
-        else {
-          this.validation_options[valid_property] = true;
-        }
-      }
-    },
     nameInput(event) {
       clearToasts();
       this.name = event.target.value;
@@ -684,6 +670,7 @@ export default {
       }
       else if (this.name.length < 30) {
         this.validation_options.name_valid = true;
+        localStorage.setItem('name', this.name);
       }
       else {
         this.validation_options.name_valid = false;
@@ -699,6 +686,7 @@ export default {
       }
       else {
         this.validation_options.city_name_valid = true;
+        localStorage.setItem('city_name', this.city_name);
       }
     },
     TWOgisInput(event) {
@@ -706,6 +694,7 @@ export default {
       this.TWOgis_url = event.target.value;
       if (this.TWOgis_url.includes('2gis.kz')) {
         this.validation_options.TWOgis_url_valid = true;
+        localStorage.setItem('TWOgis_url', this.TWOgis_url);
       }
       else {
         this.validation_options.TWOgis_url_valid = false;
@@ -719,6 +708,7 @@ export default {
       }
       else if (this.address.length < 25) {
         this.validation_options.address_valid = true;
+        localStorage.setItem('address', this.address);
       }
       else {
         this.validation_options.address_valid = false;
@@ -727,23 +717,26 @@ export default {
     },
     phoneInput(event) {
       clearToasts();
-      if (Number(event.target.value.slice(1, -1)) || event.target.value == '+7') {
+      if (Number(event.target.value.slice(1, -1)) || event.target.value === '+7') {
         this.phone = event.target.value;
 
         if (this.phone.length === 12) {
           this.validation_options.phone_valid = true;
+          localStorage.setItem('phone', this.phone);
         }
-        else if (this.phone.length < 13) {
+        else if (this.phone.length < 12) {
           // ssory for this
           // but it's like true but not true
-          this.validation_options.phone_valid = "krivalex";
+          this.validation_options.phone_valid = false;
         }
         else {
           this.validation_options.phone_valid = false;
+          this.toast_danger('Номер телефона', this.validation.phone_length);
         }
       }
       else {
         this.validation_options.phone_valid = false;
+        this.toast_danger('Номер телефона', this.validation.phone_length);
       }
 
 
@@ -757,6 +750,7 @@ export default {
       }
       else if (this.category.length < 18) {
         this.validation_options.category_valid = true;
+        localStorage.setItem('category', this.category);
       }
       else {
         this.validation_options.category_valid = false;
@@ -771,6 +765,7 @@ export default {
       }
       else if (this.subcategory.length < 18) {
         this.validation_options.subcategory_valid = true;
+        localStorage.setItem('subcategory', this.subcategory);
       }
       else {
         this.validation_options.subcategory_valid = false;
@@ -781,6 +776,7 @@ export default {
       this.instagram_link = event.target.value;
       if (this.instagram_link.length > 0 && this.instagram_link.includes('instagram.com')) {
         this.validation_options.instagram_link_valid = true;
+        localStorage.setItem('instagram_link', this.instagram_link);
       }
       else if (this.instagram_link.length === 0) {
         this.validation_options.instagram_link_valid = true;
@@ -798,6 +794,7 @@ export default {
       }
       else if (this.short_description.length < 30) {
         this.validation_options.short_description_valid = true;
+        localStorage.setItem('short_description', this.short_description);
       }
       else {
         this.validation_options.short_description_valid = false;
@@ -812,6 +809,7 @@ export default {
       }
       else if (this.long_description.length < 200) {
         this.validation_options.long_description_valid = true;
+        localStorage.setItem('long_description', this.long_description);
       }
       else {
         this.validation_options.long_description_valid = false;
@@ -821,11 +819,13 @@ export default {
       clearToasts();
       this.start_work_time = event.target.value;
       this.validation_options.start_work_time_valid = true;
+      localStorage.setItem('start_work_time', this.start_work_time);
     },
     endWorkTimeInput(event) {
       clearToasts();
       this.end_work_time = event.target.value;
       this.validation_options.end_work_time_valid = true;
+      localStorage.setItem('end_work_time', this.end_work_time);
     },
     imagesInput1(event) {
       const files = event.target.files;
@@ -940,34 +940,33 @@ export default {
   },
   data() {
     return {
-      name: "",
-      city_name: "",
-      TWOgis_url: "",
-      address: "",
-      instagram_link: "",
-      phone: "+7",
-      category: "",
-      subcategory: "",
-      short_description: "",
-      long_description: "",
-      start_work_time: "",
-      end_work_time: "",
+      name: localStorage.getItem('name') || "",
+      city_name: localStorage.getItem('city_name') || "",
+      TWOgis_url: localStorage.getItem('TWOgis_url') || "",
+      address: localStorage.getItem('address') || "",
+      instagram_link: localStorage.getItem('instagram_link') || "",
+      phone: localStorage.getItem('phone') || "+7",
+      category: localStorage.getItem('category') || "",
+      subcategory: localStorage.getItem('subcategory') || "",
+      short_description: localStorage.getItem('short_description') || "",
+      long_description: localStorage.getItem('long_description') || "",
+      start_work_time: localStorage.getItem('start_work_time') || "",
+      end_work_time: localStorage.getItem('end_work_time') || "",
       images1: "",
       images2: "",
       images3: "",
-      tag10: "",
-      tag9: "",
-      tag8: "",
-      tag7: "",
-      tag6: "",
-      tag5: "",
-      tag4: "",
-      tag3: "",
-      tag2: "",
-      tag1: "",
+      tag10: localStorage.getItem('tag10') || "",
+      tag9: localStorage.getItem('tag9') || "",
+      tag8: localStorage.getItem('tag8') || "",
+      tag7: localStorage.getItem('tag7') || "",
+      tag6: localStorage.getItem('tag6') || "",
+      tag5: localStorage.getItem('tag5') || "",
+      tag4: localStorage.getItem('tag4') || "",
+      tag3: localStorage.getItem('tag3') || "",
+      tag2: localStorage.getItem('tag2') || "",
+      tag1: localStorage.getItem('tag1') || "",
       all_validated: false,
       succefully_added: false,
-      once: true,
 
       validation_options: {
         name_valid: false,
@@ -1027,7 +1026,177 @@ export default {
         return false;
       }
     },
-  }
+    tag10_valid: {
+      set(value) {
+        if (value.length > 17) {
+          this.validation_options.tag10_valid = false;
+        } else if (value.length < 3) {
+          this.validation_options.tag10_valid = false;
+        }
+        else {
+          this.validation_options.tag10_valid = true;
+          localStorage.setItem('tag10', value);
+        }
+        this.tag10 = value;
+      },
+      get() {
+        return this.tag10;
+      }
+    },
+    tag9_valid: {
+      set(value) {
+        if (value.length > 17) {
+          this.validation_options.tag9_valid = false;
+        } else if (value.length < 3) {
+          this.validation_options.tag9_valid = false;
+        }
+        else {
+          this.validation_options.tag9_valid = true;
+          localStorage.setItem('tag9', value);
+        }
+        this.tag9 = value;
+      },
+      get() {
+        return this.tag9;
+      }
+    },
+    tag8_valid: {
+      set(value) {
+        if (value.length > 17) {
+          this.validation_options.tag8_valid = false;
+        } else if (value.length < 3) {
+          this.validation_options.tag8_valid = false;
+        }
+        else {
+          this.validation_options.tag8_valid = true;
+          localStorage.setItem('tag8', value);
+        }
+        this.tag8 = value;
+      },
+      get() {
+        return this.tag8;
+      }
+    },
+    tag7_valid: {
+      set(value) {
+        if (value.length > 17) {
+          this.validation_options.tag7_valid = false;
+        } else if (value.length < 3) {
+          this.validation_options.tag7_valid = false;
+        }
+        else {
+          this.validation_options.tag7_valid = true;
+          localStorage.setItem('tag7', value);
+        }
+        this.tag7 = value;
+      },
+      get() {
+        return this.tag7;
+      }
+    },
+    tag6_valid: {
+      set(value) {
+        if (value.length > 17) {
+          this.validation_options.tag6_valid = false;
+        } else if (value.length < 3) {
+          this.validation_options.tag6_valid = false;
+        }
+        else {
+          this.validation_options.tag6_valid = true;
+          localStorage.setItem('tag6', value);
+        }
+        this.tag6 = value;
+      },
+      get() {
+        return this.tag6;
+      }
+    },
+    tag5_valid: {
+      set(value) {
+        if (value.length > 17) {
+          this.validation_options.tag5_valid = false;
+        } else if (value.length < 3) {
+          this.validation_options.tag5_valid = false;
+        }
+        else {
+          this.validation_options.tag5_valid = true;
+          localStorage.setItem('tag5', value);
+        }
+        this.tag5 = value;
+      },
+      get() {
+        return this.tag5;
+      }
+    },
+    tag4_valid: {
+      set(value) {
+        if (value.length > 17) {
+          this.validation_options.tag4_valid = false;
+        } else if (value.length < 3) {
+          this.validation_options.tag4_valid = false;
+        }
+        else {
+          this.validation_options.tag4_valid = true;
+          localStorage.setItem('tag4', value);
+        }
+        this.tag4 = value;
+      },
+      get() {
+        return this.tag4;
+      }
+    },
+    tag3_valid: {
+      set(value) {
+        if (value.length > 17) {
+          this.validation_options.tag3_valid = false;
+        } else if (value.length < 3) {
+          this.validation_options.tag3_valid = false;
+        }
+        else {
+          this.validation_options.tag3_valid = true;
+          localStorage.setItem('tag3', value);
+        }
+        this.tag3 = value;
+      },
+      get() {
+        return this.tag3;
+      }
+    },
+    tag2_valid: {
+      set(value) {
+        if (value.length > 17) {
+          this.validation_options.tag2_valid = false;
+        } else if (value.length < 3) {
+          this.validation_options.tag2_valid = false;
+        }
+        else {
+          this.validation_options.tag2_valid = true;
+          localStorage.setItem('tag2', value);
+        }
+        this.tag2 = value;
+      },
+      get() {
+        return this.tag2;
+      }
+    },
+    tag1_valid: {
+      set(value) {
+        if (value.length > 17) {
+          this.validation_options.tag1_valid = false;
+        } else if (value.length < 3) {
+          this.validation_options.tag1_valid = false;
+        }
+        else {
+          this.validation_options.tag1_valid = true;
+          localStorage.setItem('tag1', value);
+        }
+        this.tag1 = value;
+      },
+      get() {
+        return this.tag1;
+      }
+    },
+  },
 }
 </script>
 
