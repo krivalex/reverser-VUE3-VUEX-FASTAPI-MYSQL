@@ -5,7 +5,13 @@
       <h1>Добавить заведение</h1>
     </div>
 
+
     <div class="inputs">
+
+      <div class="register-label-small">
+        <h1>Ключевая информация</h1>
+        <div class="register-label-small-line"></div>
+      </div>
 
       <div class="register-item">
         <label for="name">Название заведения (MAX: 30 символов)</label>
@@ -105,63 +111,6 @@
       </div>
 
       <div class="register-item">
-        <label for="TWOgis_url">2ГИС (Ссылка)</label>
-
-        <div class="register-input">
-          <my-input type="url" v-model="TWOgis_url" name="TWOgis_url" placeholder="2ГИС" @input="TWOgisInput"></my-input>
-
-          <i class="fa fa-trash" @click="deleteValue('TWOgis_url')"></i>
-          <i v-if="validation_options.TWOgis_url_valid" class="green fa fa-check" @click="checkValue('TWOgis_url')"></i>
-          <i v-else class="red fa fa-times" @click="checkValue('TWOgis_url')"></i>
-        </div>
-
-        <div v-if="TWOgis_url == '' && all_validated" class="error">
-          {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url) }}
-        </div>
-        <div v-else-if="TWOgis_url.length > 0 && !TWOgis_url.includes('2gis.kz')" class="error">
-          {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url_invalid) }}
-        </div>
-      </div>
-
-      <div class="register-item">
-        <label for="phone">Whatsapp для клиентов (Номер)</label>
-
-        <div class="register-input">
-          <my-input type="tel" placeholder="Whatsapp для клиентов" v-model.lazy="phone" name="phone"
-            @input="phoneInput"></my-input>
-
-          <i class="fa fa-trash" @click="deleteValue('phone')"></i>
-          <i v-if="validation_options.phone_valid" class="green fa fa-check" @click="checkValue('phone')"></i>
-          <i v-else class="red fa fa-times" @click="checkValue('phone')"></i>
-        </div>
-
-        <div v-if="phone == '+7' && all_validated" class="error">
-          {{ toast_danger("Номер телефона", validation.phone) }}
-        </div>
-        <div v-else-if="phone !== '+7' && !validation_options.phone_valid" class="error">
-          {{ toast_danger("Номер телефона", validation.phone_length) }}
-        </div>
-      </div>
-
-      <div class="register-item">
-        <label for="instagram_link">Instagram (Ссылка)</label>
-
-        <div class="register-input">
-          <my-input v-model.lazy="instagram_link" name="instagram_link" placeholder="Instagram"
-            @input="instagramInput"></my-input>
-
-          <i class="fa fa-trash" @click="deleteValue('instagram_link')"></i>
-          <i v-if="validation_options.instagram_link_valid" class="green fa fa-check"
-            @click="checkValue('instagram_link')"></i>
-          <i v-else class="red fa fa-times" @click="checkValue('instagram_link')"></i>
-        </div>
-
-        <div v-if="instagram_link.length > 0 && !instagram_link.includes('instagram.com')" class="error">
-          {{ toast_danger("Ссылка на Instagram", validation.instagram_link_invalid) }}
-        </div>
-      </div>
-
-      <div class="register-item">
         <label for="category">Категория (MAX: 18 символов)</label>
 
         <div class="register-input">
@@ -236,12 +185,76 @@
         </div>
       </div>
 
-      <div class="register-label">
-        <h3>Укажите 10 тегов, 10 - самый главный, 1 - самый неглавный</h3>
+      <div class="register-label-small">
+        <h1>Ссылки</h1>
+        <div class="register-label-small-line"></div>
+      </div>
+
+      <div class="register-item">
+        <label for="TWOgis_url">2ГИС (Ссылка)</label>
+
+        <div class="register-input">
+          <my-input type="url" v-model="TWOgis_url" name="TWOgis_url" placeholder="2ГИС" @input="TWOgisInput"></my-input>
+
+          <i class="fa fa-trash" @click="deleteValue('TWOgis_url')"></i>
+          <i v-if="validation_options.TWOgis_url_valid" class="green fa fa-check" @click="checkValue('TWOgis_url')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('TWOgis_url')"></i>
+        </div>
+
+        <div v-if="TWOgis_url == '' && all_validated" class="error">
+          {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url) }}
+        </div>
+        <div v-else-if="TWOgis_url.length > 0 && !TWOgis_url.includes('2gis.kz')" class="error">
+          {{ toast_danger("Cсылка на 2ГИС", validation.TWOgis_url_invalid) }}
+        </div>
+      </div>
+
+      <div class="register-item">
+        <label for="phone">Whatsapp для клиентов (Номер)</label>
+
+        <div class="register-input">
+          <my-input type="tel" placeholder="Whatsapp для клиентов" v-model.lazy="phone" name="phone"
+            @input="phoneInput"></my-input>
+
+          <i class="fa fa-trash" @click="deleteValue('phone')"></i>
+          <i v-if="validation_options.phone_valid" class="green fa fa-check" @click="checkValue('phone')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('phone')"></i>
+        </div>
+
+        <div v-if="phone == '+7' && all_validated" class="error">
+          {{ toast_danger("Номер телефона", validation.phone) }}
+        </div>
+        <div v-else-if="phone !== '+7' && !validation_options.phone_valid" class="error">
+          {{ toast_danger("Номер телефона", validation.phone_length) }}
+        </div>
+      </div>
+
+      <div class="register-item">
+        <label for="instagram_link">Instagram (Ссылка)</label>
+
+        <div class="register-input">
+          <my-input v-model.lazy="instagram_link" name="instagram_link" placeholder="Instagram"
+            @input="instagramInput"></my-input>
+
+          <i class="fa fa-trash" @click="deleteValue('instagram_link')"></i>
+          <i v-if="validation_options.instagram_link_valid" class="green fa fa-check"
+            @click="checkValue('instagram_link')"></i>
+          <i v-else class="red fa fa-times" @click="checkValue('instagram_link')"></i>
+        </div>
+
+        <div v-if="instagram_link.length > 0 && !instagram_link.includes('instagram.com')" class="error">
+          {{ toast_danger("Ссылка на Instagram", validation.instagram_link_invalid) }}
+        </div>
+      </div>
+
+
+
+      <div class="register-label-small">
+        <h1>Теги</h1>
+        <div class="register-label-small-line"></div>
       </div>
 
       <div class="register-selected">
-        <label for="tag10">ТЕГ (10 баллов)</label>
 
         <v-select v-model="tag10" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (10 баллов)" />
@@ -255,7 +268,6 @@
       </div>
 
       <div class="register-selected">
-        <label for="tag9">ТЕГ (9 баллов)</label>
 
         <v-select v-model="tag9" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (9 баллов)" />
@@ -269,7 +281,6 @@
       </div>
 
       <div class="register-selected">
-        <label for="tag8">ТЕГ (8 баллов)</label>
 
         <v-select v-model="tag8" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (8 баллов)" />
@@ -283,7 +294,6 @@
       </div>
 
       <div class="register-selected">
-        <label for="tag7">ТЕГ (7 баллов)</label>
 
         <v-select v-model="tag7" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (7 баллов)" />
@@ -297,7 +307,6 @@
       </div>
 
       <div class="register-selected">
-        <label for="tag6">ТЕГ (6 баллов)</label>
 
         <v-select v-model="tag6" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (6 баллов)" />
@@ -311,7 +320,6 @@
       </div>
 
       <div class="register-selected">
-        <label for="tag5">ТЕГ (5 баллов)</label>
 
         <v-select v-model="tag5" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (5 баллов)" />
@@ -328,7 +336,6 @@
       </div>
 
       <div class="register-selected">
-        <label for="tag4">ТЕГ (4 баллов)</label>
 
         <v-select v-model="tag4" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (4 баллов)" />
@@ -339,7 +346,6 @@
       </div>
 
       <div class="register-selected">
-        <label for="tag3">ТЕГ (3 баллов)</label>
 
         <v-select v-model="tag3" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (3 баллов)" />
@@ -349,7 +355,6 @@
 
       </div>
       <div class="register-selected">
-        <label for="tag2">ТЕГ (2 баллов)</label>
 
         <v-select v-model="tag2" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (2 баллов)" />
@@ -360,7 +365,6 @@
       </div>
 
       <div class="register-selected">
-        <label for="tag1">ТЕГ (1 баллов)</label>
 
         <v-select v-model="tag1" :reduce="(option) => option.value" :create-option="tag => ({ label: tag, value: tag })"
           taggable push-tags :options="all_tags" placeholder="Тег (1 баллов)" />
@@ -373,32 +377,39 @@
         </div>
       </div>
 
+      <div class="register-label-small">
+        <h1>Изображения</h1>
+        <div class="register-label-small-line"></div>
+      </div>
+
+      <div class="register-photo">
+        <label for="images">Картинка 1 (JPG, PNG)</label>
+        <form enctype="multipart/form-data">
+          <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
+        </form>
+        <div v-if="images1 == '' && all_validated" class="error">
+          {{ toast_danger("Картинки", validation.images1) }}
+        </div>
+        <div v-if="images1 !== '' && images2 == ''" class="error">
+          {{ toast_warning("Картинки", validation_not_required.image_count) }}
+        </div>
+      </div>
+      <div class="register-photo">
+        <label for="images">Картинка 2 (JPG, PNG)</label>
+        <form enctype="multipart/form-data">
+          <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput2"></my-input>
+        </form>
+      </div>
+      <div class="register-photo">
+        <label for="images">Картинка 3 (JPG, PNG)</label>
+        <form enctype="multipart/form-data">
+          <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput3"></my-input>
+        </form>
+      </div>
+
     </div>
 
-    <div class="register-photo">
-      <label for="images">Картинка 1 (JPG, PNG)</label>
-      <form enctype="multipart/form-data">
-        <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput1"></my-input>
-      </form>
-      <div v-if="images1 == '' && all_validated" class="error">
-        {{ toast_danger("Картинки", validation.images1) }}
-      </div>
-      <div v-if="images1 !== '' && images2 == ''" class="error">
-        {{ toast_warning("Картинки", validation_not_required.image_count) }}
-      </div>
-    </div>
-    <div class="register-photo">
-      <label for="images">Картинка 2 (JPG, PNG)</label>
-      <form enctype="multipart/form-data">
-        <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput2"></my-input>
-      </form>
-    </div>
-    <div class="register-photo">
-      <label for="images">Картинка 3 (JPG, PNG)</label>
-      <form enctype="multipart/form-data">
-        <my-input name="file" type="file" accept=".jpg, .png" @input="imagesInput3"></my-input>
-      </form>
-    </div>
+
 
     <div class="validation">
       <div class="validation-item">
@@ -956,33 +967,35 @@ export default {
   justify-content: space-between;
   text-align: center;
   color: #ffffff;
-
 }
 
-.register-text p {
-  max-width: 100%;
+.register-label-small {
   font-size: 15px;
-  margin: 0 auto;
-  margin-top: 30px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 10px 20px;
 }
 
-.register-text p strong {
-  font-size: 22px;
-  color: #D9C5C9;
+.register-label-small-line {
+  width: 90%;
+  height: 1px;
+  background-color: #ffffff;
+  margin: 0 auto;
+  margin-bottom: 20px;
 }
 
 .register-label {
-  font-size: 23px;
-  padding-bottom: 50px;
-  padding-top: 100px;
-  max-width: 80%;
+  font-size: 20px;
   text-align: center;
   margin: 0 auto;
+  margin-bottom: 50px;
+  margin-top: 100px;
+  background-color: black;
+  border-radius: 10px;
+  color: white;
+  padding: 10px 20px;
 }
 
 .register-item {
@@ -1020,8 +1033,8 @@ export default {
 }
 
 .register-item label {
-  font-size: 20px;
-  max-width: 90%;
+  font-size: 18px;
+  max-width: 100%;
   color: lightgray;
   margin-bottom: 7px;
 }
@@ -1163,17 +1176,6 @@ export default {
   margin-bottom: 50px;
 }
 
-.next_button {
-  width: 80%;
-  height: 50px;
-  border-radius: 50px;
-  background-color: #D9C5C9;
-  color: black;
-  font-size: 20px;
-  font-weight: bold;
-  text-decoration: none;
-  border: 0px;
-}
 
 
 .inputs {
@@ -1185,25 +1187,46 @@ export default {
   background-color: #ffffff;
   border-radius: 50px;
   font-size: 15px;
-  max-width: 80%;
+  max-width: 90%;
   margin: 0 auto;
-  margin-bottom: 20px;
-  padding: 0 5px;
-  padding-top: 5px;
-  padding-bottom: 20px;
   position: relative;
+  margin-bottom: 10px;
+}
+
+.register-selected label {
+  font-size: 20px;
+  max-width: 90%;
+  color: lightgray;
+  margin-bottom: 7px;
 }
 
 .register-selected .fa-check {
   position: absolute;
-  right: 14%;
-  top: 38%;
+  right: 12%;
+  top: 20%;
   color: #008000;
   font-size: 20px;
   cursor: pointer;
   transition: 0.3s;
 }
 
+.register-selected .fa-check:hover {
+  color: #D9C5C9;
+}
+
+.register-selected .fa-times {
+  position: absolute;
+  right: 12%;
+  top: 20%;
+  color: #DC143C;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-selected .fa-times:hover {
+  color: #D9C5C9;
+}
 
 .register-selected {
   --vs-controls-color: black;
@@ -1234,12 +1257,13 @@ export default {
   width: 80%;
   height: 50px;
   border-radius: 50px;
-  background-color: #D9C5C9;
-  color: black;
+  background-color: black;
+  color: white;
   font-size: 20px;
   font-weight: bold;
   text-decoration: none;
   border: 0px;
+  margin-top: 20px;
 }
 
 .validation-item {
