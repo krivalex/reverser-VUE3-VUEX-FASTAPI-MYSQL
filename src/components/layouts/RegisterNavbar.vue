@@ -6,19 +6,23 @@
 <script>
 
 import { RingBottomNavigation } from "bottom-navigation-vue";
+import { useRoute } from "vue-router";
 
 export default {
   name: "register-navbar",
   components: { RingBottomNavigation },
-  data: () => ({
-    selected: 3,
-    options: [
-      { id: 1, icon: "fa fa-arrow-left", title: "Назад", path: { name: "home" } },
-      { id: 2, icon: "fa fa-info", title: "О приложении", path: { name: "enter" } },
-      { id: 3, icon: "fa fa-plus", title: "Регистрация", path: { name: "registration" } },
-      { id: 4, icon: "fa fa-user", title: "Войти", path: { name: "login" } },
-    ],
-  }),
+  data() {
+    const route = useRoute();
+    return {
+      selected: route.name,
+      options: [
+        { id: 1, icon: "fa fa-arrow-left", title: "Назад", path: { name: "home" } },
+        { id: 2, icon: "fa fa-info", title: "О приложении", path: { name: "enter" } },
+        { id: 3, icon: "fa fa-plus", title: "Регистрация", path: { name: "registration" } },
+        { id: 4, icon: "fa fa-user", title: "Войти", path: { name: "login" } },
+      ],
+    }
+  },
 };
 </script>
 

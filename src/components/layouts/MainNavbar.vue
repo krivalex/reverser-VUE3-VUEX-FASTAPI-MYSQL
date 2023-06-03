@@ -6,18 +6,22 @@
 <script>
 
 import { RingBottomNavigation } from "bottom-navigation-vue";
+import { useRoute } from "vue-router";
 
 export default {
   name: "main-navbar",
   components: { RingBottomNavigation },
-  data: () => ({
-    selected: 1,
-    options: [
-      { id: 1, icon: "fa fa-home", title: "Главная", path: { name: "home" } },
-      { id: 2, icon: "fa fa-fire", title: "Рекомендации", path: { name: "trend" } },
-      { id: 3, icon: "fa fa-user", title: "Профиль", path: { name: "client" } },
-    ],
-  }),
+  data() {
+    const route = useRoute();
+    return {
+      selected: route.name,
+      options: [
+        { id: 1, icon: "fa fa-home", title: "Главная", path: { name: "home" } },
+        { id: 2, icon: "fa fa-fire", title: "Рекомендации", path: { name: "trend" } },
+        { id: 3, icon: "fa fa-user", title: "Профиль", path: { name: "client" } },
+      ],
+    }
+  }
 };
 </script>
 

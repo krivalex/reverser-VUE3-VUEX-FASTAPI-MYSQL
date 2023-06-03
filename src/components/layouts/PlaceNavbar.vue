@@ -15,7 +15,7 @@ export default {
     const route = useRoute();
     return (
       {
-        selected: 2,
+        selected: route.name,
         options: [
           { id: 1, icon: "fa fa-arrow-left", title: "Назад", path: { name: "home" } },
           { id: 2, icon: "fa fa-book", title: "О заведении", path: { name: "place" } },
