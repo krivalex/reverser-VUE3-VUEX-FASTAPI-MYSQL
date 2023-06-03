@@ -70,7 +70,8 @@ export default {
 .quit-label {
   font-size: 20px;
   text-align: center;
-  margin: 0 auto;
+  margin: 0 10px;
+  width: 100%;
   background-color: black;
   border-radius: 10px;
   color: white;

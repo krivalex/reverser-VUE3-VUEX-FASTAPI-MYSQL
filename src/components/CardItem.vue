@@ -73,7 +73,6 @@ export default {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
-  background-image: url('@/assets/b.jpg');
   background-repeat: repeat;
 }
 
