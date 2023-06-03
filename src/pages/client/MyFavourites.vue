@@ -1,21 +1,31 @@
 <template>
   <section id="profile">
-    <div class="profile-label">
-      <h1>Избранное</h1>
+    <div v-if="places">
+      <div class="profile-label">
+        <h1>Избранное</h1>
+      </div>
+      <div class="cards" v-if="places.length !== 0">
+        <card-item v-for="item in places" :key="item.place_id" :place="item" />
+      </div>
+      <div v-else>
+        <h1 class="info">Вы еще не добавили не одного заведения в избранные</h1>
+      </div>
     </div>
-    <div class="cards">
-      <card-item v-for="item in places" :key="item.place_id" :place="item" />
+    <div v-else>
+      <my-loader />
     </div>
   </section>
 </template>
 
 <script>
 import CardItem from '@/components/CardItem.vue';
+import MyLoader from '@/components/UI/MyLoader.vue';
 
 export default {
   name: "answer-to-reviews-page",
   components: {
     CardItem,
+    MyLoader,
   },
   async mounted() {
     const user_id = Number(localStorage.getItem("user_id"));
@@ -27,7 +37,7 @@ export default {
   },
   computed: {
     favourites() {
-      if (this.$store.state.user_info.favourites === null) {
+      if (this.$store.state.user_info === null) {
         return {};
       } else {
         const favouritesObj = JSON.parse(this.$store.getters.getUserInfo.favourites);
@@ -39,6 +49,10 @@ export default {
     },
     places() {
       if (this.all_places === null) {
+        return [];
+      }
+
+      if (this.favourites.length === 0) {
         return [];
       }
 
@@ -90,5 +104,13 @@ export default {
   width: 100%;
   margin: 0 auto;
   margin-top: 50px;
+}
+
+.info {
+  font-size: 30px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 50px;
+  color: var(--main-haki-color);
 }
 </style>

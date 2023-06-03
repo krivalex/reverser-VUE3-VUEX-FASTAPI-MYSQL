@@ -73,6 +73,7 @@ export default {
 
   async updated() {
     await this.$store.dispatch("fetchUserInfo", this.$store.state.user_id);
+    await this.$store.dispatch("fetchAvatar", this.$store.state.user_id);
   },
 
 

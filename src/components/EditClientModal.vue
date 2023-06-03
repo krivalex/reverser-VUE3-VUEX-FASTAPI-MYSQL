@@ -41,8 +41,8 @@
         </div>
 
         <form class="input__wrapper" enctype="multipart/form-data">
-          <my-input v-model="avatar_new" id="input__file" class="input input__file" name="images" type="file"
-            accept=".jpg, .png" @input="imagesInput"></my-input>
+          <my-input id="input__file" class="input input__file" name="images" type="file" accept=".jpg, .png"
+            @input="imagesInput"></my-input>
           <label for="input__file" class="input__file-button">
             <span class="input__file-icon-wrapper">
               <img class="input__file-icon" src="@/assets/camera-icon.svg" alt="Выбрать файл" width="25">

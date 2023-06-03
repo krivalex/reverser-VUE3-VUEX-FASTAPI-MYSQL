@@ -21,7 +21,7 @@
             <p class="place-rating">
               <i class="fa fa-star" aria-hidden="true"></i>
             </p>
-            <p class="place-rating-value">?</p>
+            <p class="place-rating-value">?.?</p>
           </div>
           <p class="place-category" @click="routeToPlace">
             {{ place.category }}, {{ place.subcategory }}
@@ -165,7 +165,7 @@ export default {
   font-size: 20px;
   font-weight: bold;
   color: #000000;
-  background-color: #f5f5f5;
+  background-color: #f5f5f5cc;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   border-radius: 55px;
   padding: 5px 10px;

@@ -1,26 +1,39 @@
 <template>
   <section id="profile">
-    <div class="profile-label">
-      <h1>Мои отзывы</h1>
+    <div v-if="reviews">
+      <div class="profile-label">
+        <h1>Мои отзывы</h1>
+      </div>
+      <div v-if="reviews.length !== 0">
+        <div v-for="review in reviews" :key="review.review_id" class="reviews">
+          <review-item class="review" :review="review"></review-item>
+          <h1 class="review_info">
+            <router-link :to="{ name: 'place', params: { id: review.place_id } }">
+              <strong>{{ place_name }} <i class="fa fa-arrow-right"></i></strong>
+            </router-link>
+          </h1>
+        </div>
+      </div>
+      <div v-else>
+        <h1 class="info">Вы еще не оставили не одного отзыва</h1>
+      </div>
     </div>
-    <div v-for="review in reviews" :key="review.review_id" class="reviews">
-      <review-item class="review" :review="review"></review-item>
-      <h1 class="review_info">
-        <router-link :to="{ name: 'place', params: { id: review.place_id } }">
-          Заведение/Событие: <strong>{{ place_name }} <i class="fa fa-arrow-right"></i></strong>
-        </router-link>
-      </h1>
+    <div v-else>
+      <my-loader></my-loader>
+    </div>
 
-    </div>
   </section>
 </template>
 
 <script>
 import ReviewItem from '@/components/ReviewItem.vue';
+import MyLoader from '@/components/UI/MyLoader.vue';
+
 export default {
   name: "answer-to-reviews-page",
   components: {
     ReviewItem,
+    MyLoader
   },
   async mounted() {
     const user_id = Number(localStorage.getItem("user_id"));
@@ -88,9 +101,8 @@ export default {
 .review_info {
   display: flex;
   width: 100%;
-  background-color: white;
   height: 60px;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   margin: 0;
   margin-right: 10px;
@@ -101,20 +113,32 @@ export default {
 .review_info a {
   text-decoration: none;
   color: black;
+  font-size: 15px;
 }
 
 .review_info a strong {
   color: white;
   background-color: black;
-  padding: 10px;
+  padding: 15px;
   border-radius: 20px;
+  font-size: 25px;
 }
 
 .fa-arrow-right {
-  color: var(--main-haki-color);
+  color: white;
 }
 
 .review {
   margin-bottom: 0px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.info {
+  font-size: 30px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 50px;
+  color: var(--main-haki-color);
 }
 </style>
