@@ -43,11 +43,12 @@ export default {
   },
   computed: {
     reviews() {
-      if (!this.$store.state.review_item_info) {
+      console.log(this.$store.state.user_info_reviews);
+      if (!this.$store.state.user_info_reviews) {
         return [];
       }
       else {
-        let sorted_reviews = [...this.$store.state.review_item_info];
+        let sorted_reviews = [...this.$store.state.user_info_reviews];
         sorted_reviews.sort((a, b) => {
           // Сравниваем значения полей "date" в обратном порядке
           return new Date(b.date) - new Date(a.date);

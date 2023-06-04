@@ -21,7 +21,8 @@
             <p class="place-rating">
               <i class="fa fa-star" aria-hidden="true"></i>
             </p>
-            <p class="place-rating-value">?.?</p>
+            <p class="place-rating-value" v-if="place.rating">{{ place.rating }}</p>
+            <p class="place-rating-value" v-else>?</p>
           </div>
           <p class="place-category" @click="routeToPlace">
             {{ place.category }}, {{ place.subcategory }}
@@ -47,6 +48,7 @@ export default {
   async mounted() {
     this.image = await getImageByID(this.place.place_id);
     this.image = this.image.slice(0, 1);
+    console.log(this.place);
   },
   methods: {
     routeToPlace() {
@@ -146,7 +148,7 @@ export default {
 
 .place-rating-value {
   margin-left: 5px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 }
 

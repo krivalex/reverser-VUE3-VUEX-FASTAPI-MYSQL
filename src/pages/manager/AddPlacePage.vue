@@ -728,6 +728,10 @@ export default {
           this.validation_options.phone_valid = true;
           localStorage.setItem('phone', this.phone);
         }
+        else if (this.phone.length === 5) {
+          this.validation_options.phone_valid = true;
+          localStorage.setItem('phone', this.phone);
+        }
         else if (this.phone.length < 12) {
           // ssory for this
           // but it's like true but not true
