@@ -1,5 +1,5 @@
 <template>
-  <my-modal v-model:show="model" @:update:model="showModel">
+  <my-modal :show="model" @:update:model="showModel">
     <div class="add_reviews">
       <img class="close-button" src="@/assets/close.png" @click="showModel" alt="close" />
 
