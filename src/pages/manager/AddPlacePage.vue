@@ -634,8 +634,6 @@ export default {
       },
       validateValue(value) {
         value = value.trim();
-        value = value.replace(/\s+/g, ' ');
-        value = value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
         return value;
       }
     }
