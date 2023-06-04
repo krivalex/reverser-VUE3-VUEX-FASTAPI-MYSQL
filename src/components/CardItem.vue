@@ -48,7 +48,6 @@ export default {
   async mounted() {
     this.image = await getImageByID(this.place.place_id);
     this.image = this.image.slice(0, 1);
-    console.log(this.place);
   },
   methods: {
     routeToPlace() {

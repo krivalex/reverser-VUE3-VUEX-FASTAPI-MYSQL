@@ -135,8 +135,16 @@ export default {
     },
     textFormatter() {
       const text = this.review.text;
-      const formattedText = text.replace(/(.{20})/g, '$1 ');
+      const words = text.split(' ');
+      const formattedWords = words.map(word => {
+        if (word.length > 50) {
+          const formattedWord = word.replace(/(.{50})(?!$)/g, '$1 ');
+          return formattedWord;
+        }
+        return word;
+      });
 
+      const formattedText = formattedWords.join(' ');
       return formattedText;
     },
     fakeReviewLikes() {
