@@ -664,7 +664,6 @@ export default {
     nameInput(event) {
       clearToasts();
       this.name = event.target.value;
-      this.name = this.validateValue(this.name);
 
 
       if (this.name.length < 5) {
@@ -683,7 +682,6 @@ export default {
     cityInput(event) {
       clearToasts();
       this.city_name = event.target.value;
-      this.city_name = this.validateValue(this.city_name);
 
       if (this.city_name.length < 3) {
         this.validation_options.city_name_valid = false;
@@ -708,7 +706,6 @@ export default {
     addressInput(event) {
       clearToasts();
       this.address = event.target.value;
-      this.address = this.validateValue(this.address);
 
       if (this.address.length < 5) {
         this.validation_options.address_valid = false;
@@ -751,7 +748,6 @@ export default {
     categoryInput(event) {
       clearToasts();
       this.category = event.target.value;
-      this.category = this.validateValue(this.category);
 
       if (this.category.length < 3) {
         this.validation_options.category_valid = false;
@@ -767,7 +763,6 @@ export default {
     subcategoryInput(event) {
       clearToasts();
       this.subcategory = event.target.value;
-      this.subcategory = this.validateValue(this.subcategory);
 
       if (this.subcategory.length < 3) {
         this.validation_options.subcategory_valid = false;
@@ -798,7 +793,6 @@ export default {
     shortDescriptionInput(event) {
       clearToasts();
       this.short_description = event.target.value;
-      this.shortDescription = this.validateValue(this.short_description);
 
       if (this.short_description.length < 10) {
         this.validation_options.short_description_valid = false;
@@ -814,7 +808,6 @@ export default {
     longDescriptionInput(event) {
       clearToasts();
       this.long_description = event.target.value;
-      this.long_description = this.validateValue(this.long_description);
 
       if (this.long_description.length < 50) {
         this.validation_options.long_description_valid = false;
