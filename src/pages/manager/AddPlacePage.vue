@@ -698,7 +698,6 @@ export default {
     TWOgisInput(event) {
       clearToasts();
       this.TWOgis_url = event.target.value;
-      this.TWOgis_url = this.validateValue(this.TWOgis_url);
 
       if (this.TWOgis_url.includes('2gis.kz')) {
         this.validation_options.TWOgis_url_valid = true;
@@ -729,7 +728,6 @@ export default {
       clearToasts();
       if (Number(event.target.value.slice(1, -1)) || event.target.value === '+7') {
         this.phone = event.target.value;
-        this.phone = this.validateValue(this.phone);
 
         if (this.phone.length === 12) {
           this.validation_options.phone_valid = true;
@@ -787,7 +785,6 @@ export default {
     instagramInput(event) {
       clearToasts();
       this.instagram_link = event.target.value;
-      this.instagram_link = this.validateValue(this.instagram_link);
 
       if (this.instagram_link.length > 0 && this.instagram_link.includes('instagram.com')) {
         this.validation_options.instagram_link_valid = true;
