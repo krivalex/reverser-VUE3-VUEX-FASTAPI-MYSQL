@@ -51,6 +51,7 @@ export default {
   },
   computed: {
     reviews() {
+      console.log(this.$store.state.user_info_reviews)
       if (!this.$store.state.user_info_reviews) {
         return [];
       }

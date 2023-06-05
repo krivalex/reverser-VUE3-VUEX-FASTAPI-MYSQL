@@ -28,8 +28,8 @@
         </div>
 
         <form class="input__wrapper" enctype="multipart/form-data">
-          <my-input v-model="upload_image" id="input__file" class="input input__file" name="images" type="file"
-            accept=".jpg, .png" @input="imagesInput"></my-input>
+          <my-input id="input__file" class="input input__file" name="images" type="file" accept=".jpg, .png"
+            @input="imagesInput"></my-input>
           <label for="input__file" class="input__file-button">
             <span class="input__file-icon-wrapper">
               <img class="input__file-icon" src="@/assets/camera-icon.svg" alt="Выбрать файл" width="25">
@@ -55,6 +55,7 @@ import MyModal from "@/components/UI/MyModal.vue";
 import MyInput from "@/components/UI/MyInput.vue";
 import { createID } from "@/api/cheeze";
 import { useRoute } from "vue-router";
+import { createToast, clearToasts } from 'mosha-vue-toastify';
 
 export default {
   name: "add-review-modal",
@@ -64,6 +65,26 @@ export default {
     MyInput,
   },
   emits: ['update:model'],
+  setup() {
+    return {
+      toast_success: function (title, description) {
+        createToast({
+          title: title,
+          description: description
+        }, {
+          type: 'success', // 'info', 'danger', 'warning', 'success', 'default'
+          timeout: 10000,
+          showCloseButton: true,
+          position: 'top-center', // 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'top-center', 'bottom-center'
+          transition: 'bounce',
+          hideProgressBar: false,
+          swipeClose: true,
+          onClose: null,
+          showIcon: true
+        })
+      },
+    }
+  },
   props: {
     model: {
       type: Boolean,
@@ -109,7 +130,6 @@ export default {
     },
     async addReview() {
       const id = createID();
-      const route = useRoute();
 
       const data = {
         review_id: id,
@@ -125,12 +145,14 @@ export default {
         file: this.upload_image
       }
 
-      this.$emit("update:model", false);
-
+      const route = useRoute();
       await this.$store.dispatch('addReview', data);
       await this.$store.dispatch('addReviewImage', review_pack).then(() => {
-        this.$store.dispatch("fetchPlaceInfo", route.params.id);
-        this.$store.dispatch("fetchReviewItemInfo", route.params.id);
+        this.$store.dispatch("fetchPlaceInfo", this.place_id);
+        this.$store.dispatch("fetchReviewItemInfo", this.place_id);
+        this.$emit("update:model", false);
+        this.toast_success('Отзыв добавлен', 'Ваш отзыв успешно добавлен');
+
       });
     },
   },

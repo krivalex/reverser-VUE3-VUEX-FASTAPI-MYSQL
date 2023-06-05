@@ -21,7 +21,7 @@
             <p class="place-rating">
               <i class="fa fa-star" aria-hidden="true"></i>
             </p>
-            <p class="place-rating-value" v-if="place.rating">{{ place.rating }}</p>
+            <p class="place-rating-value" v-if="place.rating">{{ rating }}</p>
             <p class="place-rating-value" v-else>?</p>
           </div>
           <p class="place-category" @click="routeToPlace">
@@ -58,6 +58,11 @@ export default {
     return {
       image: "https://phonoteka.org/uploads/posts/2022-09/1663853186_2-phonoteka-org-p-znachok-zagruzki-bez-fona-instagram-2.png",
     };
+  },
+  computed: {
+    rating() {
+      return String(this.place.rating).slice(0, 3);
+    },
   },
 };
 </script>

@@ -67,7 +67,7 @@
       <div class="place-rating">
         <div class="place-mark">
           <i class="fa fa-star" aria-hidden="true"></i>
-          <p class="place-rating-value" v-if="place.rating">{{ place.rating }}</p>
+          <p class="place-rating-value" v-if="place.rating">{{ rating }}</p>
           <p class="place-rating-value" v-else>?</p>
         </div>
 
@@ -130,7 +130,10 @@ export default {
     },
     count_reviews() {
       return this.$store.state.review_item_info.length;
-    }
+    },
+    rating() {
+      return String(this.place.rating).slice(0, 3);
+    },
   },
   data() {
     return {
