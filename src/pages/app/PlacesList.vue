@@ -60,12 +60,12 @@ export default {
     },
     filteredPlaces() {
       if (!this.filteredTags.length) {
-        return this.all_places.slice(0, 10);
+        return this.all_places.slice(0, 40);
       } else {
         return this.all_places.filter((place) => {
           const tagsArray = Object.values(place.tags);
           return this.filteredTags.every((tag) => tagsArray.includes(tag));
-        }).slice(0, 10);
+        }).slice(0, 40);
       }
     },
   }

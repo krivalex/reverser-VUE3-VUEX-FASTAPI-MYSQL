@@ -33,17 +33,4 @@ export default {
   padding-top: 10px;
   min-height: 300px;
 }
-
-.places-if-not-tags {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #000000;
-  background-color: #f5f5f5;
-  border-radius: 55px;
-}
 </style>

@@ -23,7 +23,7 @@
       Нажмите на теги, или найдите их через поиск
     </div> -->
     <div v-if="lst.length > 0" class="clist">
-      <div class="citem-popular citem" v-for="item in lst.slice(0, 30)" :key="item" @click="doSelect(item)">
+      <div class="citem-popular citem" v-for="item in lst.slice(0, 100)" :key="item" @click="doSelect(item)">
         {{ item }}
       </div>
     </div>
