@@ -226,8 +226,19 @@ const postReviewDislike = async (review_id, user_id) => {
   }
 }
 
+const getModelRecommendation = async (user_id) => {
+  try {
+    const response = await axios.get(`${base_url}/recommendation/model/${user_id}`)
+    const data = response.data
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export {
   getPlaces,
+  getModelRecommendation,
   getPlaceByID,
   postPlace,
   getUsers,

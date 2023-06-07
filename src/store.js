@@ -18,6 +18,7 @@ const store = createStore({
     manager_id: null,
     review_likes: null,
     review_dislikes: null,
+    recommendation: null,
   },
   mutations: {
     setPlaceImages(state, path) {
@@ -90,6 +91,11 @@ const store = createStore({
         state.review_dislikes = response.data
       })
     },
+    setRecommendation(state, data) {
+      api.getModelRecommendation(data).then((response) => {
+        state.recommendation = response
+      })
+    },
   },
   actions: {
     fetchPlaceImages({ commit }, images) {
@@ -139,6 +145,9 @@ const store = createStore({
     },
     putUserByID({ commit }, user_id) {
       commit('putUserInfo', user_id)
+    },
+    fetchRecommendation({ commit }, data) {
+      commit('setRecommendation', data)
     },
   },
   getters: {
