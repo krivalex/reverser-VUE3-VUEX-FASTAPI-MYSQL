@@ -32,9 +32,9 @@ export default {
     await this.$store.dispatch("fetchAllPlaces");
     await this.$store.dispatch("fetchUserInfo", user_id);
   },
-  async updated() {
-    await this.$store.dispatch("fetchUserInfo", this.$store.state.user_id);
-  },
+  // async updated() {
+  //   await this.$store.dispatch("fetchUserInfo", this.$store.state.user_id);
+  // },
   computed: {
     favourites() {
       if (this.$store.state.user_info === null) {

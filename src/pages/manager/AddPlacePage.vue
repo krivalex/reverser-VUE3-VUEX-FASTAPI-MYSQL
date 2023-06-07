@@ -634,8 +634,6 @@ export default {
       },
       validateValue(value) {
         value = value.trim();
-        value = value.replace(/\s+/g, ' ');
-        value = value.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
         return value;
       }
     }
@@ -666,7 +664,6 @@ export default {
     nameInput(event) {
       clearToasts();
       this.name = event.target.value;
-      this.name = this.validateValue(this.name);
 
 
       if (this.name.length < 5) {
@@ -685,7 +682,6 @@ export default {
     cityInput(event) {
       clearToasts();
       this.city_name = event.target.value;
-      this.city_name = this.validateValue(this.city_name);
 
       if (this.city_name.length < 3) {
         this.validation_options.city_name_valid = false;
@@ -698,7 +694,6 @@ export default {
     TWOgisInput(event) {
       clearToasts();
       this.TWOgis_url = event.target.value;
-      this.TWOgis_url = this.validateValue(this.TWOgis_url);
 
       if (this.TWOgis_url.includes('2gis.kz')) {
         this.validation_options.TWOgis_url_valid = true;
@@ -711,7 +706,6 @@ export default {
     addressInput(event) {
       clearToasts();
       this.address = event.target.value;
-      this.address = this.validateValue(this.address);
 
       if (this.address.length < 5) {
         this.validation_options.address_valid = false;
@@ -729,9 +723,12 @@ export default {
       clearToasts();
       if (Number(event.target.value.slice(1, -1)) || event.target.value === '+7') {
         this.phone = event.target.value;
-        this.phone = this.validateValue(this.phone);
 
         if (this.phone.length === 12) {
+          this.validation_options.phone_valid = true;
+          localStorage.setItem('phone', this.phone);
+        }
+        else if (this.phone.length === 5) {
           this.validation_options.phone_valid = true;
           localStorage.setItem('phone', this.phone);
         }
@@ -755,7 +752,6 @@ export default {
     categoryInput(event) {
       clearToasts();
       this.category = event.target.value;
-      this.category = this.validateValue(this.category);
 
       if (this.category.length < 3) {
         this.validation_options.category_valid = false;
@@ -771,7 +767,6 @@ export default {
     subcategoryInput(event) {
       clearToasts();
       this.subcategory = event.target.value;
-      this.subcategory = this.validateValue(this.subcategory);
 
       if (this.subcategory.length < 3) {
         this.validation_options.subcategory_valid = false;
@@ -787,7 +782,6 @@ export default {
     instagramInput(event) {
       clearToasts();
       this.instagram_link = event.target.value;
-      this.instagram_link = this.validateValue(this.instagram_link);
 
       if (this.instagram_link.length > 0 && this.instagram_link.includes('instagram.com')) {
         this.validation_options.instagram_link_valid = true;
@@ -803,7 +797,6 @@ export default {
     shortDescriptionInput(event) {
       clearToasts();
       this.short_description = event.target.value;
-      this.shortDescription = this.validateValue(this.short_description);
 
       if (this.short_description.length < 10) {
         this.validation_options.short_description_valid = false;
@@ -819,7 +812,6 @@ export default {
     longDescriptionInput(event) {
       clearToasts();
       this.long_description = event.target.value;
-      this.long_description = this.validateValue(this.long_description);
 
       if (this.long_description.length < 50) {
         this.validation_options.long_description_valid = false;

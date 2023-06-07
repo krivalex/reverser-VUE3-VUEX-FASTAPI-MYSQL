@@ -67,22 +67,23 @@
       <div class="place-rating">
         <div class="place-mark">
           <i class="fa fa-star" aria-hidden="true"></i>
-          <p>9.6</p>
+          <p class="place-rating-value" v-if="place.rating">{{ rating }}</p>
+          <p class="place-rating-value" v-else>?</p>
         </div>
 
         <div class="place-mark">
           <i class="fa fa-comments" aria-hidden="true"></i>
-          <p>999</p>
+          <p>{{ count_reviews }}</p>
         </div>
 
         <div class="place-mark">
           <i class="fa fa-trophy" aria-hidden="true"></i>
-          <p>999</p>
+          <p>0</p>
         </div>
 
         <div class="place-mark">
           <i class="fa fa-heart" aria-hidden="true"></i>
-          <p>999</p>
+          <p>{{ place.likes }}</p>
         </div>
       </div>
 
@@ -115,6 +116,7 @@ export default {
     const route = useRoute();
     await this.$store.dispatch('fetchPlaceInfo', route.params.id);
     await this.$store.dispatch('fetchPlaceImages', route.params.id);
+    await this.$store.dispatch("fetchReviewItemInfo", route.params.id);
   },
   computed: {
     place_images() {
@@ -125,7 +127,13 @@ export default {
     },
     tags() {
       return Object.values(this.place.tags);
-    }
+    },
+    count_reviews() {
+      return this.$store.state.review_item_info.length;
+    },
+    rating() {
+      return String(this.place.rating).slice(0, 3);
+    },
   },
   data() {
     return {
@@ -425,6 +433,7 @@ export default {
   margin-top: 80px;
   justify-content: space-evenly;
   align-items: center;
+  margin-bottom: 30px;
 }
 
 .citem {

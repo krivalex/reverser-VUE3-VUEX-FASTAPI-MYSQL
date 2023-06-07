@@ -63,18 +63,18 @@ export default {
   async mounted() {
     const user_id = Number(localStorage.getItem("user_id"));
     await this.$store.dispatch("fetchUserInfo", user_id);
+    await this.$store.dispatch("fetchAvatar", this.$store.state.user_id);
 
     getReviewsCountByUserID(this.$store.state.user_id).then((res) => {
       this.review_count = res;
     });
 
-    await this.$store.dispatch("fetchAvatar", this.$store.state.user_id);
   },
 
-  async updated() {
-    await this.$store.dispatch("fetchUserInfo", this.$store.state.user_id);
-    await this.$store.dispatch("fetchAvatar", this.$store.state.user_id);
-  },
+  // async updated() {
+  //   await this.$store.dispatch("fetchUserInfo", this.$store.state.user_id);
+  //   await this.$store.dispatch("fetchAvatar", this.$store.state.user_id);
+  // },
 
 
   methods: {
@@ -95,12 +95,24 @@ export default {
   },
   computed: {
     likesCount() {
+      if (this.favourites === null) {
+        return 0;
+      }
+
       return Object.keys(this.favourites).length;
     },
     reviewCount() {
+      if (this.review_count === null) {
+        return 0;
+      }
+
       return this.review_count;
     },
     user() {
+      if (this.$store.state.user_info === null) {
+        return 0;
+      }
+
       return this.$store.state.user_info;
     },
     favourites() {
@@ -119,7 +131,14 @@ export default {
       if (this.$store.state.avatar === null) {
         return require("@/assets/default-avatar.png");
       }
-      return this.$store.state.avatar;
+      else if (this.$store.state.avatar === "") {
+        return require("@/assets/default-avatar.png");
+      }
+      else if (this.$store.state.avatar === undefined) {
+        return require("@/assets/default-avatar.png");
+      }
+      else
+        return this.$store.state.avatar;
     }
   }
 };

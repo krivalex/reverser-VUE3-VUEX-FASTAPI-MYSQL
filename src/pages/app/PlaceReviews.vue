@@ -54,6 +54,10 @@ export default {
     await this.$store.dispatch("fetchReviewItemInfo", route.params.id);
 
   },
+  async updated() {
+    const route = useRoute();
+    await this.$store.dispatch("fetchReviewItemInfo", this.place.place_id);
+  },
   computed: {
     place() {
       return this.$store.state.place_page_info;

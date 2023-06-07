@@ -39,15 +39,24 @@ export default {
     const user_id = Number(localStorage.getItem("user_id"));
     await this.$store.dispatch("fetchUserReviews", user_id);
     await this.$store.state.user_info_reviews.map(item => this.$store.dispatch("fetchReviewItemInfo", item.place_id));
-    await this.$store.state.user_info_reviews.map(item => this.$store.dispatch("fetchPlaceInfo", item.place_id));
+    await this.$store.state.user_info_reviews.map(item => (this.$store.dispatch("fetchPlaceInfo", item.place_id).then(() => {
+      this.place_names.push(this.$store.state.place_page_info.name);
+    })
+    ));
+  },
+  data() {
+    return {
+      place_names: [],
+    };
   },
   computed: {
     reviews() {
-      if (!this.$store.state.review_item_info) {
+      console.log(this.$store.state.user_info_reviews)
+      if (!this.$store.state.user_info_reviews) {
         return [];
       }
       else {
-        let sorted_reviews = [...this.$store.state.review_item_info];
+        let sorted_reviews = [...this.$store.state.user_info_reviews];
         sorted_reviews.sort((a, b) => {
           // Сравниваем значения полей "date" в обратном порядке
           return new Date(b.date) - new Date(a.date);
@@ -56,10 +65,12 @@ export default {
       }
     },
     place_name() {
-      if (!this.$store.state.place_page_info) {
-        return "";
-      }
-      return this.$store.state.place_page_info.name;
+      // console.log(this.place_names)
+      // if (!this.$store.state.place_page_info) {
+      //   return "";
+      // }
+      // return this.$store.state.place_page_info.name;
+      return "Заведение";
     },
   }
 };
