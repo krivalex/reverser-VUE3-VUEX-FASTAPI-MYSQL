@@ -108,9 +108,10 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 90%;
   margin: 0 auto;
   margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .info {
