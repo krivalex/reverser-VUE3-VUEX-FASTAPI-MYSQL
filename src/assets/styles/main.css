@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 
-
 @import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Unbounded&display=swap');
 
@@ -17,16 +16,13 @@
   --main-haki-color: #2e525b;
   --main-grey-color: #D9C5C9;
   --main-red-color: #DC143C;
-
   --main-done-color: #7fda78;
   --main-false-color: #e69e9e;
 
   padding: 0px;
   background-color: rgb(255, 255, 255);
-  /* padding: 20px; */
   background-image: url('@/assets/b.jpg');
   background-repeat: repeat;
-  /* background-size: cover; */
   font-family: 'Play', sans-serif;
 }
 
